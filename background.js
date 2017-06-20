@@ -1,7 +1,46 @@
 // ** BACKGROUND SCRIPT - NO DOM ACCESS **
+console.log('background script loaded');
+
+var qaToolIsActive = false;
+var qaData = {
+  window : '',
+  tabs : {
+    dr  : '',
+    tfs : '',
+    bb  : ''
+  }
+};
+
+chrome.runtime.onMessage.addListener(
+  function(request, sender, sendResponse) {
+    var msg = request.message;
+
+    if (!msg) {
+      throw "Message received, but there was no message attribute!";
+    }
+    else {
+      if (msg === 'initialize') {
+        initializeQaTool();
+      }
+    }
+  });
+
+
 
 // Called when the user clicks on the browser action.
-chrome.browserAction.onClicked.addListener(function(tab) {
+// chrome.browserAction.onClicked.addListener(function(tab) {
+//   console.log('clikkkkkkk');
+//   if (!qaToolIsActive) {
+//     console.log('it is not active');
+//     initializeQaTool(); 
+//   }
+//   else {
+//     // show the dialog
+//   }
+
+/*
+
+
   // Send a message to the active tab
   chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
 
@@ -47,53 +86,41 @@ chrome.browserAction.onClicked.addListener(function(tab) {
         });
       });
     });
-
-    var mainWindow = '';
-
-    var tabID_dr  = '',
-        tabID_tfs = '',
-        tabID_bb  = '';
-
-    chrome.windows.create({ 
-      url: [
-        'http://avondale-iol/AD-105.html',
-        'https://prdtfs.uticorp.com/UTI-ALM/IT/BMS/_backlogs?level=Projects&showParents=false&_a=backlog',
-        'https://uti.blackboard.com/webapps/login/?action=relogin'
-      ]
-    },
-    function(win) {
-      mainWindow = win;
-
-      chrome.tabs.query({
-        windowId: mainWindow.id
-      },
-
-      function (tabs) {
-        for (var i = 0; i < tabs.length; i++) {
-          var curURL = tabs[i].url;
-
-          if (curURL.includes('avondale-iol')) {
-            tabID_dr = tabs[i].id;
-            chrome.tabs.executeScript(tabs[i].id, {
-              code: 'console.log("This is the OLLLD site.")'
-            });
-          }
-          else if (curURL.includes('prdtfs.uticorp.com')) {
-            tabID_tfs = tabs[i].id;
-            chrome.tabs.executeScript(tabs[i].id, {
-              code: 'console.log("This is TFS.")'
-            });
-          }
-          else if (curURL.includes('uti.blackboard.com')) {
-            tabID_bb = tabs[i].id;
-            chrome.tabs.executeScript(tabs[i].id, {
-              code: 'console.log("This is the NEW site.")'
-            }); 
-          }
-        }
-      });
-    });
-
-  //////////////////////////////////////////////
   });
-});
+*/
+// });
+
+//
+// initializeQaTool
+//
+// descr - loads the window and new tabs for the qa_helper if it has
+// not yet been activated. it also sets up the attributes of the global
+// 'qaData' object to be able to reference in other parts of the code
+function initializeQaTool() {
+  qaToolIsActive = true;
+
+  chrome.windows.create({ 
+    url: [
+      'http://avondale-iol/AD-105.html',
+      'https://prdtfs.uticorp.com/UTI-ALM/IT/BMS/_backlogs?level=Projects&showParents=false&_a=backlog',
+      'https://uti.blackboard.com/webapps/login/?action=relogin'
+    ]
+  },
+
+  // callback after the window is created
+  function(win) {
+    qaData.window = win;
+
+    // cycle through the tabs in the new window
+    chrome.tabs.query({ windowId : qaData.window.id },
+    function (tabs) {
+      for (var i = 0; i < tabs.length; i++) {
+        var curURL = tabs[i].url;
+
+        if (curURL.includes('avondale-iol'))            { qaData.tabs.dr  = tabs[i]; }
+        else if (curURL.includes('prdtfs.uticorp.com')) { qaData.tabs.tfs = tabs[i]; }
+        else if (curURL.includes('uti.blackboard.com')) { qaData.tabs.bb  = tabs[i]; }
+      }
+    });
+  });
+}
