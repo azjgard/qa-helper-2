@@ -6,6 +6,9 @@ This Chrome extension is designed to fulfill a completely different purpose from
 
 ### Logical Steps
 
+
+#### **TODO**: fix this wall of text that I mind-vomited
+
 1. When clicking the extension for the first time, a separate window will open in Chrome that will have three separate tabs contained within it. The three tabs, respectively, will be opened to:
     a. Microsoft Team Foundation Server
     b. The new course slides (Blackboard)
