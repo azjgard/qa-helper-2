@@ -21,9 +21,7 @@
   },
   "permissions" : [
     "tabs",
-    "activeTab",
-    "notifications",
-    "http://*/",
-    "https://*/"
+    "<all_urls>",
+    "notifications"
   ]
 }
