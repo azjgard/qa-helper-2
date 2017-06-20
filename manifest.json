@@ -1,0 +1,28 @@
+{
+  "manifest_version": 2,
+
+  "name": "Silly Chrome Extensions",
+  "description": "This is a test extension trying to get it to work.",
+  "version": "1.0",
+  "browser_action" : {
+    "default_icon" : "icon.png"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": ["content.js", "lib/jquery.js"]
+    }
+  ],
+  "background" : {
+    "scripts" : ["background.js", "jquery.js"]
+  },
+  "permissions" : [
+    "tabs",
+    "activeTab",
+    "notifications",
+    "http://*/",
+    "https://*/"
+  ]
+}
