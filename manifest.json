@@ -5,7 +5,8 @@
   "description": "This is a test extension trying to get it to work.",
   "version": "1.0",
   "browser_action" : {
-    "default_icon" : "icon.png"
+    "default_icon" : "icon.png",
+    "default_popup": "popup.html"
   },
   "content_scripts": [
     {
@@ -16,7 +17,7 @@
     }
   ],
   "background" : {
-    "scripts" : ["background.js", "jquery.js"]
+    "scripts" : ["background.js", "lib/jquery.js"]
   },
   "permissions" : [
     "tabs",
