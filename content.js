@@ -89,6 +89,7 @@ chrome.runtime.onMessage.addListener(
     //   }
     // }; 
 
+    //add green divs to the screen to highlight text
     for (var i = 0; i < data.colors.green.length; i++) {
         var green_div = document.createElement('div');
         green_div.style.backgroundColor = "green";
@@ -101,6 +102,7 @@ chrome.runtime.onMessage.addListener(
         document.body.appendChild(green_div); 
     }
 
+    //add red divs to the screen to highlight text
     for (var i = 0; i < data.colors.red.length; i++) {
         var red_div = document.createElement('div');
         red_div.style.backgroundColor = "red";
