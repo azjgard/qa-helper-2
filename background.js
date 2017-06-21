@@ -21,6 +21,7 @@ chrome.runtime.onMessage.addListener(
       return;
     }
     else if (msg === 'run') { //this message will be sent from draggable qa bar
+      console.log('received run message');
       if (qaData !== null) {
         runQaTool(); 
       }
@@ -56,10 +57,25 @@ function runQaTool() {
     });
   })
 
-  // send responses to api
-    .then(function() {
+  .then(function() {
+    var oldSlideWords = ocrProcessImage(oldSlideImg);
+    var newSlideWords = ocrProcessImage(newSlideImg);
 
-    })
+    // TODO: compare the text before sending the data
+    // to the pages
+
+    Promise.all([oldSlideWords, newSlideWords])
+      .then(function(values) {
+        chrome.tabs.sendMessage(qaData.tabs.dr.id, {
+          "message" : "ocrData",
+          "data"    : values[0]
+        });
+        chrome.tabs.sendMessage(qaData.tabs.bb.id, {
+          "message" : "ocrData",
+          "data"    : values[1]
+        })
+      });
+  });
 }
 
 // ocrProcessImage
@@ -75,7 +91,7 @@ function ocrProcessImage(base64Image) {
     var form = new FormData();
     form.append("language", "eng");
     form.append("isOverlayRequired", "true");
-    form.append("base64Image", dataUrl);
+    form.append("base64Image", base64Image);
 
     var settings = {
       "url"         : baseUrl,
@@ -101,11 +117,7 @@ function ocrProcessImage(base64Image) {
 
       resolve(text);
 
-      // chrome.tabs.sendMessage(activeTab.id, {
-      //   "message": "page_text",
-      //   "text"   : text
-      // });
-    }).error(function(err) { reject(err); });
+    });
   })
 }
 

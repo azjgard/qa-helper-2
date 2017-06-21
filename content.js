@@ -34,6 +34,8 @@ console.log('the extension has loaded');
 
 chrome.runtime.onMessage.addListener(
   function(data, sender, sendResponse) {
+
+    console.log(data);
     
     var message = data.message;
 
@@ -69,3 +71,14 @@ chrome.runtime.onMessage.addListener(
     }
   }
 ); 
+
+var runQA       = document.createElement('button');
+runQA.id        = 'run-qa-helper';
+runQA.innerHTML = "Run QA Helper";
+
+document.body.appendChild(runQA);
+
+document.getElementById('run-qa-helper').addEventListener('click', function() {
+  console.log('clicked');
+  chrome.runtime.sendMessage({ message : 'run' });
+});
