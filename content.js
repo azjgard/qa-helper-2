@@ -10,32 +10,28 @@
   //   "message" :
   //   "data": {
   //     "colors" : {
-  //       "green" : [
-  //         {
-  //           "width" :
-  //           "height" :
-  //           "left" :
-  //           "top" :
-  //         }
-  //       ],
-  //       "red" : [
-  //         {
-  //           "width" :
-  //           "height" :
-  //           "left" :
-  //           "top" :
-  //         }
+  //       "matches" : [
+  //          {
+                // height:
+                // width:
+                // top:
+                // left:
+                // word_text:
+                // color:
+  //          }
   //       ]
   //     }
   //   }
   // }
+
 console.log('the extension has loaded');
 
 
 chrome.runtime.onMessage.addListener(
-  function(data, sender, sendResponse) {
-    
-    var message = data.message;
+  function(request, sender, sendResponse) {
+
+    var message = request.message;
+    var data = request.data;
 
     // console.log("sender", sender);
     // console.log("sendResponse", sendResponse);
