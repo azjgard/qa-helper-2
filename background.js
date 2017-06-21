@@ -76,37 +76,37 @@ function runQaTool() {
 
 
 
-          // Format for the outgoing request object
-            // {
-            //   "message" :
-            //   "data": [
-          //          {
-                        // height:
-                        // width:
-                        // top:
-                        // left:
-                        // word_text:
-                        // matched:
-          //          }
-            //   ]
-            // }
+            // Format for the outgoing request object
+            //   {
+            //     "message" :
+            //     "data": [
+            //        {
+            //             height:
+            //             width:
+            //             top:
+            //             left:
+            //             word_text:
+            //             matched:
+            //        }
+            //     ]
+            //   }
 
                 
 
-                // for (var line in oldTextObj.Lines) {
-                //   for (var word in oldTextObj.Lines.Words) {
-                    
-                //   }
-                // }
+            // for (var line in oldTextObj.Lines) {
+            //   for (var word in oldTextObj.Lines.Words) {
+                
+            //   }
+            // }
 
-                chrome.tabs.sendMessage(qaData.tabs.dr.id, { //to avondale
-                  "message" : "ocrData",
-                  "data"    : data
-                });
-                chrome.tabs.sendMessage(qaData.tabs.bb.id, { //to blackboard
-                  "message" : "ocrData",
-                  "data"    : data
-                })
+            chrome.tabs.sendMessage(qaData.tabs.dr.id, { //to avondale
+              "message" : "ocrData",
+              "data"    : data[0]
+            });
+            chrome.tabs.sendMessage(qaData.tabs.bb.id, { //to blackboard
+              "message" : "ocrData",
+              "data"    : data[1]
+            })
 
           });
       });
@@ -126,16 +126,33 @@ function formatParsedImageData(old_parsed_img, new_parsed_img){
 function loopThroughImageData(img_data){
   var slideData = [];
   for (var i = 0; i < img_data.ParsedResults[0].TextOverlay.Lines.length; i++) {
-        var iterated_lines_with_words = img_data.ParsedResults[0].TextOverlay.Lines[i].Words[0];
+        
+    for(var j = 0; j < img_data.ParsedResults[0].TextOverlay.Lines[i].Words.length; j++){
+
+       var iterated_lines_with_words = img_data.ParsedResults[0].TextOverlay.Lines[i].Words[j];
         var words_object = {};
         words_object.height = iterated_lines_with_words.Height;
         words_object.width = iterated_lines_with_words.Width;
         words_object.left = iterated_lines_with_words.Left;
         words_object.top = iterated_lines_with_words.Top;
         words_object.word_text = iterated_lines_with_words.WordText;
+        
+
+
+        //this is for testing and should be commented out.
+        if(i % 10 === 0){
+          words_object.matched = false;
+        } else {
+          words_object.matched = true;
+        }
+        
+
+
+
         slideData.push(words_object);
       }
-    return slideData;
+    }
+  return slideData;
 }
 
 

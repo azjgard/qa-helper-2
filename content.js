@@ -38,19 +38,21 @@ chrome.runtime.onMessage.addListener(
 
     //add divs to the screen to highlight text
     for (var i = 0; i < data.length; i++) {
-        var green_div = document.createElement('div');
+        var div = document.createElement('div');
         if(data[i].matched){
-          green_div.style.backgroundColor = "green";
+          div.style.backgroundColor = "green";
         } else {
-          green_div.style.backgroundColor = "red";
+          div.style.backgroundColor = "red";
         }
-        green_div.style.opacity = ".5";
-        green_div.style.height = data[i].height + 5 + 'px';
-        green_div.style.width = data[i].width + 5 + 'px';
-        green_div.style.top = data[i].top - 2.5 + 'px';
-        green_div.style.left = data[i].left - 2.5 + 'px';
-        green_div.style.position = 'absolute';
-        document.body.appendChild(green_div); 
+        div.style.opacity = ".5";
+        div.style.height = (data[i].height + 5) + 'px';
+        div.style.width = (data[i].width + 5) + 'px';
+        div.style.top = (data[i].top - 2.5) + 'px';
+        div.style.left = (data[i].left - 2.5) + 'px';
+        div.style.position = 'absolute';
+        div.classList.add('qa2-highlighted-word');
+        div.style.pointerEvents = "none";
+        document.body.appendChild(div); 
     }
   }
 ); 
