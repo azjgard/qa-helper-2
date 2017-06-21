@@ -69,6 +69,30 @@ function runQaTool() {
 
     Promise.all([oldSlideWords, newSlideWords, new_word_objects])
       .then(function(values) {
+// Format for the outgoing request object
+  // {
+  //   "message" :
+  //   "data": [
+//          {
+              // height:
+              // width:
+              // top:
+              // left:
+              // word_text:
+              // matched:
+//          }
+  //   ]
+  // }
+
+        var oldData = values[0];
+        var newData = values[1];
+
+        for (var line in oldTextObj.Lines) {
+          for (var word in oldTextObj.Lines.Words) {
+            
+          }
+        }
+
         chrome.tabs.sendMessage(qaData.tabs.dr.id, { //to avondale
           "message" : "ocrData",
           "data"    : new_word_objects[0]
@@ -77,6 +101,7 @@ function runQaTool() {
           "message" : "ocrData",
           "data"    : new_word_objects[1]
         })
+
       });
   });
 }
@@ -148,9 +173,9 @@ function ocrProcessImage(base64Image) {
     $.ajax(settings).done(function (response) {
       var puncPattern = /[.,\/#!$%\^&\*;:{}=\-_`~()]/g;
 
-      var text = JSON.parse(response).ParsedResults[0].ParsedText;
-          text = text.replace(puncPattern, ' '); // remove punctuation
-          text = text.replace(/\s{2,}/g, ' '); // remove multi spaces
+      var text = JSON.parse(response);//.ParsedResults[0].ParsedText;
+          // text = text.replace(puncPattern, ' '); // remove punctuation
+          // text = text.replace(/\s{2,}/g, ' '); // remove multi spaces
 
       resolve(text);
 
