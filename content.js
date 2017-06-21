@@ -25,7 +25,7 @@ console.log('the extension has loaded');
 
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
-
+    console.log(request);
     var message = request.message;
     var data = request.data;
 

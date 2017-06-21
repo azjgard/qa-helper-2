@@ -61,84 +61,83 @@ function runQaTool() {
     var oldSlideWords = ocrProcessImage(oldSlideImg);
     var newSlideWords = ocrProcessImage(newSlideImg);
 
-    var new_word_objects = formatParsedImageData(oldSlideWords, newSlideWords);
-
-
-    // TODO: compare the text before sending the data
-    // to the pages
-
-    Promise.all([oldSlideWords, newSlideWords, new_word_objects])
+    Promise.all([oldSlideWords, newSlideWords])
       .then(function(values) {
-// Format for the outgoing request object
-  // {
-  //   "message" :
-  //   "data": [
-//          {
-              // height:
-              // width:
-              // top:
-              // left:
-              // word_text:
-              // matched:
-//          }
-  //   ]
-  // }
 
         var oldData = values[0];
         var newData = values[1];
 
-        for (var line in oldTextObj.Lines) {
-          for (var word in oldTextObj.Lines.Words) {
-            
-          }
-        }
+        formatParsedImageData(oldData, newData)
+          .then(function(data){
 
-        chrome.tabs.sendMessage(qaData.tabs.dr.id, { //to avondale
-          "message" : "ocrData",
-          "data"    : new_word_objects[0]
-        });
-        chrome.tabs.sendMessage(qaData.tabs.bb.id, { //to blackboard
-          "message" : "ocrData",
-          "data"    : new_word_objects[1]
-        })
+            // TODO: compare the text before sending the data
+            // to the pages
 
+
+
+
+          // Format for the outgoing request object
+            // {
+            //   "message" :
+            //   "data": [
+          //          {
+                        // height:
+                        // width:
+                        // top:
+                        // left:
+                        // word_text:
+                        // matched:
+          //          }
+            //   ]
+            // }
+
+                
+
+                // for (var line in oldTextObj.Lines) {
+                //   for (var word in oldTextObj.Lines.Words) {
+                    
+                //   }
+                // }
+
+                chrome.tabs.sendMessage(qaData.tabs.dr.id, { //to avondale
+                  "message" : "ocrData",
+                  "data"    : data
+                });
+                chrome.tabs.sendMessage(qaData.tabs.bb.id, { //to blackboard
+                  "message" : "ocrData",
+                  "data"    : data
+                })
+
+          });
       });
   });
 }
 
 function formatParsedImageData(old_parsed_img, new_parsed_img){
   return new Promise(function(resolve, reject) {
+    var oldstuff = loopThroughImageData(old_parsed_img);
+    var newstuff = loopThroughImageData(new_parsed_img);
 
-      var newSlideData = [];
-      for (var i = 0; i < new_parsed_img.ParsedResults[0].TextOverlay.Lines.length; i++) {
-        var iterated_lines_with_words = new_parsed_img.ParsedResults[0].TextOverlay.Lines[i].Words[0];
-        var words_object = {};
-        words_object.height = iterated_lines_with_words.Height;
-        words_object.width = iterated_lines_with_words.Width;
-        words_object.left = iterated_lines_with_words.Left;
-        words_object.top = iterated_lines_with_words.Top;
-        words_object.word_text = iterated_lines_with_words.WordText;
-        newSlideData.push(words_object);
-      }
-    
-
-      var oldSlideData = [];
-      for (var i = 0; i < old_parsed_img.ParsedResults[0].TextOverlay.Lines.length; i++) {
-        var iterated_lines_with_words = old_parsed_img.ParsedResults[0].TextOverlay.Lines[i].Words[0];
-        var words_object = {};
-        words_object.height = iterated_lines_with_words.Height;
-        words_object.width = iterated_lines_with_words.Width;
-        words_object.left = iterated_lines_with_words.Left;
-        words_object.top = iterated_lines_with_words.Top;
-        words_object.word_text = iterated_lines_with_words.WordText;
-        oldSlideData.push(words_object);
-      }
-
-      var slides_array = [oldSlideData, newSlideData];
-      resolve(slides_array);
-     
+    resolve([oldstuff, newstuff]);
   });
 }
+
+
+function loopThroughImageData(img_data){
+  var slideData = [];
+  for (var i = 0; i < img_data.ParsedResults[0].TextOverlay.Lines.length; i++) {
+        var iterated_lines_with_words = img_data.ParsedResults[0].TextOverlay.Lines[i].Words[0];
+        var words_object = {};
+        words_object.height = iterated_lines_with_words.Height;
+        words_object.width = iterated_lines_with_words.Width;
+        words_object.left = iterated_lines_with_words.Left;
+        words_object.top = iterated_lines_with_words.Top;
+        words_object.word_text = iterated_lines_with_words.WordText;
+        slideData.push(words_object);
+      }
+    return slideData;
+}
+
 
 // ocrProcessImage
 //
