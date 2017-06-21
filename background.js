@@ -1,32 +1,32 @@
 // ** BACKGROUND SCRIPT - NO DOM ACCESS **
 console.log('background script loaded');
 
+var qaData         = null;
 var qaToolIsActive = false;
-var qaData = {
-  window : '',
-  tabs : {
-    dr  : '',
-    tfs : '',
-    bb  : ''
+
+chrome.browserAction.onClicked.addListener(function(){
+  initializeQaTool()
+        .then(function(data) {
+          qaData = data; 
+        });
+});
+
+chrome.runtime.onMessage.addListener(
+  function(request, sender, sendResponse) {
+    var msg    = request.message;
+
+    // don't listen if there was no message attribute
+    if (!msg) {
+      throw "Message received, but there was no message attribute!";
+      return;
+    }
+    else if (msg === 'run') { //this message will be sent from draggable qa bar
+      if (qaData !== null) {
+        runQaTool(); 
+      }
+    }
   }
-};
-
-chrome.browserAction.onClicked.addListener(initializeQaTool);
-
-
-// chrome.runtime.onMessage.addListener(
-//   function(request, sender, sendResponse) {
-//     var msg = request.message;
-
-//     if (!msg) {
-//       throw "Message received, but there was no message attribute!";
-//     }
-//     else {
-//       if (msg === 'initialize') {
-//         initializeQaTool();
-//       }
-//     }
-//   });
+);
 
 
 
@@ -94,104 +94,152 @@ chrome.browserAction.onClicked.addListener(initializeQaTool);
 // });
 
 //
+// runQaTool
+//
+// descr - 1. takes a screenshot of both pages
+//         2. sends both screenshots to the OCR API
+//         3. analyzes the responses
+//         4. send the analyzed data to the new slide and old slide page
+function runQaTool() {
+  var oldSlideImg;
+  var newSlideImg;
+
+  returnScreenshotImage(qaData.tabs.bb).then(function(img) {
+    return new Promise(function(resolve, reject) {
+      newSlideImg = img;
+      console.log('resolved the new slide');
+      console.log(newSlideImg);
+      resolve();
+    });
+  })
+  .then(returnScreenshotImage(qaData.tabs.dr)).then(function(img) {
+
+    // FIXME: img returns undefined. WHY?
+    //
+    return new Promise(function(resolve, reject) {
+      oldSlideImg = img;
+      console.log('resolved the old slide');
+      resolve();
+    });
+  });
+}
+
+//
+// returnScreenshotImage
+//
+// descr - returns a promise whose value is a screenshot
+// in base64 form of the tab object that was passed as an 
+// argument
+function returnScreenshotImage(tab) {
+  return new Promise(function(resolve, reject) {
+    focusQAWindow()
+      .then(function() {
+        return focusTab(tab);
+      })
+      .then(getScreenshot)
+      .then(function(dataURI) {
+        resolve(dataURI);
+      })
+  });
+}
+
+//
+// getScreenshot
+//
+// descr - screenshot the current tab and return a promise
+// whose value is a screenshot in base64 form
+function getScreenshot() {
+  return new Promise(function(resolve, reject) {
+    setTimeout(function() {
+      chrome.tabs.captureVisibleTab(function(dataURI) {
+        resolve(dataURI);
+      });
+    }, 500);
+  });
+}
+
+//
+// focusTab
+//
+// descr - returns a promise; sets focus to the tab object
+// passed in as an argument
+function focusTab(tab) {
+  return new Promise(function(resolve, reject) {
+    chrome.tabs.update(tab.id, { active: true }, function() {
+      console.log('just focused the tab');
+      resolve();
+    });
+  });
+}
+
+//
+// focusQAWindow
+//
+// descr - sets the focus to the window that is opened by the extension
+function focusQAWindow() {
+  return new Promise(function(resolve, reject) {
+    chrome.windows.update(qaData.window.id, { focused : true }, function() {
+      console.log('just focused the window');
+      resolve();
+    });
+  })
+}
+
+//
 // initializeQaTool
 //
 // descr - loads the window and new tabs for the qa_helper if it has
 // not yet been activated. it also sets up the attributes of the global
 // 'qaData' object to be able to reference in other parts of the code
 function initializeQaTool() {
-//test data to send to content.js
-var bob = {
-      message : "Test Message",
-      colors : {
-        green : [
-          {
-            width : 315,
-            height : 32,
-            left : 300,
-            top : 50
-          },
-          {
-            width : 100,
-            height : 100,
-            left : 50,
-            top : 50
-          },
-          {
-            width : 100,
-            height : 100,
-            left : 150,
-            top : 150
-          }
-        ],
-        red : [
-          {
-            width : 100,
-            height : 100,
-            left : 300,
-            top : 300
-          },
-          {
-            width : 100,
-            height : 100,
-            left : 500,
-            top : 500
-          },
-          {
-            width : 100,
-            height : 100,
-            left : 700,
-            top : 700
-          }
-        ]
-      }
-    };
 
-  console.log("initialize");
-  chrome.tabs.query({active: true, currentWindow: true}, function(tab_info) {
-    console.log(tab_info[0].url);
-    //provide different pages for different websites when users click on the extension
-    if(tab_info[0].url.includes('avondale-iol')){
-      //load specific helper bar on the page (you can't get rid of the popup once you set it)
-      chrome.tabs.sendMessage(tab_info[0].id, bob, function(response) {});
-      console.log('avon', response);
-    } else if(tab_info[0].url.includes('prdtfs.uticorp.com')){
-      //load specific helper bar on the page (you can't get rid of the popup once you set it)
-      chrome.tabs.sendMessage(tab_info[0].id, bob, function(response) {});
-      console.log('tfs');
-    } else if(tab_info[0].url.includes('uti.blackboard.com')){
-      //load specific helper bar on the page (you can't get rid of the popup easily once you set it)
-      chrome.tabs.sendMessage(tab_info[0].id, bob, function(response) {});
-      console.log('bb');
-    } else { //open the 3 needed pages for tfs
-      qaToolIsActive = true;
 
+  function createWindow(obj) {
+    return new Promise(function(resolve, reject) {
       chrome.windows.create({ 
         url: [
           'http://avondale-iol/AD-105.html',
           'https://prdtfs.uticorp.com/UTI-ALM/IT/BMS/_backlogs?level=Projects&showParents=false&_a=backlog',
           'https://uti.blackboard.com/webapps/login/?action=relogin'
         ]
-      },
-
-      // callback after the window is created
-      function(win) {
-        qaData.window = win;
-
-        // cycle through the tabs in the new window
-        chrome.tabs.query({ windowId : qaData.window.id },
-        function (tabs) {
-          for (var i = 0; i < tabs.length; i++) {
-            var curURL = tabs[i].url;
-
-            if (curURL.includes('avondale-iol'))            { qaData.tabs.dr  = tabs[i]; }
-            else if (curURL.includes('prdtfs.uticorp.com')) { qaData.tabs.tfs = tabs[i]; }
-            else if (curURL.includes('uti.blackboard.com')) { qaData.tabs.bb  = tabs[i]; }
-          }
-          // console.log(win);
-          // console.log(tabs);
-        });
+      }, function(win) {
+        obj.window = win;
+        resolve(obj);
       });
-    }
+    });
+  }
+
+  function setTabInfo(obj) {
+    return new Promise(function(resolve, reject) {
+      chrome.tabs.query({ windowId : obj.window.id }, function(tabs) {
+        for (var i = 0; i < tabs.length; i++) {
+          var curURL = tabs[i].url;
+
+          if (curURL.includes('avondale-iol'))            { obj.tabs.dr  = tabs[i]; }
+          else if (curURL.includes('prdtfs.uticorp.com')) { obj.tabs.tfs = tabs[i]; }
+          else if (curURL.includes('uti.blackboard.com')) { obj.tabs.bb  = tabs[i]; }
+
+          resolve(obj);
+        }
+      });
+    });
+  }
+
+  return new Promise(function(resolve, reject) {
+    var obj = {
+      window: null,
+      tabs: {
+        dr: null,
+        bb: null,
+        tfs: null
+      }
+    };
+
+    createWindow(obj)
+      .then(setTabInfo)
+      .then(function(obj) {
+        qaToolIsActive = true;
+        resolve(obj);
+      });
   });
 }
