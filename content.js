@@ -8,20 +8,16 @@
 // Format for the incoming request object
   // {
   //   "message" :
-  //   "data": {
-  //     "colors" : {
-  //       "matches" : [
-  //          {
-                // height:
-                // width:
-                // top:
-                // left:
-                // word_text:
-                // color:
-  //          }
-  //       ]
-  //     }
-  //   }
+  //   "data": [
+//          {
+              // height:
+              // width:
+              // top:
+              // left:
+              // word_text:
+              // matched:
+//          }
+  //   ]
   // }
 
 console.log('the extension has loaded');
@@ -32,6 +28,8 @@ chrome.runtime.onMessage.addListener(
 
     var message = request.message;
     var data = request.data;
+
+    console.log(data);
 
     // console.log("sender", sender);
     // console.log("sendResponse", sendResponse);
