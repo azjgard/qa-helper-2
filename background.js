@@ -61,20 +61,57 @@ function runQaTool() {
     var oldSlideWords = ocrProcessImage(oldSlideImg);
     var newSlideWords = ocrProcessImage(newSlideImg);
 
+    var new_word_objects = formatParsedImageData(oldSlideWords, newSlideWords);
+
+
     // TODO: compare the text before sending the data
     // to the pages
 
-    Promise.all([oldSlideWords, newSlideWords])
+    Promise.all([oldSlideWords, newSlideWords, new_word_objects])
       .then(function(values) {
-        chrome.tabs.sendMessage(qaData.tabs.dr.id, {
+        chrome.tabs.sendMessage(qaData.tabs.dr.id, { //to avondale
           "message" : "ocrData",
-          "data"    : values[0]
+          "data"    : new_word_objects[0]
         });
-        chrome.tabs.sendMessage(qaData.tabs.bb.id, {
+        chrome.tabs.sendMessage(qaData.tabs.bb.id, { //to blackboard
           "message" : "ocrData",
-          "data"    : values[1]
+          "data"    : new_word_objects[1]
         })
       });
+  });
+}
+
+function formatParsedImageData(old_parsed_img, new_parsed_img){
+  return new Promise(function(resolve, reject) {
+
+      var newSlideData = [];
+      for (var i = 0; i < new_parsed_img.ParsedResults[0].TextOverlay.Lines.length; i++) {
+        var iterated_lines_with_words = new_parsed_img.ParsedResults[0].TextOverlay.Lines[i].Words[0];
+        var words_object = {};
+        words_object.height = iterated_lines_with_words.Height;
+        words_object.width = iterated_lines_with_words.Width;
+        words_object.left = iterated_lines_with_words.Left;
+        words_object.top = iterated_lines_with_words.Top;
+        words_object.word_text = iterated_lines_with_words.WordText;
+        newSlideData.push(words_object);
+      }
+    
+
+      var oldSlideData = [];
+      for (var i = 0; i < old_parsed_img.ParsedResults[0].TextOverlay.Lines.length; i++) {
+        var iterated_lines_with_words = old_parsed_img.ParsedResults[0].TextOverlay.Lines[i].Words[0];
+        var words_object = {};
+        words_object.height = iterated_lines_with_words.Height;
+        words_object.width = iterated_lines_with_words.Width;
+        words_object.left = iterated_lines_with_words.Left;
+        words_object.top = iterated_lines_with_words.Top;
+        words_object.word_text = iterated_lines_with_words.WordText;
+        oldSlideData.push(words_object);
+      }
+
+      var slides_array = [oldSlideData, newSlideData];
+      resolve(slides_array);
+     
   });
 }
 
