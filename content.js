@@ -9,7 +9,6 @@
   // {
   //   "message" :
   //   "data": [
-<<<<<<< HEAD
   //          {
                 // height:
                 // width:
@@ -19,17 +18,6 @@
                 // matched:
   //          }
   //       ]
-=======
-//          {
-              // height:
-              // width:
-              // top:
-              // left:
-              // word_text:
-              // matched:
-//          }
-  //   ]
->>>>>>> a2c328410f314f63c20c8c66a33542098f37d3b8
   // }
 
 console.log('the extension has loaded');
