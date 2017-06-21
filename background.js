@@ -4,6 +4,13 @@ console.log('background script loaded');
 var qaData         = null;
 var qaToolIsActive = false;
 
+chrome.browserAction.onClicked.addListener(function(){
+  initializeQaTool()
+        .then(function(data) {
+          qaData = data; 
+        });
+});
+
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
     var msg    = request.message;
@@ -13,15 +20,7 @@ chrome.runtime.onMessage.addListener(
       throw "Message received, but there was no message attribute!";
       return;
     }
-
-    // if there was a message attribute
-    if (msg === 'initialize') {
-      initializeQaTool()
-        .then(function(data) {
-          qaData = data; 
-        });
-    }
-    else if (msg === 'run') {
+    else if (msg === 'run') { //this message will be sent from draggable qa bar
       if (qaData !== null) {
         runQaTool(); 
       }
@@ -178,6 +177,7 @@ function focusQAWindow() {
 // not yet been activated. it also sets up the attributes of the global
 // 'qaData' object to be able to reference in other parts of the code
 function initializeQaTool() {
+
 
   function createWindow(obj) {
     return new Promise(function(resolve, reject) {

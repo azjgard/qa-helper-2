@@ -4,10 +4,6 @@ document.addEventListener("DOMContentLoaded", function() {
   document.getElementById('run').addEventListener('click', run)
 })
 
-function init() {
-  chrome.runtime.sendMessage({ 'message' : 'initialize' });
-}
-
 function run() {
   chrome.runtime.sendMessage({ 'message' : 'run' });
 }

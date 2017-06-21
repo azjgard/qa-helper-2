@@ -33,61 +33,14 @@ console.log('the extension has loaded');
 
 
 chrome.runtime.onMessage.addListener(
-  function(request, sender, sendResponse) {
-    //request has "message" key and "data" key
-    request = JSON.parse(request);
-    var data = request.data;
-    var message = request.message;
+  function(data, sender, sendResponse) {
+    
+    var message = data.message;
 
-    // console.log(request);
-    // console.log(data);
-    // console.log(message);
-
-//dummy data for testing
-    // data = {
-    //   colors : {
-    //     green : [
-    //       {
-    //         width : 315,
-    //         height : 32,
-    //         left : 300,
-    //         top : 50
-    //       },
-    //       {
-    //         width : 100,
-    //         height : 100,
-    //         left : 50,
-    //         top : 50
-    //       },
-    //       {
-    //         width : 100,
-    //         height : 100,
-    //         left : 150,
-    //         top : 150
-    //       },
-    //     ],
-    //     red : [
-    //       {
-    //         width : 100,
-    //         height : 100,
-    //         left : 300,
-    //         top : 300
-    //       },
-    //       {
-    //         width : 100,
-    //         height : 100,
-    //         left : 500,
-    //         top : 500
-    //       },
-    //       {
-    //         width : 100,
-    //         height : 100,
-    //         left : 700,
-    //         top : 700
-    //       },
-    //     ]
-    //   }
-    // }; 
+    // console.log("sender", sender);
+    // console.log("sendResponse", sendResponse);
+    // console.log('data', data);
+    // console.log('message', message);
 
     //add green divs to the screen to highlight text
     for (var i = 0; i < data.colors.green.length; i++) {
