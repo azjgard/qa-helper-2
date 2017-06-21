@@ -29,71 +29,6 @@ chrome.runtime.onMessage.addListener(
   }
 );
 
-
-
-// Called when the user clicks on the browser action.
-// chrome.browserAction.onClicked.addListener(function(tab) {
-//   console.log('clikkkkkkk');
-//   if (!qaToolIsActive) {
-//     console.log('it is not active');
-//     initializeQaTool(); 
-//   }
-//   else {
-//     // show the dialog
-//   }
-
-/*
-
-
-  // Send a message to the active tab
-  chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-
-    // active tab in current window will always return an array with a length of 1
-    var activeTab = tabs[0];
-
-    // take a screenshot and send it to the content
-    chrome.tabs.captureVisibleTab(function(dataUrl) {
-
-      var baseUrl = 'https://api.ocr.space/parse/image';
-      var apiKey  = '568f8d67af88957'
-
-      var form = new FormData();
-      form.append("language", "eng");
-      form.append("isOverlayRequired", "true");
-      form.append("base64Image", dataUrl);
-
-      var settings = {
-        "url"         : baseUrl,
-        "data"        : form,
-        "async"       : true,
-        "method"      : "POST",
-        "mimeType"    : "multipart/form-data",
-        "crossDomain" : true,
-        "processData" : false,
-        "contentType" : false,
-        "headers"     : {
-          "apikey"        : apiKey,
-          "cache-control" : "no-cache"
-        }
-      }
-
-      $.ajax(settings).done(function (response) {
-        var puncPattern = /[.,\/#!$%\^&\*;:{}=\-_`~()]/g;
-
-        var text = JSON.parse(response);//.ParsedResults[0].ParsedText;
-           // text = text.replace(puncPattern, ' '); // remove punctuation
-           // text = text.replace(/\s{2,}/g, ' '); // remove multi spaces
-
-        chrome.tabs.sendMessage(activeTab.id, {
-          "message": "page_text",
-          "text"   : text
-        });
-      });
-    });
-  });
-*/
-// });
-
 //
 // runQaTool
 //
@@ -105,24 +40,74 @@ function runQaTool() {
   var oldSlideImg;
   var newSlideImg;
 
+  // save the screenshot data
   returnScreenshotImage(qaData.tabs.bb).then(function(img) {
     return new Promise(function(resolve, reject) {
       newSlideImg = img;
-      console.log('resolved the new slide');
-      console.log(newSlideImg);
       resolve();
     });
   })
-  .then(returnScreenshotImage(qaData.tabs.dr)).then(function(img) {
-
-    // FIXME: img returns undefined. WHY?
-    //
+  .then(function() {
+    return returnScreenshotImage(qaData.tabs.dr);
+  })
+  .then(function(img) {
     return new Promise(function(resolve, reject) {
       oldSlideImg = img;
-      console.log('resolved the old slide');
       resolve();
     });
-  });
+  })
+
+  // send responses to api
+    .then(function() {
+
+    })
+}
+
+// ocrProcessImage
+//
+// descr - accepts a base 64 image as a parameter,
+// sends that image to the OCR API, and returns
+// the response object
+function ocrProcessImage(base64Image) {
+  return new Promise(function(resolve, reject) {
+    var baseUrl = 'https://api.ocr.space/parse/image';
+    var apiKey  = '568f8d67af88957'
+
+    var form = new FormData();
+    form.append("language", "eng");
+    form.append("isOverlayRequired", "true");
+    form.append("base64Image", dataUrl);
+
+    var settings = {
+      "url"         : baseUrl,
+      "data"        : form,
+      "async"       : true,
+      "method"      : "POST",
+      "mimeType"    : "multipart/form-data",
+      "crossDomain" : true,
+      "processData" : false,
+      "contentType" : false,
+      "headers"     : {
+        "apikey"        : apiKey,
+        "cache-control" : "no-cache"
+      }
+    }
+
+    $.ajax(settings).done(function (response) {
+      var puncPattern = /[.,\/#!$%\^&\*;:{}=\-_`~()]/g;
+
+      var text = JSON.parse(response).ParsedResults[0].ParsedText;
+          text = text.replace(puncPattern, ' '); // remove punctuation
+          text = text.replace(/\s{2,}/g, ' '); // remove multi spaces
+
+      resolve(text);
+
+      // chrome.tabs.sendMessage(activeTab.id, {
+      //   "message": "page_text",
+      //   "text"   : text
+      // });
+    }).error(function(err) { reject(err); });
+  })
 }
 
 //
