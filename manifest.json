@@ -13,7 +13,7 @@
       "matches": [
         "<all_urls>"
       ],
-      "js": ["content.js", "lib/jquery.js"],
+      "js": [ "lib/jquery.js", "lib/jquery-ui.min.js", "content.js"],
       "css" : [ "style.css" ]
     }
   ],
