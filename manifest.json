@@ -1,25 +1,43 @@
 {
   "manifest_version": 2,
 
-  "name": "Silly Chrome Extensions",
-  "description": "This is a test extension trying to get it to work.",
-  "version": "1.0",
+  "name"        : "QA Helper",
+  "description" : "Tool to aid with Courseware Quality Assurance",
+  "version"     : "2.0",
+
   "browser_action" : {
     "default_icon" : "icon.png",
-    "default_title": "QA Helper 2"
+    "default_title": "QA Helper"
   },
+
   "content_scripts": [
     {
       "matches": [
         "<all_urls>"
       ],
-      "js": ["content.js", "lib/jquery.js"],
-      "css" : [ "style.css" ]
+      "js": [
+        "lib/jquery.js",
+        "lib/jquery-ui.min.js",
+        "content/logic/templateLoad.js",
+        "content/logic/templateListeners.js",
+        "content/controller.js"
+        ],
+      "css" : [
+        "ui/style.css" 
+      ]
     }
   ],
+
   "background" : {
-    "scripts" : ["background.js", "lib/jquery.js"]
+    "scripts" : [
+      "lib/jquery.js",
+      "background/logic/initialize.js",
+      "background/logic/utilities.js",
+      "background/logic/run.js",
+      "background/controller.js"
+    ]
   },
+
   "permissions" : [
     "tabs",
     "<all_urls>",
