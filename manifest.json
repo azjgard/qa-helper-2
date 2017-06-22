@@ -20,7 +20,6 @@
         "lib/jquery-ui.min.js",
         "content/logic/templateLoad.js",
         "content/logic/templateListeners.js",
-        "content/logic/message.js",
         "content/controller.js"
         ],
       "css" : [
@@ -31,8 +30,11 @@
 
   "background" : {
     "scripts" : [
-      "background/background.js",
-      "lib/jquery.js"
+      "lib/jquery.js",
+      "background/logic/initialize.js",
+      "background/logic/utilities.js",
+      "background/logic/run.js",
+      "background/controller.js"
     ]
   },
 
