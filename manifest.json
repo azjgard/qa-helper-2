@@ -18,7 +18,10 @@
       "js": [
         "lib/jquery.js",
         "lib/jquery-ui.min.js",
-        "content/content.js"
+        "content/logic/templateLoad.js",
+        "content/logic/templateListeners.js",
+        "content/logic/message.js",
+        "content/controller.js"
         ],
       "css" : [
         "ui/style.css" 
