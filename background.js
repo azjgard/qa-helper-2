@@ -72,8 +72,12 @@ function runQaTool() {
 
             // TODO: compare the text before sending the data
             // to the pages
-
-
+            //data[0] is old slide, data[1] is new
+            for (var line in data[0].word_text) {
+              for (var word in data[1].word_text) {
+                
+              }
+            }
 
 
             // Format for the outgoing request object
@@ -93,11 +97,7 @@ function runQaTool() {
 
                 
 
-            // for (var line in oldTextObj.Lines) {
-            //   for (var word in oldTextObj.Lines.Words) {
-                
-            //   }
-            // }
+            
 
             chrome.tabs.sendMessage(qaData.tabs.dr.id, { //to avondale
               "message" : "ocrData",
@@ -275,6 +275,7 @@ function initializeQaTool() {
         url: [
           'http://avondale-iol/AD-105.html',
           'https://prdtfs.uticorp.com/UTI-ALM/IT/BMS/_backlogs?level=Projects&showParents=false&_a=backlog',
+          'https://prdtfs.uticorp.com/UTI-ALM/IT/BMS/_backlogs/board/Features',
           'https://uti.blackboard.com/webapps/login/?action=relogin'
         ]
       }, function(win) {
