@@ -51,8 +51,9 @@ function runQaTool() {
               for (var o in oldStuff) {
                 var oldWord = cleanWord(oldStuff[o].word_text);
 
-                if (newWord === oldWord && !oldStuff[0].matched) {
+                if (newWord === oldWord && !oldStuff[o].matched) {
                   newStuff[n].matched = true;
+                  oldStuff[o].matched = true;
                   console.log('match');
                 }
               }
