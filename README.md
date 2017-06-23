@@ -1,5 +1,20 @@
 # Another QA Helper
 
+
+### TODO (in sequential order)
+
+1. Reorganize the initialization and window management system to be more flexible about
+finding correct windows and tabs, regardless of what state they're in or where they have been
+moved to.
+2. Restrict the content code so that it only runs on windows and tabs that have been opened by way
+of the QA Helper. If the QA Helper browserAction is clicked but the tabs and windows that it would
+normally open are already opened, then inject the script on those tabs and windows and only
+open new Chrome instances where necessary.
+3. For new slides and old slides, get the visual comparison using OCR off the ground and properly
+functioning. It's really close to working right now, so this is a step that may basically be
+resolved when the previous two steps are done with.
+
+
 ### Description
 
 This Chrome extension is designed to fulfill a completely different purpose from the original QA Helper. The original QA Helper facilitates the meta-QA tasks of navigating slides and clicking through menus inside of Microsoft Team Foundation Server. On the other hand, this extension is geared towards facilitating the actual act of Quality Assurance itself. In the future, it's possible the two tools will be combined into one, but for now, they will stay separate.
