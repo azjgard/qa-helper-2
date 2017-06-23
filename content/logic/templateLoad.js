@@ -1,95 +1,95 @@
-//
-// getContext
-//
-// descr - returns a string describing the context of the page
-// that the script is currently running inside of
-function getContext() {
-  var loc = window.location.href;
+var templateObjects = {
 
-  if (loc.includes('avondale-iol')) {
-    if      (loc.match(/lmsinit\.htm/i))    { return 'old-slide';  }
-    else if (/avondale-iol\/$/i.test(loc))  { return 'dr-home';    }
-    else if (/avondale-iol\/\w/i.test(loc)) { return 'dr-section'; }
-    else                                    { return 'dr-misc';    }
-  }
-  else if (/prdtfs\.uticorp\.com/i.test(loc)) {
-    return 'tfs';
-  }
-  else if (loc.includes('uti.blackboard.com')) {
-    if (/courses\/\w{1,}\/uti_bms_qa_uat\/content/i.test(loc)) {
-      return 'new-slide'
-    }
-    else {
-      return 'bb';
-    }
-  }
-  else {
-    return 'misc';
-  }
-}
-// 
-// generateTemplate
-//
-// @param templateObject - an object with the following structure:
-//
-//      title : string,
-//      buttons : [
-//        {
-//          text    : string,
-//          id      : string,
-//          hotkey  : string,
-//          classes : [string, string]
-//        },
-//      ],
-//      showCloseButton: boolean
-//    }
-//
-// descr - using the templateObject provided, will return
-// a string of HTML that can be used on the DOM to create
-// the user interface for the page
-function generateTemplate(templateObject) {
-  var str = '<div class="footer-bar-box slide draggable">';
-      str +=  '<div class="grabbable group">';
-      str +=    '<h2>' + templateObject.title + '</h2>';
-
-  if (templateObject.showCloseButton) {
-    str += '<button id="hide-qa-helper">X</button>';
-  }
-
-  str +=  '</div>';
-  str += ' <div id="footer-bar">';
-
-  for (var i = 0; i < templateObject.buttons.length; i++) {
-    var btn = templateObject.buttons[i];
-
-    str += '<div class="footer-button';
-
-    if (btn.classes) {
-      str += ' ';
-      for (var c = 0; c < btn.classes.length; c++) {
-        str += btn.classes[c];
-        str += c === btn.classes.length - 1 ? '' : ' ';
+  "tfs": {
+    title   : 'Team Foundation Server',
+    buttons : [
+      {
+        text    : 'Jump to Kanban',
+        hotkey  : 'Ctrl+Shift+S'
+      },
+      {
+        text    : 'Settings',
+        classes : ['fee', 'fie', 'fo', 'fum'],
+        id      : 'qa-ext_settings',
+        hotkey  : 'Ctrl+Shift+S'
       }
-      str += '"';
-    }
-    else {
-      str += '"';
-    }
+    ],
+    showCloseButton: true
+  },
 
-    if (btn.id) { str += ' id="' + btn.id + '"'; }
+  "old-slide": {
+    title : 'Old Slide',
+    buttons : [
+      {
+        text   : 'Run Comparison',
+        id     : 'qa-ext_run',
+        hotkey : 'none'
+      },
+      {
+        text   : 'Settings',
+        id     : 'qa-ext_settings',
+        hotkey : 'none'
+      },
+    ],
+    showCloseButton: false
+  },
 
-    str += '>';
-    str += '<p>' + btn.text + '</p>';
+  "new-slide": {
+    title : 'New Slide',
+    buttons : [
+      {
+        text   : 'Run Comparison',
+        id     : 'qa-ext_run',
+        hotkey : 'none'
+      },
+      {
+        text   : 'Settings',
+        id     : 'qa-ext_settings',
+        hotkey : 'none'
+      },
+    ],
+    showCloseButton: false
+  },
 
-    if (btn.hotkey) {
-      str += '<small>hotkey: ' + btn.hotkey + '</small>';
-    }
+  "dr": {
+    title   : 'DR Site',
+    buttons : [
+      {
+        text : 'No buttons here',
+      }
+    ],
+    showCloseButton: true
+  },
 
-    str += '</div>';
+  "bb": {
+    title   : 'Blackboard LMS',
+    buttons : [
+      {
+        text   : 'Navigate to Course',
+        hotkey : 'none'
+      },
+      {
+        text   : 'Settings',
+        hotkey : 'none'
+      },
+    ],
+    showCloseButton: true
+  },
+
+}
+
+function loadTemplate(context) {
+  var template = null;
+
+  // don't load a template if it's a miscellaneous page
+  if (context !== 'misc') {
+    template = templateObjects[context];
+    template = generateTemplate(template);
+
+    $('body').append('<div class="null-container">')
+             .append(template)
+             .append('</div>');
+
+    $('.draggable').draggable({ handle: '.grabbable' });
   }
-
-  str += '</div>';
-  str += '</div>';
-
-  return str;
 }
