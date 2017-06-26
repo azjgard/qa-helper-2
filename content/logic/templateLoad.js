@@ -131,8 +131,6 @@ function loadTemplate(context) {
 
         if (btn.id && btn.listener) {
           $('#' + btn.id).on('click', btn.listener);
-          if (btn.hotkey) {} // TODO: add hotkeys to the window
-          }
         }
         else {
           if (!btn.id) {
@@ -144,7 +142,7 @@ function loadTemplate(context) {
         }
       }
     }
-
+    
     resolve(context);
   });
 }
