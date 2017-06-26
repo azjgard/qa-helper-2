@@ -41,8 +41,6 @@ function init() {
   var context  = getContext();
 
   loadTemplate(context);
-
-  // TODO: add listeners
 }
 
 init();
