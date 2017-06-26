@@ -67,6 +67,7 @@ function focusQAWindow() {
 //
 // descr - updates qaData when tab is moved off of a window
 function moveTabOff(tabId, detach_info) {
+  console.log("moveTabOff");
   return new Promise(function(resolve, reject){
     var old_win_id = detach_info.oldWindowId;
     //check to see if window was deleted
@@ -84,6 +85,7 @@ function moveTabOff(tabId, detach_info) {
 //
 // descr - updates qaData when tab is moved onto a window
 function moveTabOn(tabId, attach_info) {
+  console.log("moveTabOn");
   return new Promise(function(resolve, reject){
     var new_win_id = attach_info.newWindowId;
     updateQaData(new_win_id, true);
@@ -95,7 +97,8 @@ function moveTabOn(tabId, attach_info) {
 // createTab
 //
 // descr - updates qaData when new tab is created
-function createTab(tab) {
+function createTab(tab) { //called when ctrl+shift+t is pressed
+  console.log("createTab");
   return new Promise(function(resolve, reject){
     updateQaData(tab.windowId, false);
     resolve();
@@ -106,7 +109,8 @@ function createTab(tab) {
 // removeTab
 //
 // descr - updates qaData when tab is closed
-function removeTab(tabId, remove_info) {
+function removeTab(tabId, remove_info) { //called when window is closed (sometimes it doesn't find the window, if it doesn't, set windows and tabs to null from qadata)
+  console.log("removeTab");
   if(typeof qaData[remove_info.windowId] !== 'undefined'){
     return new Promise(function(resolve, reject){
       updateQaData(remove_info.windowId, false);
@@ -116,12 +120,14 @@ function removeTab(tabId, remove_info) {
 }
 
 //
-// updateTag
+// updateTab
 //
 // descr - updates qaData when tab is changed
-function updateTag(tabId, change_info, tab) {
+function updateTab(tabId, change_info, tab) { //called when extension is clicked
+  console.log("updateTab");
   return new Promise(function(resolve, reject){
-    //code to update qaData
+    updateQaData(tab.windowId, false);
+    resolve();
   });
 }
 

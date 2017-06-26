@@ -18,7 +18,7 @@ chrome.browserAction.onClicked.addListener(function(){
           //removes tab info from qaData's memory when tab is closed
           chrome.tabs.onRemoved.addListener(removeTab);
           //updates qaData info when tab is changed
-          chrome.tabs.onUpdated.addListener(updateTag);
+          chrome.tabs.onUpdated.addListener(updateTab);
         });
 });
 
