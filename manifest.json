@@ -32,8 +32,8 @@
   "background" : {
     "scripts" : [
       "lib/jquery.js",
-      "background/logic/initialize.js",
       "background/logic/utilities.js",
+      "background/logic/initialize.js",
       "background/logic/run.js",
       "background/controller.js"
     ]

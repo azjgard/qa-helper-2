@@ -9,22 +9,16 @@ chrome.browserAction.onClicked.addListener(function(){
         .then(function(data) {
           qaData = data; 
           // console.log(qaData);
-
           //removes tab from qaData's memory when tab is moved from old window
-          chrome.tabs.onDetached.addListener(removeOldTab);
-
+          chrome.tabs.onDetached.addListener(moveTabOff);
           //adds tab to qaData's memory when tab is moved to new window
-          chrome.tabs.onAttached.addListener(addNewTab);
-
+          chrome.tabs.onAttached.addListener(moveTabOn);
           //adds tab info to qaData's memory when tab is created
-          chrome.tabs.onCreated.addListener(function(tab){
-            qaData[tab.windowId].window.tabs.push(tab);
-            console.log(qaData);
-          });
-
+          chrome.tabs.onCreated.addListener(createTab);
           //removes tab info from qaData's memory when tab is closed
-          chrome.tabs.onRemoved.addListener(closeOutTab);
-
+          chrome.tabs.onRemoved.addListener(removeTab);
+          //updates qaData info when tab is changed
+          chrome.tabs.onUpdated.addListener(updateTag);
         });
 });
 
