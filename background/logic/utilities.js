@@ -107,20 +107,31 @@ function removeOldTab(tabID, detachInfo){
   });
 }
 
-
+//
+// addNewTab
+//
+// descr - adds information into qaData of new tabs that have been created
 function addNewTab(tabID, attachInfo) {
   return new Promise(function(resolve, reject) {
     // console.log(tabID, attachInfo);
+
+    //THE FUNCTION BELOW ALWAYS OVERWRITES A WINDOW, FIX IT SO THAT IT JUST ADDS TO THE WINDOW
+    //DO IT BY CHECKING IF THE WINDOW EXISTS
     chrome.windows.get(attachInfo.newWindowId, {populate : true}, function(win){
-      qaData[attachInfo.newWindowId] = {
-        window: win,
-        tabs: {
-          dr: null,
-          bb: null,
-          tfs_log: null,
-          tfs_board: null
-        }
-      };
+      
+      if(typeof qaData[attachInfo.newWindowId] === 'undefined'){
+        qaData[attachInfo.newWindowId] = {
+          window: win,
+          tabs: {
+            dr: null,
+            bb: null,
+            tfs_log: null,
+            tfs_board: null
+          }
+        };
+      } else {
+        
+      }
 
       chrome.tabs.get(tabID, function(tab) {
         
@@ -128,13 +139,11 @@ function addNewTab(tabID, attachInfo) {
 
         if (curURL.includes('avondale-iol'))                { qaData[attachInfo.newWindowId].tabs.dr  = tab; }
             else if (curURL.includes('prdtfs.uticorp.com')) { 
-              
               if(curURL.includes('board')){
                                                               qaData[attachInfo.newWindowId].tabs.tfs_board = tab;
               } else {
                                                               qaData[attachInfo.newWindowId].tabs.tfs_log = tab;
               } 
-
             }
             else if (curURL.includes('uti.blackboard.com')) { qaData[attachInfo.newWindowId].tabs.bb  = tab; }
       });
@@ -144,7 +153,10 @@ function addNewTab(tabID, attachInfo) {
   });
 }
 
-
+//
+// closeOutTab
+//
+// descr - removes information of deleted tabs from qaData when a tab is closed out
 function closeOutTab(tabID, removeInfo) {
   return new Promise(function(resolve, reject) {
     var windowID = removeInfo.windowId;
@@ -167,7 +179,7 @@ function closeOutTab(tabID, removeInfo) {
       }
 
     }// end else
-console.log(qaData)
+    console.log(qaData)
     resolve();
   });
 };

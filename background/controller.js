@@ -8,7 +8,7 @@ chrome.browserAction.onClicked.addListener(function(){
   initializeQaTool()
         .then(function(data) {
           qaData = data; 
-          console.log(qaData);
+          // console.log(qaData);
 
           //removes tab from qaData's memory when tab is moved from old window
           chrome.tabs.onDetached.addListener(removeOldTab);
@@ -45,7 +45,4 @@ chrome.runtime.onMessage.addListener(
     }
   }
 );
-
-
-
 
