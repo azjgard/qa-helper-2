@@ -20,7 +20,6 @@
         "lib/jquery-ui.min.js",
         "content/logic/utilities.js",
         "content/logic/templateLoad.js",
-        "content/logic/templateListeners.js",
         "content/controller.js"
         ],
       "css" : [
