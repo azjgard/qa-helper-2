@@ -8,15 +8,32 @@
 global.getContext = function() {
   var loc = window.location.href;
 
-  if (loc.includes('avondale-iol')) {
-    if (loc.match(/lmsinit\.htm/i)) { return 'old-slide'; }
-    else                            { return 'dr';        }
+  var pattern_tfs      = /prdtfs\.uticorp\.com/i;
+  var pattern_newSlide = /courses\/\w{1,}\/uti_bms_qa_uat\/content/i;
+  var pattern_oldSlide = /lmsinit\.htm/i;
+
+  function isPage(pattern) {
+    return loc.match(pattern);
   }
-  else if (/prdtfs\.uticorp\.com/i.test(loc)) {
+
+  // DR site
+  if (loc.includes('avondale-iol')) {
+    if (isPage(pattern_oldSlide)) {
+      return 'old-slide'; 
+    }
+    else {
+      return 'dr';
+    }
+  }
+
+  // TFS
+  else if (isPage(pattern_tfs)) {
     return 'tfs';
   }
+
+  // Blackboard site
   else if (loc.includes('uti.blackboard.com')) {
-    if (/courses\/\w{1,}\/uti_bms_qa_uat\/content/i.test(loc)) {
+    if (isPage(pattern_newSlide)) {
       return 'new-slide'
     }
     else {
@@ -27,6 +44,7 @@ global.getContext = function() {
     return 'misc';
   }
 }
+
 // 
 // generateTemplate
 //
