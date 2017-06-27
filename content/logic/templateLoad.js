@@ -1,8 +1,15 @@
+(function($, global) {
+
 function thisIsARandomFunction() {
   alert('HELLO THERE WORLD!');
 }
 function anotherThing() {
   alert('this is another thing');
+}
+
+function run() {
+  console.log('sending the run message!!');
+  chrome.runtime.sendMessage({message:'run'});
 }
 
 // TODO: add functionality to account for hotkeys
@@ -49,15 +56,16 @@ var templateObjects = {
       {
         text   : 'Run Comparison',
         id     : 'qa-ext_run',
-        hotkey : 'none'
+        hotkey : 'none',
+        listener: run
       },
       {
         text   : 'Settings',
         id     : 'qa-ext_settings',
-        hotkey : 'none'
+        hotkey : 'none',
+        listener: run
       },
     ],
-    listeners : [],
     showCloseButton: false
   },
 
@@ -67,15 +75,16 @@ var templateObjects = {
       {
         text   : 'Run Comparison',
         id     : 'qa-ext_run',
-        hotkey : 'none'
+        hotkey : 'none',
+        listener: run
       },
       {
         text   : 'Settings',
         id     : 'qa-ext_settings',
-        hotkey : 'none'
+        hotkey : 'none',
+        listener: run
       },
     ],
-    listeners : [],
     showCloseButton: false
   },
 
@@ -83,7 +92,10 @@ var templateObjects = {
     title   : 'DR Site',
     buttons : [
       {
-        text : 'No buttons here',
+        text : 'Run Comparison',
+        id : 'qa-ext_test-run-comparison',
+        hotkey: 'none',
+        listener: run
       }
     ],
     listeners : [],
@@ -94,13 +106,11 @@ var templateObjects = {
     title   : 'Blackboard LMS',
     buttons : [
       {
-        text   : 'Navigate to Course',
-        hotkey : 'none'
-      },
-      {
-        text   : 'Settings',
-        hotkey : 'none'
-      },
+        text : 'Run Comparison',
+        id : 'qa-ext_test-run-comparison',
+        hotkey: 'none',
+        listener: run
+      }
     ],
     listeners : [],
     showCloseButton: true
@@ -108,7 +118,7 @@ var templateObjects = {
 
 }
 
-function loadTemplate(context) {
+global.loadTemplate = function(context) {
   return new Promise(function(resolve, reject) {
     var template = null;
     var templateUT = null;
@@ -116,14 +126,14 @@ function loadTemplate(context) {
     // don't load a template if it's a miscellaneous page
     if (context !== 'misc') {
       template = templateObjects[context];
-      templateUI = generateTemplate(template);
+      templateUI = global.generateTemplate(template);
 
       // add the UI to the document
       $('body').append('<div class="null-container">')
                .append(templateUI)
                .append('</div>');
 
-      $('.draggable').draggable({ handle: '.grabbable' });
+      $('.qa-ext_draggable').draggable({ handle: '.grabbable' });
 
       // add the listeners and hotkeys to the buttons
       for (var i = 0; i < template.buttons.length; i++) {
@@ -142,7 +152,9 @@ function loadTemplate(context) {
         }
       }
     }
-    
+
     resolve(context);
   });
 }
+
+})(QA_HELPER_JQUERY, QA_HELPER_GLOBAL);

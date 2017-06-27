@@ -1,4 +1,5 @@
 console.log('RUN.JS loaded');
+var drTabID, bbTabID;
 
 //
 // runQaTool
@@ -11,15 +12,48 @@ function runQaTool() {
   var oldSlideImg;
   var newSlideImg;
 
+  // FIND THE CORRECT TWO TABS
+  var drTab = null;
+  var bbTab = null;
+
+  for (var win in qaData) {
+    var windowObject = qaData[win];
+
+    for (var tab in windowObject.tabs) {
+      if (windowObject.tabs[tab]) {
+        var currentTab = windowObject.tabs[tab];
+        var context = getContext(currentTab.url);
+
+        if (context === 'bb') {
+          bbTab = currentTab;
+        }
+        else if (context === 'tfs') {
+          drTab = currentTab;
+        }
+      }
+    }
+  }
+
+  console.log('BB Tab:');
+  console.log(bbTab);
+
+  console.log('Dr Tab:');
+  console.log(drTab);
+
+  if (!drTab || !bbTab) {
+    console.log('SOMETHING WENT WRONG WITH FINDING THE TABS');
+    return;
+  }
+
   // save the screenshot data
-  returnScreenshotImage(qaData.tabs.bb).then(function(img) {
+  returnScreenshotImage(bbTab).then(function(img) {
     return new Promise(function(resolve, reject) {
       newSlideImg = img;
       resolve();
     });
   })
   .then(function() {
-    return returnScreenshotImage(qaData.tabs.dr);
+    return returnScreenshotImage(drTab);
   })
   .then(function(img) {
     return new Promise(function(resolve, reject) {
@@ -45,29 +79,29 @@ function runQaTool() {
             var newStuff = data[1];
 
             // compare the text
-            for (var n in newStuff) {
-              var newWord = cleanWord(newStuff[n].word_text);
+            // for (var n in newStuff) {
+            //   var newWord = cleanWord(newStuff[n].word_text);
 
-              for (var o in oldStuff) {
-                var oldWord = cleanWord(oldStuff[o].word_text);
+            //   for (var o in oldStuff) {
+            //     var oldWord = cleanWord(oldStuff[o].word_text);
 
-                if (newWord === oldWord && !oldStuff[o].matched) {
-                  newStuff[n].matched = true;
-                  oldStuff[o].matched = true;
-                  console.log('match');
-                }
-              }
-            }
+            //     if (newWord === oldWord && !oldStuff[o].matched) {
+            //       newStuff[n].matched = true;
+            //       oldStuff[o].matched = true;
+            //       console.log('match');
+            //     }
+            //   }
+            // }
 
-            function cleanWord(word) {
-              console.log(word);
-              var pattern_specialChars = /[^\w\s]/gi;
+            // function cleanWord(word) {
+            //   console.log(word);
+            //   var pattern_specialChars = /[^\w\s]/gi;
 
-              var newWord = String(word).trim().toLowerCase();
-                  newWord = newWord.replace(pattern_specialChars, ' ');
-                  newWord = newWord.replace(/\s{2,}/g, ' ');
-              return newWord;
-            }
+            //   var newWord = String(word).trim().toLowerCase();
+            //       newWord = newWord.replace(pattern_specialChars, ' ');
+            //       newWord = newWord.replace(/\s{2,}/g, ' ');
+            //   return newWord;
+            // }
 
             // Format for the outgoing request object
             //   {
@@ -84,11 +118,12 @@ function runQaTool() {
             //     ]
             //   }
 
-            chrome.tabs.sendMessage(qaData.tabs.dr.id, { //to avondale
+
+            chrome.tabs.sendMessage(drTab.id, { //to avondale
               "message" : "ocrData",
               "data"    : oldStuff
             });
-            chrome.tabs.sendMessage(qaData.tabs.bb.id, { //to blackboard
+            chrome.tabs.sendMessage(bbTab.id, { //to blackboard
               "message" : "ocrData",
               "data"    : newStuff
             })

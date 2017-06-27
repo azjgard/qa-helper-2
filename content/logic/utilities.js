@@ -1,9 +1,11 @@
+(function($, global) {
+
 //
 // getContext
 //
 // descr - returns a string describing the context of the page
 // that the script is currently running inside of
-function getContext() {
+global.getContext = function() {
   var loc = window.location.href;
 
   if (loc.includes('avondale-iol')) {
@@ -45,8 +47,8 @@ function getContext() {
 // descr - using the templateObject provided, will return
 // a string of HTML that can be used on the DOM to create
 // the user interface for the page
-function generateTemplate(templateObject) {
-  var str = '<div class="footer-bar-box slide draggable">';
+global.generateTemplate = function(templateObject) {
+  var str = '<div class="footer-bar-box slide qa-ext_draggable">';
       str +=  '<div class="grabbable group">';
       str +=    '<h2>' + templateObject.title + '</h2>';
 
@@ -91,3 +93,5 @@ function generateTemplate(templateObject) {
 
   return str;
 }
+
+})(QA_HELPER_JQUERY, QA_HELPER_GLOBAL);

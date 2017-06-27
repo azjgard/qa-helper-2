@@ -2,6 +2,32 @@ console.clear();
 console.log('UTILITIES.JS loaded');
 
 //
+// getContext
+//
+// descr - returns a string describing the context of the url
+// that is passed to the function
+function getContext(loc) {
+  if (loc.includes('avondale-iol')) {
+    if (loc.match(/lmsinit\.htm/i)) { return 'old-slide'; }
+    else                            { return 'dr';        }
+  }
+  else if (/prdtfs\.uticorp\.com/i.test(loc)) {
+    return 'tfs';
+  }
+  else if (loc.includes('uti.blackboard.com')) {
+    if (/courses\/\w{1,}\/uti_bms_qa_uat\/content/i.test(loc)) {
+      return 'new-slide'
+    }
+    else {
+      return 'bb';
+    }
+  }
+  else {
+    return 'misc';
+  }
+}
+
+//
 // returnScreenshotImage
 //
 // descr - returns a promise whose value is a screenshot
@@ -9,7 +35,7 @@ console.log('UTILITIES.JS loaded');
 // argument
 function returnScreenshotImage(tab) {
   return new Promise(function(resolve, reject) {
-    focusQAWindow()
+    focusWindow(tab.windowId)
       .then(function() {
         return focusTab(tab);
       })
@@ -53,9 +79,9 @@ function focusTab(tab) {
 // focusQAWindow
 //
 // descr - sets the focus to the window that is opened by the extension
-function focusQAWindow() {
+function focusWindow(windowID) {
   return new Promise(function(resolve, reject) {
-    chrome.windows.update(qaData.window.id, { focused : true }, function() {
+    chrome.windows.update(windowID, { focused : true }, function() {
       console.log('just focused the window');
       resolve();
     });

@@ -15,7 +15,7 @@
       "matches": [
         "*://prdtfs.uticorp.com/*",
         "*://avondale-iol/*",
-        "*://uti.blackboard.com/webapps/*"
+        "*://uti.blackboard.com/*"
       ],
       "js" : [
         "lib/jquery.js",
@@ -27,6 +27,7 @@
         "<all_urls>"
       ],
       "js": [
+        "content/preload.js",
         "content/logic/utilities.js",
         "content/logic/templateLoad.js",
         "content/controller.js"
