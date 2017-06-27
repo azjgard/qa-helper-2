@@ -28,6 +28,7 @@ global.getContext = function() {
     return 'misc';
   }
 }
+
 // 
 // generateTemplate
 //

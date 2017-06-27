@@ -232,3 +232,19 @@ function updateQaData(win_id, create_qaData_template) {
     });
   });
 }
+
+function findPopup(){
+  chrome.windows.getAll({populate:true}, function(wins){
+    for (var i = 0; i < wins.length; i++) {
+      var win = wins[i];
+      if(win.type === 'popup'){
+        for (var j = 0; j < win.tabs.length; j++) {
+          if(win.tabs[j].url.includes("uti.blackboard.com")){
+            popup_id = win.tabs[j].id;
+          }
+        }
+      }
+    }
+  });
+  return popup_id;
+}

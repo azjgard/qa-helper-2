@@ -31,6 +31,7 @@
         "content/logic/utilities.js",
         "content/logic/templateLoad.js",
         "content/logic/addBug.js",
+        "content/logic/navigate.js",
         "content/controller.js"
         ],
       "css" : [

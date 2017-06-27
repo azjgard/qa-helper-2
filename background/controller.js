@@ -50,6 +50,14 @@ chrome.runtime.onMessage.addListener(
         } // end for loop
       }
     }
+    else if(msg === 'prev'){ //sent from prev button on new slides
+      var popup_id = findPopup();
+      chrome.tabs.sendMessage(popup_id, request);
+    }
+    else if(msg === 'next'){ //sent from next button on new slides
+      var popup_id = findPopup();
+      chrome.tabs.sendMessage(popup_id, request);
+    }
   }
 );
 

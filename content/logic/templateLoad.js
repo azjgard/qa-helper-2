@@ -17,13 +17,26 @@ function addBugButton() {
   chrome.runtime.sendMessage(data);
 }
 
+function prevSlide() {
+  data = {
+    "message": "prev",
+    "data"   : ''
+  };
+  chrome.runtime.sendMessage(data);
+}
+
+function nextSlide() {
+  data = {
+    "message": "next",
+    "data"   : ''
+  };
+  chrome.runtime.sendMessage(data);
+}
+
 function settingsMenu() {
   alert("settings");
 }
 
-function runComparison() {
-  alert("comparison");
-}
 
 function run() {
   console.log('sending the run message!!');
@@ -82,7 +95,7 @@ var templateObjects = {
         id     : 'qa-ext_settings',
         hotkey : 'none',
         listener: run
-      },
+      }
     ],
     showCloseButton: false
   },
@@ -90,6 +103,12 @@ var templateObjects = {
   "new-slide": {
     title : 'New Slide',
     buttons : [
+      {
+        text   : '<',
+        id     : 'qa-ext_prev',
+        hotkey : 'none',
+        listener: prevSlide
+      },
       {
         text   : 'Run Comparison',
         id     : 'qa-ext_run',
@@ -106,8 +125,14 @@ var templateObjects = {
         text   : 'Settings',
         id     : 'qa-ext_settings',
         hotkey : 'none',
-        listener: run
+        listener: settingsMenu
       },
+      {
+        text   : '>',
+        id     : 'qa-ext_next',
+        hotkey : 'none',
+        listener: nextSlide
+      }
     ],
     showCloseButton: false
   },
