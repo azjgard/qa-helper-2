@@ -7,6 +7,24 @@ function anotherThing() {
   alert('this is another thing');
 }
 
+
+function addBugButton() {
+  var slideInfo = global.getCurrentSlide();
+  data = {
+    "message": "bug",
+    "data"   : slideInfo
+  };
+  chrome.runtime.sendMessage(data);
+}
+
+function settingsMenu() {
+  alert("settings");
+}
+
+function runComparison() {
+  alert("comparison");
+}
+
 function run() {
   console.log('sending the run message!!');
   chrome.runtime.sendMessage({message:'run'});
@@ -77,6 +95,12 @@ var templateObjects = {
         id     : 'qa-ext_run',
         hotkey : 'none',
         listener: run
+      },
+      {
+        text    : 'Add Bug',
+        id      : 'qa-ext_bug',
+        hotkey  : 'none',
+        listener: addBugButton
       },
       {
         text   : 'Settings',
