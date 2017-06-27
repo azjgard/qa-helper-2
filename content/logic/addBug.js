@@ -1,3 +1,17 @@
+//******************************************************************************
+//******************************************************************************
+
+//NOTES FOR THIS PAGE
+
+  // - search "AD## workaround code" on the page to find all code that 
+  //   compensates for Web courses that BMS forgot to add the correct slide 
+  //   information for. The slide information should be in the format
+  //   AD##-###-Web##-#-#-##-#, but sometimes it comes in this incorrect format:
+  //   AD-###-Web##-#-#-##-#
+
+//******************************************************************************
+//******************************************************************************
+
 function addBugToTFS(slide_information){
   return new Promise(function(resolve, reject){
 

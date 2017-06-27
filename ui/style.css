@@ -29,7 +29,7 @@
   padding: 10px;
 }
 
-.draggable {
+.qa-ext_draggable {
   z-index: 9999;
 }
 #hide-qa-helper{

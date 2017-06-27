@@ -1,25 +1,12 @@
-//******************************************************************************
-//******************************************************************************
 
-//NOTES FOR THIS PAGE
-
-  // - search "AD## workaround code" on the page to find all code that 
-  //   compensates for Web courses that BMS forgot to add the correct slide 
-  //   information for. The slide information should be in the format
-  //   AD##-###-Web##-#-#-##-#, but sometimes it comes in this incorrect format:
-  //   AD-###-Web##-#-#-##-#
-
-//******************************************************************************
-//******************************************************************************
-
-
+(function($, global) {
 
 //
 // getContext
 //
 // descr - returns a string describing the context of the page
 // that the script is currently running inside of
-function getContext() {
+global.getContext = function() {
   var loc = window.location.href;
 
   if (loc.includes('avondale-iol')) {
@@ -61,8 +48,8 @@ function getContext() {
 // descr - using the templateObject provided, will return
 // a string of HTML that can be used on the DOM to create
 // the user interface for the page
-function generateTemplate(templateObject) {
-  var str = '<div class="footer-bar-box slide draggable">';
+global.generateTemplate = function(templateObject) {
+  var str = '<div class="footer-bar-box slide qa-ext_draggable">';
       str +=  '<div class="grabbable group">';
       str +=    '<h2>' + templateObject.title + '</h2>';
 
@@ -108,34 +95,4 @@ function generateTemplate(templateObject) {
   return str;
 }
 
-//
-// getCurrentSlide
-//
-// @return - a function that,
-// when executed, will grab the current slide ID from the page
-function getCurrentSlide() {
-  
-  var getID = function() {
-    var $btn_support = $("#btn-support");
-    console.log($btn_support);
-
-    // click the question mark button on navigation menu to change the slideID
-    // click again to close the popup modal
-    $btn_support.click(); 
-    $btn_support.click();
-
-    // grab slide information
-    var full_reference_id = $("div#lightboxBody>p:nth-of-type(2)").text().slice(0, -1);
-    var scoName = $('#scoName').text();
-
-    // **** DEPRECATED ****
-    // have user copy slide info
-    // prompt("Press Ctrl+C to copy to clipboard", full_reference_id + " --- " + scoName); 
-
-
-    // return the information about the current slide
-    return full_reference_id + " --- " + scoName;
-  }
-
-  return getID();
-}
+})(QA_HELPER_JQUERY, QA_HELPER_GLOBAL);

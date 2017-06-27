@@ -1,25 +1,18 @@
-console.log('CONTROLLER.js loaded');
+(function($, global) {
+
 
 //
-// init
+// Message Listener
 //
-// descr - initializes UI elements on the page
-function init() {
-  var template = null;
-  var el       = null;
-  var context  = getContext();
-
-  loadTemplate(context);
-}
-
-init();
-
-
+// descr - listen to messages from the background.
+// For obvious reasons, this does not need to be a
+// member of the global QA variable.
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
     // console.log(request);
     var msg    = request.message;
-
+    var data    = request.data;
+    
     // don't listen if there was no message attribute
     if (!msg) {
       throw "Message received, but there was no message attribute!";
@@ -54,5 +47,21 @@ chrome.runtime.onMessage.addListener(
         });
     } // end else if
   } // end function
-); 
+);
 
+//
+// init
+//
+// descr - initializes UI elements on the page
+global.init = function() {
+  var template = null;
+  var el       = null;
+  var context  = global.getContext();
+
+  global.loadTemplate(context);
+}
+
+global.init();
+
+
+})(QA_HELPER_JQUERY, QA_HELPER_GLOBAL);
