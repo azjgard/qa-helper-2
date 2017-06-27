@@ -9,7 +9,7 @@ function anotherThing() {
 
 
 function addBugButton() {
-  var slideInfo = getCurrentSlide();
+  var slideInfo = global.getCurrentSlide();
   data = {
     "message": "bug",
     "data"   : slideInfo

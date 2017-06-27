@@ -41,7 +41,7 @@ chrome.runtime.onMessage.addListener(
     }
     else if (msg === 'bug') { //sent from Add Bug button on new slides
       console.log(request.data);
-        addBugToTFS(request.data)
+        global.addBugToTFS(request.data)
           .then(function(data){
             
         });

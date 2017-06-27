@@ -1,3 +1,6 @@
+(function($, global) {
+
+
 //******************************************************************************
 //******************************************************************************
 
@@ -12,7 +15,7 @@
 //******************************************************************************
 //******************************************************************************
 
-function addBugToTFS(slide_information){
+global.addBugToTFS = function(slide_information){
   return new Promise(function(resolve, reject){
 
     //
@@ -374,5 +377,8 @@ function addBugToTFS(slide_information){
     resolve(addBug(slide_information));
   });
 }
+
+})(QA_HELPER_JQUERY, QA_HELPER_GLOBAL);
+
 
 
