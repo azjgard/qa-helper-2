@@ -37,6 +37,19 @@ chrome.runtime.onMessage.addListener(
         runQaTool(); 
       }
     }
+    else if (msg === 'bug') { //sent from Add Bug button on new slides
+      if (qaData !== null) {
+        console.log('add a bug!'); 
+        for(var key in qaData){
+          if(qaData[key].tabs.tfs_log){
+
+            //should we check to see if multiple tabs are open?
+            console.log(request);
+            chrome.tabs.sendMessage(qaData[key].tabs.tfs_log.id, request);
+          }
+        } // end for loop
+      }
+    }
   }
 );
 

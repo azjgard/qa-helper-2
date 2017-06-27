@@ -5,6 +5,24 @@ function anotherThing() {
   alert('this is another thing');
 }
 
+
+function addBugButton() {
+  var slideInfo = getCurrentSlide();
+  data = {
+    "message": "bug",
+    "data"   : slideInfo
+  };
+  chrome.runtime.sendMessage(data);
+}
+
+function settingsMenu() {
+  alert("settings");
+}
+
+function runComparison() {
+  alert("comparison");
+}
+
 // TODO: add functionality to account for hotkeys
 // var ctrlPressed = false;
 // var shiftPressed = false;
@@ -65,14 +83,22 @@ var templateObjects = {
     title : 'New Slide',
     buttons : [
       {
-        text   : 'Run Comparison',
-        id     : 'qa-ext_run',
-        hotkey : 'none'
+        text    : 'Run Comparison',
+        id      : 'qa-ext_run',
+        hotkey  : 'none',
+        listener: runComparison
       },
       {
-        text   : 'Settings',
-        id     : 'qa-ext_settings',
-        hotkey : 'none'
+        text    : 'Add Bug',
+        id      : 'qa-ext_bug',
+        hotkey  : 'none',
+        listener: addBugButton
+      },
+      {
+        text    : 'Settings',
+        id      : 'qa-ext_settings',
+        hotkey  : 'none',
+        listener: settingsMenu
       },
     ],
     listeners : [],
