@@ -13,11 +13,20 @@
   "content_scripts": [
     {
       "matches": [
+        "*://prdtfs.uticorp.com/*",
+        "*://avondale-iol/*",
+        "*://uti.blackboard.com/webapps/*"
+      ],
+      "js" : [
+        "lib/jquery.js",
+        "lib/jquery-ui.min.js"
+      ]
+    },
+    {
+      "matches": [
         "<all_urls>"
       ],
       "js": [
-        "lib/jquery.js",
-        "lib/jquery-ui.min.js",
         "content/logic/utilities.js",
         "content/logic/templateLoad.js",
         "content/controller.js"
