@@ -22,12 +22,6 @@ chrome.runtime.onMessage.addListener(
     }
     else if (msg === 'bug') { //sent from Add Bug button on new slides
       sendToTab("tfs_log", request);
-      sendToTab("tfs_board", request);
-      sendToTab("bb", request);
-      sendToTab("dr", request);
-      sendToTab("new-slide", request);
-      sendToTab("old-slide", request);
-      sendToTab("bob-slide", request);
     }
   }
 );
