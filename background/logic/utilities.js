@@ -116,146 +116,70 @@ function focusWindow(windowID) {
 }
 
 //
-// moveTabOff
+// sendToTab
 //
-// descr - updates qaData when tab is moved off of a window
-function moveTabOff(tabId, detach_info) {
-  console.log("moveTabOff");
-  return new Promise(function(resolve, reject){
-    var old_win_id = detach_info.oldWindowId;
-    //check to see if window was deleted
-    if(typeof qaData[old_win_id] !== 'undefined'){
-      updateQaData(old_win_id, false);
-    } else {
-      //delete window
-    }
-    resolve();
-  });
-}
+// descr - routes a message to tab of choice. All available tabs are 
+// in the switch statement below.
+function sendToTab(which_tab, request){
+  var identifier;
+  
+  switch(which_tab){
+    // tfs
+    case "tfs_log":
+      var identifier = { includes: 'prdtfs.uticorp.com', includes_2: 'level' };
+      break;
+    case "tfs_board":
+      var identifier = { includes: 'prdtfs.uticorp.com', includes_2: 'board' };
+      break;
 
-//
-// moveTabOn
-//
-// descr - updates qaData when tab is moved onto a window
-function moveTabOn(tabId, attach_info) {
-  console.log("moveTabOn");
-  return new Promise(function(resolve, reject){
-    var new_win_id = attach_info.newWindowId;
-    updateQaData(new_win_id, true);
-    resolve();
-  });
-}
+    // avondale
+    case "dr":
+      var identifier = { includes: 'avondale-iol', includes_2: "scolist" };
+      break;
+    case 'old-slide':
+      var identifier = { includes: 'avondale-iol', includes_2: "ShowCDMenu" };
+      break;
 
-//
-// createTab
-//
-// descr - updates qaData when new tab is created
-function createTab(tab) { //called when ctrl+shift+t is pressed
-  console.log("createTab");
-  return new Promise(function(resolve, reject){
-    updateQaData(tab.windowId, false);
-    resolve();
-  });
-}
+    // blackboard
+    case "bb":
+      var identifier = { includes: 'uti.blackboard.com', includes_2: 'webapps' };
+      break;
+    case 'new-slide':
+      var identifier = { includes: 'uti.blackboard.com', includes_2: 'courses' };
+      break;
 
-//
-// removeTab
-//
-// descr - updates qaData when tab is closed
-function removeTab(tabId, remove_info) { //called when window is closed (sometimes it doesn't find the window, if it doesn't, set windows and tabs to null from qadata)
-  console.log("removeTab");
-  if(typeof qaData[remove_info.windowId] !== 'undefined'){
-    return new Promise(function(resolve, reject){
-      updateQaData(remove_info.windowId, false);
-      resolve();
-    });
+    default:
+      var identifier = null;
+      break;
   }
-}
 
-//
-// updateTab
-//
-// descr - updates qaData when tab is changed
-function updateTab(tabId, change_info, tab) { //called when extension is clicked
-  console.log("updateTab");
-  return new Promise(function(resolve, reject){
-    updateQaData(tab.windowId, false);
-    resolve();
-  });
-}
+  //check if which_tab is valid
+  if(identifier){
+    
+    chrome.tabs.query({}, function(tabs){
+      for (var i = 0; i < tabs.length; i++) {
 
-//
-// resetTabs
-//
-// descr - sets qaData[windowId].tabs' keys to null to prepare for updated info
-function resetTabs(win_id) {
-  for (var key in qaData[win_id].tabs) {
-    qaData[win_id].tabs[key] = null;
-  }
-}
-
-//
-// createQaDataTemplate
-//
-// descr - defines the template of qaData
-function createQaDataTemplate() {
-  return {
-    window: null,
-    tabs: {
-      dr: null,
-      bb: null,
-      tfs_log: null,
-      tfs_board: null
-    }
-  };
-}
-
-//
-// insertTabs
-//
-// descr - adds updated data to qaData[windowId].tabs' keys
-function insertTabs(tabs) {
-  var template = createQaDataTemplate();
-  for (var i = 0; i < tabs.length; i++) {
-    var curURL = tabs[i].url;
-    if (curURL.includes('avondale-iol')) { 
-      template.tabs.dr  = tabs[i]; 
-    }
-    else if (curURL.includes('prdtfs.uticorp.com')) { 
-      if(curURL.includes('board')){
-        template.tabs.tfs_board = tabs[i];
-      } else {
-        template.tabs.tfs_log = tabs[i];
-      } 
-    }
-    else if (curURL.includes('uti.blackboard.com')) { 
-      template.tabs.bb  = tabs[i]; 
-    }
-  }
-  return template.tabs;
-}
-
-//
-// updateQaData
-//
-// descr - updates qaData window and tabs info for a given window
-function updateQaData(win_id, create_qaData_template) {
-  chrome.windows.get(win_id, {populate:true}, function(win){
-    //update window info
-    new Promise(function(resolve, reject) {
-      if(create_qaData_template){
-        var template = createQaDataTemplate();
-        qaData[win.id] = template;
-        qaData[win.id].window = win; 
+        //check identifier of tab url
+        if (tabs[i].url.includes(identifier.includes)) { 
+          
+          //if second identifier is present, check which tab matches
+          if(identifier.includes_2){
+            if(tabs[i].url.includes(identifier.includes_2)){
+              console.log("Sending message to " + which_tab);
+              chrome.tabs.sendMessage(tabs[i].id, request);
+            }
+          }
+          //if second identifier is null, send the message
+          else {
+            console.log("Sending message to " + which_tab);
+            chrome.tabs.sendMessage(tabs[i].id, request);
+          }
+        }
       }
-      qaData[win.id].window = win;
-    }); 
-    //upadate tabs info
-    new Promise(function(resolve, reject){
-      resetTabs(win.id);
-      var tabs = win.tabs;
-      var inserted_tabs = insertTabs(tabs);
-      qaData[win.id].tabs = inserted_tabs;
     });
-  });
+
+  }
+  else {
+    return console.log('Please send in a valid identifier (e.g. "tfs_log"');
+  }
 }
