@@ -27,7 +27,7 @@ function runQaTool() {
         if (context === 'bb') {
           bbTab = currentTab;
         }
-        else if (context === 'tfs') {
+        else if (context === 'tfs_log') {
           drTab = currentTab;
         }
       }

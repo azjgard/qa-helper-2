@@ -17,17 +17,34 @@ function addBugButton() {
   chrome.runtime.sendMessage(data);
 }
 
+function prevSlide() {
+  data = {
+    "message": "prev",
+    "data"   : ''
+  };
+  chrome.runtime.sendMessage(data);
+}
+
+function nextSlide() {
+  data = {
+    "message": "next",
+    "data"   : ''
+  };
+  chrome.runtime.sendMessage(data);
+}
+
 function settingsMenu() {
   alert("settings");
 }
 
-function runComparison() {
-  alert("comparison");
-}
 
 function run() {
   console.log('sending the run message!!');
   chrome.runtime.sendMessage({message:'run'});
+}
+
+function jumpToQA(){
+  chrome.runtime.sendMessage({message:'Jump to QA'})
 }
 
 // TODO: add functionality to account for hotkeys
@@ -49,7 +66,7 @@ function run() {
 // var hotkey_getCurrentSlide = 83;  // s
 
 var templateObjects = {
-  "tfs": {
+  "tfs_log": {
     title   : 'Team Foundation Server',
     buttons : [
       {
@@ -57,6 +74,25 @@ var templateObjects = {
         hotkey  : 'ctrl+shift+s',
         id: 'qa-ext_jump-to-kanban',
         listener: anotherThing
+      },
+      {
+        text    : 'Settings',
+        classes : ['fee', 'fie', 'fo', 'fum'],
+        id      : 'qa-ext_settings',
+        hotkey  : 'Ctrl+Shift+S',
+        listener: thisIsARandomFunction
+      }
+    ],
+    showCloseButton: true
+  },
+  "tfs_board": {
+    title   : 'Team Foundation Server',
+    buttons : [
+      {
+        text    : 'To QA',
+        hotkey  : 'None',
+        id: 'qa-ext_to-qa',
+        listener: jumpToQA
       },
       {
         text    : 'Settings',
@@ -82,7 +118,7 @@ var templateObjects = {
         id     : 'qa-ext_settings',
         hotkey : 'none',
         listener: run
-      },
+      }
     ],
     showCloseButton: false
   },
@@ -90,6 +126,12 @@ var templateObjects = {
   "new-slide": {
     title : 'New Slide',
     buttons : [
+      {
+        text   : '<',
+        id     : 'qa-ext_prev',
+        hotkey : 'none',
+        listener: prevSlide
+      },
       {
         text   : 'Run Comparison',
         id     : 'qa-ext_run',
@@ -106,8 +148,14 @@ var templateObjects = {
         text   : 'Settings',
         id     : 'qa-ext_settings',
         hotkey : 'none',
-        listener: run
+        listener: settingsMenu
       },
+      {
+        text   : '>',
+        id     : 'qa-ext_next',
+        hotkey : 'none',
+        listener: nextSlide
+      }
     ],
     showCloseButton: false
   },

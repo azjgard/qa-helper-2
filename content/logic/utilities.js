@@ -29,7 +29,12 @@ global.getContext = function() {
 
   // TFS
   else if (isPage(pattern_tfs)) {
-    return 'tfs';
+    if(loc.includes('board')){
+      return 'tfs_board';
+    }
+    else {
+      return 'tfs_log';
+    }
   }
 
   // Blackboard site
@@ -41,6 +46,8 @@ global.getContext = function() {
       return 'bb';
     }
   }
+
+  // Site irrelevant to the plugin
   else {
     return 'misc';
   }

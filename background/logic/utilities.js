@@ -4,28 +4,55 @@ console.log('UTILITIES.JS loaded');
 //
 // getContext
 //
-// descr - returns a string describing the context of the url
-// that is passed to the function
-function getContext(loc) {
+// descr - returns a string describing the context of the page
+// that the script is currently running inside of
+global.getContext = function() {
+  var loc = window.location.href;
+
+  var pattern_tfs      = /prdtfs\.uticorp\.com/i;
+  var pattern_newSlide = /courses\/\w{1,}\/uti_bms_qa_uat\/content/i;
+  var pattern_oldSlide = /lmsinit\.htm/i;
+
+  function isPage(pattern) {
+    return loc.match(pattern);
+  }
+
+  // DR site
   if (loc.includes('avondale-iol')) {
-    if (loc.match(/lmsinit\.htm/i)) { return 'old-slide'; }
-    else                            { return 'dr';        }
+    if (isPage(pattern_oldSlide)) {
+      return 'old-slide'; 
+    }
+    else {
+      return 'dr';
+    }
   }
-  else if (/prdtfs\.uticorp\.com/i.test(loc)) {
-    return 'tfs';
+
+  // TFS
+  else if (isPage(pattern_tfs)) {
+    if(loc.includes('board')){
+      return 'tfs_board';
+    }
+    else {
+      return 'tfs_log';
+    }
   }
+
+  // Blackboard site
   else if (loc.includes('uti.blackboard.com')) {
-    if (/courses\/\w{1,}\/uti_bms_qa_uat\/content/i.test(loc)) {
+    if (isPage(pattern_newSlide)) {
       return 'new-slide'
     }
     else {
       return 'bb';
     }
   }
+
+  // Site irrelevant to the plugin
   else {
     return 'misc';
   }
 }
+
 
 //
 // returnScreenshotImage
@@ -231,4 +258,20 @@ function updateQaData(win_id, create_qaData_template) {
       qaData[win.id].tabs = inserted_tabs;
     });
   });
+}
+
+function findPopup(){
+  chrome.windows.getAll({populate:true}, function(wins){
+    for (var i = 0; i < wins.length; i++) {
+      var win = wins[i];
+      if(win.type === 'popup'){
+        for (var j = 0; j < win.tabs.length; j++) {
+          if(win.tabs[j].url.includes("uti.blackboard.com")){
+            popup_id = win.tabs[j].id;
+          }
+        }
+      }
+    }
+  });
+  return popup_id;
 }

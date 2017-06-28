@@ -370,7 +370,7 @@ global.addBugToTFS = function(slide_information){
                 //   return findContentQaFolder();
                 // }
         } //end findContentQaFolder
-        var interval = setInterval(function(){ findContentQaFolder(); }, 0);
+        var interval = setInterval(function(){ findContentQaFolder(); }, 200);
       } // end $.each
     }// end addBug function
 
