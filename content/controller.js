@@ -41,10 +41,7 @@ chrome.runtime.onMessage.addListener(
     }
     else if (msg === 'bug') { //sent from Add Bug button on new slides
       console.log(msg_data);
-        global.addBugToTFS(msg_data)
-          .then(function(data){
-            console.log("bug window open!");
-        });
+      global.addBug(msg_data);
     }
     else if(msg === 'prev'){
       global.prev_slide(window);

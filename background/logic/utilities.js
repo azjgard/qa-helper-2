@@ -6,7 +6,7 @@ console.log('UTILITIES.JS loaded');
 //
 // descr - returns a string describing the context of the page
 // that the script is currently running inside of
-global.getContext = function() {
+var getContext = function() {
   var loc = window.location.href;
 
   var pattern_tfs      = /prdtfs\.uticorp\.com/i;
