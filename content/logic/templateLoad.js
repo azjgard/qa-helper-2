@@ -18,19 +18,11 @@ function addBugButton() {
 }
 
 function prevSlide() {
-  data = {
-    "message": "prev",
-    "data"   : ''
-  };
-  chrome.runtime.sendMessage(data);
+  // loadPrevSlide();
 }
 
 function nextSlide() {
-  data = {
-    "message": "next",
-    "data"   : ''
-  };
-  chrome.runtime.sendMessage(data);
+  // loadNextSlide();
 }
 
 function settingsMenu() {
@@ -44,7 +36,7 @@ function run() {
 }
 
 function jumpToQA(){
-  chrome.runtime.sendMessage({message:'Jump to QA'})
+  $('.agile-content-container.scrollable').scrollLeft(3100);
 }
 
 // TODO: add functionality to account for hotkeys
