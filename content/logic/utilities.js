@@ -115,6 +115,7 @@ global.generateTemplate = function(templateObject) {
   }
 
   str += '</div>';
+  str += '<div class="qa-ext_popup"><button id="qa-ext_popup-trigger"></button></div>';
   str += '</div>';
 
   return str;
