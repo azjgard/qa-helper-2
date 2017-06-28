@@ -19,7 +19,8 @@
       ],
       "js" : [
         "lib/jquery.js",
-        "lib/jquery-ui.min.js"
+        "lib/jquery-ui.min.js",
+        "lib/utilities.js"
       ]
     },
     {
@@ -43,6 +44,7 @@
   "background" : {
     "scripts" : [
       "lib/jquery.js",
+      "lib/utilities.js",
       "background/logic/utilities.js",
       "background/logic/initialize.js",
       "background/logic/run.js",
