@@ -43,6 +43,10 @@ function run() {
   chrome.runtime.sendMessage({message:'run'});
 }
 
+function jumpToQA(){
+  chrome.runtime.sendMessage({message:'Jump to QA'})
+}
+
 // TODO: add functionality to account for hotkeys
 // var ctrlPressed = false;
 // var shiftPressed = false;
@@ -62,7 +66,7 @@ function run() {
 // var hotkey_getCurrentSlide = 83;  // s
 
 var templateObjects = {
-  "tfs": {
+  "tfs_log": {
     title   : 'Team Foundation Server',
     buttons : [
       {
@@ -70,6 +74,25 @@ var templateObjects = {
         hotkey  : 'ctrl+shift+s',
         id: 'qa-ext_jump-to-kanban',
         listener: anotherThing
+      },
+      {
+        text    : 'Settings',
+        classes : ['fee', 'fie', 'fo', 'fum'],
+        id      : 'qa-ext_settings',
+        hotkey  : 'Ctrl+Shift+S',
+        listener: thisIsARandomFunction
+      }
+    ],
+    showCloseButton: true
+  },
+  "tfs_board": {
+    title   : 'Team Foundation Server',
+    buttons : [
+      {
+        text    : 'To QA',
+        hotkey  : 'None',
+        id: 'qa-ext_to-qa',
+        listener: jumpToQA
       },
       {
         text    : 'Settings',

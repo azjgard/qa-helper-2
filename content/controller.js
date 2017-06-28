@@ -51,7 +51,10 @@ chrome.runtime.onMessage.addListener(
     }
     else if(msg === 'next'){
       global.next_slide(window);
-    } 
+    }
+    else if(msg === 'Jump to QA') {
+      $('.agile-content-container.scrollable').scrollLeft(3100);
+    }
   } 
 );
 

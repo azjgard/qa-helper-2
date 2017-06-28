@@ -58,6 +58,15 @@ chrome.runtime.onMessage.addListener(
       var popup_id = findPopup();
       chrome.tabs.sendMessage(popup_id, request);
     }
+    else if(msg === 'Jump to QA'){
+      for(var key in qaData){
+        if(qaData[key].tabs.tfs_board){
+          console.log(request);
+          chrome.tabs.sendMessage(qaData[key].tabs.tfs_board.id, request);
+        }
+      }
+    }
   }
 );
+
 

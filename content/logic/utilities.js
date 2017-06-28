@@ -14,7 +14,13 @@ global.getContext = function() {
     else                            { return 'dr';        }
   }
   else if (/prdtfs\.uticorp\.com/i.test(loc)) {
-    return 'tfs';
+    if(loc.includes('board')){
+      return 'tfs_board';
+    }
+    else {
+      return 'tfs_log';
+    }
+    
   }
   else if (loc.includes('uti.blackboard.com')) {
     if (/courses\/\w{1,}\/uti_bms_qa_uat\/content/i.test(loc)) {
