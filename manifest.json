@@ -32,6 +32,7 @@
         "content/logic/templateLoad.js",
         "content/logic/addBug.js",
         "content/logic/navigate.js",
+        "content/logic/contextScripts.js",
         "content/controller.js"
         ],
       "css" : [
@@ -53,6 +54,7 @@
   "permissions" : [
     "tabs",
     "<all_urls>",
-    "notifications"
+    "notifications",
+    "storage"
   ]
 }

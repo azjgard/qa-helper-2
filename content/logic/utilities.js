@@ -12,6 +12,7 @@ global.getContext = function() {
   var pattern_tfs      = /prdtfs\.uticorp\.com/i;
   var pattern_newSlide = /courses\/\w{1,}\/uti_bms_qa_uat\/content/i;
   var pattern_oldSlide = /lmsinit\.htm/i;
+  var pattern_login = /webapps\/login/;
 
   function isPage(pattern) {
     return loc.match(pattern);
@@ -40,7 +41,10 @@ global.getContext = function() {
   // Blackboard site
   else if (loc.includes('uti.blackboard.com')) {
     if (isPage(pattern_newSlide)) {
-      return 'new-slide'
+      return 'new-slide';
+    }
+    else if (isPage(pattern_login)) {
+      return 'bb-login';
     }
     else {
       return 'bb';

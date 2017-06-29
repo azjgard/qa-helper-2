@@ -269,7 +269,9 @@ var templateObjects = {
     listeners : [],
     showCloseButton: true
   },
-
+  "bb-login": {
+    alias: "bb"
+  }
 }
 
 global.loadTemplate = function(context) {
@@ -280,6 +282,12 @@ global.loadTemplate = function(context) {
     // don't load a template if it's a miscellaneous page
     if (context !== 'misc') {
       template = templateObjects[context];
+
+      // load the alias instead if it is present
+      if (template.alias) {
+        template = templateObjects[template.alias];
+      }
+
       templateUI = global.generateTemplate(template);
 
       // add the UI to the document
