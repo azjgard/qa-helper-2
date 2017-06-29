@@ -43,15 +43,6 @@ chrome.runtime.onMessage.addListener(
       console.log(msg_data);
       global.addBug(msg_data);
     }
-    else if(msg === 'prev'){
-      global.prev_slide(window);
-    }
-    else if(msg === 'next'){
-      global.next_slide(window);
-    }
-    else if(msg === 'Jump to QA') {
-      $('.agile-content-container.scrollable').scrollLeft(3100);
-    }
   } 
 );
 
