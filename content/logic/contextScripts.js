@@ -14,6 +14,10 @@
     case 'tfs_board':
       scrollTFS(queryString);
       break;
+
+    case 'tfs_log':
+      scrollLogItems();
+      break;
     // case 'dr':
     //   scrapeData(queryStringToJSON(queryString));
     //   break;
@@ -29,6 +33,36 @@
     }
   }
 
+  function scrollLogItems() {
+    $(document).ready( () => {
+      $('body').append('<div class="disabled-screen-cover"/>') 
+
+      setTimeout( () => {
+        var mainContainer  = document.querySelector('.grid-canvas.ui-draggable');
+
+        $('body').append('<div class="qa-ext_popup external"><h3>Loading TFS information..</h3><div class="qa-ext_progressBar" /></div>');
+
+        $('.qa-ext_progressBar').progressbar({ value: 0 });
+
+        function recurse() {
+          if (mainContainer.scrollTop > 60000) {
+            $('.qa-ext_progressBar').progressbar({ value: 100 });
+            $('.qa-ext_popup.external').fadeOut();
+            $('.disabled-screen-cover').fadeOut();
+            mainContainer.scrollTop = 0;
+            return;
+          }
+
+          $('.qa-ext_progressBar').progressbar({ value: (mainContainer.scrollTop / 60000) * 100 });
+
+          mainContainer.scrollTop += 1100;
+          setTimeout( () => recurse(), 200);
+        }
+
+        recurse();
+      }, 1000);
+    });
+  }
 })(QA_HELPER_JQUERY, QA_HELPER_GLOBAL);
 
 
