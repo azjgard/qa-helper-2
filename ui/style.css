@@ -26,7 +26,33 @@
   cursor: pointer;
 }
 
-
+#blackout-left-dr {
+  width: 200px;
+  height: 567px;
+  background-color: black;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10002;
+}
+#blackout-top-dr {
+  width: 100%;
+  height: 50px;
+  background-color: black;
+  position: absolute;
+  top: 0px;
+  left: 200px;
+  z-index: 10002;
+}
+#blackout-top-bb {
+  width: 100%;
+  height: 34px;
+  background-color: black;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: 10002;
+}
 #run-qa-helper {
   position : absolute;
   width    : 100px;
@@ -131,4 +157,16 @@
 
 .compressed {
   background-color : #ccc;
+}
+.qa2-word-not-found {
+  background-color: red;
+  position: absolute;
+  pointer-events: none;
+  opacity: .3;
+}
+.qa2-word-found {
+  background-color: green;
+  position: absolute;
+  pointer-events: none;
+  opacity: .3;
 }

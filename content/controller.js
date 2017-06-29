@@ -14,26 +14,37 @@ chrome.runtime.onMessage.addListener(
       throw "Message received, but there was no message attribute!";
       return;
     }
-    else if (msg === 'run') { //this message will be sent from draggable qa bar
+    else if (msg === 'ocrData') { //this message will be sent from draggable qa bar
       console.log('received run message');
         //add divs to the screen to highlight text
+        console.log(msg_data);
+
+        //remove all the blackout boxes
+        $("#blackout-top-dr").remove();
+        $("#blackout-left-dr").remove();
+        $('.footer-bar-box.slide.qa-ext_draggable.ui-draggable').show();
+        $("#blackout-top-bb").remove();
+        $('.footer-bar-box.slide.qa-ext_draggable.ui-draggable').show();
+
         for (var i = 0; i < msg_data.length; i++) {
             var div = document.createElement('div');
             if(msg_data[i].matched){
-              div.style.backgroundColor = "green";
+              div.classList.add('qa2-word-found');
             } else {
-              div.style.backgroundColor = "red";
+              div.classList.add('qa2-word-not-found');
             }
-            div.style.opacity = ".5";
-            div.style.height = msg_data[i].height + 'px';
-            div.style.width = msg_data[i].width + 'px';
-            div.style.top = msg_data[i].top + 'px';
-            div.style.left = msg_data[i].left + 'px';
-            div.style.position = 'absolute';
-            div.classList.add('qa2-highlighted-word');
-            div.style.pointerEvents = "none";
+            div.style.height = (msg_data[i].height + 5) + 'px';
+            div.style.width = (msg_data[i].width + 5) + 'px';
+            div.style.top = (msg_data[i].top - 2.5) + 'px';
+            div.style.left = (msg_data[i].left - 2.5) + 'px';
             document.body.appendChild(div); 
         }
+
+        //watch to remove all OCR divs when next is clicked on new slide
+        $('body').get(0).addEventListener('click', function(){
+          $('.qa2-word-not-found').remove();
+          $('.qa2-word-found').remove();
+        }, true);
     }
 
     // From: new-slide
@@ -48,6 +59,23 @@ chrome.runtime.onMessage.addListener(
         "04",
         'this is a test tag'
       );
+    }
+    if(msg === "blackout-box") {
+      if(msg_data === "add-box-dr"){
+        var div = document.createElement('div');
+        div.id = 'blackout-left-dr';
+        var div2 = document.createElement('div');
+        div2.id = 'blackout-top-dr';
+        document.body.appendChild(div);
+        document.body.appendChild(div2);
+        $('.footer-bar-box.slide.qa-ext_draggable.ui-draggable').hide();
+      }
+      else if(msg_data === 'add-box-bb') {
+        var div = document.createElement('div');
+        div.id = 'blackout-top-bb';
+        document.body.appendChild(div);
+        $('.footer-bar-box.slide.qa-ext_draggable.ui-draggable').hide();
+      }
     }
   } 
 );
