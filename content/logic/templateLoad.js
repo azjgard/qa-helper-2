@@ -48,11 +48,11 @@ function addBugButton() {
 }
 
 function prevSlide() {
-  // loadPrevSlide();
+  $('input#btn-prev').removeAttr('disabled').click()
 }
 
 function nextSlide() {
-  // loadNextSlide();
+  $('input#btn-next').removeAttr('disabled').click()
 }
 
 function settingsMenu() {

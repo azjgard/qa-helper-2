@@ -31,6 +31,10 @@ function runQaTool() {
       return;
     }
 
+    sendToTab('old-slide', {message: "blackout-box", data: "add-box-dr"});
+    sendToTab('new-slide', {message: "blackout-box", data: "add-box-bb"});
+
+
     // save the screenshot data
     returnScreenshotImage(bbTab).then(function(img) {
       return new Promise(function(resolve, reject) {
@@ -63,46 +67,46 @@ function runQaTool() {
               
               var oldStuff = data[0];
               var newStuff = data[1];
-
+              console.log(oldStuff, newStuff);
               // compare the text
-              // for (var n in newStuff) {
-              //   var newWord = cleanWord(newStuff[n].word_text);
+              for (var n in newStuff) {
+                var newWord = cleanWord(newStuff[n].word_text);
 
-              //   for (var o in oldStuff) {
-              //     var oldWord = cleanWord(oldStuff[o].word_text);
+                for (var o in oldStuff) {
+                  var oldWord = cleanWord(oldStuff[o].word_text);
 
-              //     if (newWord === oldWord && !oldStuff[o].matched) {
-              //       newStuff[n].matched = true;
-              //       oldStuff[o].matched = true;
-              //       console.log('match');
-              //     }
-              //   }
-              // }
+                  if (newWord === oldWord && !oldStuff[o].matched) {
+                    newStuff[n].matched = true;
+                    oldStuff[o].matched = true;
+                    // console.log('match');
+                  }
+                }
+              }
 
-              // function cleanWord(word) {
-              //   console.log(word);
-              //   var pattern_specialChars = /[^\w\s]/gi;
+              function cleanWord(word) {
+                // console.log(word);
+                var pattern_specialChars = /[^\w\s]/gi;
 
-              //   var newWord = String(word).trim().toLowerCase();
-              //       newWord = newWord.replace(pattern_specialChars, ' ');
-              //       newWord = newWord.replace(/\s{2,}/g, ' ');
-              //   return newWord;
-              // }
+                var newWord = String(word).trim().toLowerCase();
+                    newWord = newWord.replace(pattern_specialChars, ' ');
+                    newWord = newWord.replace(/\s{2,}/g, ' ');
+                return newWord;
+              }
 
               // Format for the outgoing request object
-              //   {
-              //     "message" :
-              //     "data": [
-              //        {
-              //             height:
-              //             width:
-              //             top:
-              //             left:
-              //             word_text:
-              //             matched:
-              //        }
-              //     ]
-              //   }
+                // {
+                //   "message" :
+                //   "data": [
+                //      {
+                //           height:
+                //           width:
+                //           top:
+                //           left:
+                //           word_text:
+                //           matched:
+                //      }
+                //   ]
+                // }
 
 
               chrome.tabs.sendMessage(drTab.id, { //to avondale
