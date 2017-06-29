@@ -11,12 +11,26 @@
       // promptForAutoLogin();
       chrome.storage.sync.clear();
       break;
-    case 'dr':
-      scrapeData(queryStringToJSON(queryString));
+    case 'tfs_board':
+      scrollTFS(queryString);
       break;
+    // case 'dr':
+    //   scrapeData(queryStringToJSON(queryString));
+    //   break;
+  }
+
+  function scrollTFS(queryString) {
+    var qJSON = queryStringToJSON(queryString);
+    
+    if (qJSON.scrollToQA) {
+      $(document).ready(() => {
+        setTimeout(() => $('.agile-content-container.scrollable').scrollLeft(3100), 1000);
+      });
+    }
   }
 
 })(QA_HELPER_JQUERY, QA_HELPER_GLOBAL);
+
 
 // 1. Click all the links on the first page, setting the layer to 1
 // 2. Click all the links on the second page, setting the layer to 2

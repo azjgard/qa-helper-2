@@ -33,8 +33,8 @@
 function thisIsARandomFunction() {
   alert('HELLO THERE WORLD!');
 }
-function anotherThing() {
-  alert('this is another thing');
+function jumpToKanban() {
+  window.location.href = 'https://prdtfs.uticorp.com/UTI-ALM/IT/BMS/_backlogs/board/Features?' + 'scrollToQA=true'
 }
 
 
@@ -138,7 +138,7 @@ var templateObjects = {
         text    : 'Jump to Kanban',
         hotkey  : 'ctrl+shift+s',
         id: 'qa-ext_jump-to-kanban',
-        listener: anotherThing
+        listener: jumpToKanban
       },
       {
         text    : 'Settings',
