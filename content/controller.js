@@ -1,7 +1,4 @@
 (function($, global) {
-
-
-//
 // Message Listener
 //
 // descr - listen to messages from the background.
@@ -9,9 +6,8 @@
 // member of the global QA variable.
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
-    // console.log(request);
-    var msg    = request.message;
-    var msg_data    = request.data;
+    var msg = request.message;
+    var msg_data = request.data;
     
     // don't listen if there was no message attribute
     if (!msg) {
@@ -39,9 +35,19 @@ chrome.runtime.onMessage.addListener(
             document.body.appendChild(div); 
         }
     }
-    else if (msg === 'bug') { //sent from Add Bug button on new slides
-      console.log(msg_data);
-      global.addBug(msg_data);
+
+    // From: new-slide
+    // To:   tfs_log
+    if (msg === 'bug') { 
+
+      // TODO: fix the dummy data
+      global.addItem(
+        "Content QA",
+        "Bug",
+        "AD12-105",
+        "04",
+        'this is a test tag'
+      );
     }
   } 
 );
@@ -57,10 +63,40 @@ global.init = function() {
   console.log(context);
   
   global.loadTemplate(context);
+
+  setTimeout( () => {
+    console.log('inside firsttimeout..');
+    exec(global.addToPage);
+    setTimeout( () => {
+      exec(function() {
+          // window.addBugToThePage = function(folderType, itemType, courseTag, webNumber, tagsToAdd) {
+        console.log('inside of second timeout');
+        console.log(window.addBugToThePage);
+      window.addBugToThePage(
+        "Content QA",
+        "Bug",
+        "AD12-105",
+        "04",
+        ['zzz', 'zzzzzzz', 'zzzzzzzzzzzzzzzzzzzzz']
+      );
+      }, 1000);
+    });
+  }, 5000);
 }
+
+  // global.addItem = function(folderType, itemType, courseTag, webNumber, tagsToAdd) {
+
 
 global.init();
 
+// Executing a script in the context of the page
+function exec (fn) {
+   var script = document.createElement('script');
+   script.setAttribute("type", "application/javascript");
+   script.textContent = '(' + fn + ')();';
+   document.documentElement.appendChild(script); // run the script
+   document.documentElement.removeChild(script); // clean up
+}
 
 })(QA_HELPER_JQUERY, QA_HELPER_GLOBAL);
 

@@ -79,3 +79,25 @@ function sendToTab(which_tab, request){
     }
   });
 }
+
+//
+// getTabID
+//
+// descr - routes a message to tab of choice.
+function getTabID (which_tab) {
+  return new Promise( (resolve, reject) => {
+    chrome.tabs.query({}, function(tabs){
+      for (var i = 0; i < tabs.length; i++) {
+        console.log(tabs[i]);
+        var context = getContext(tabs[i].url);
+        console.log('context:');
+        console.log(context);
+        
+        if (context === which_tab){
+          console.log('GOTCHA!');
+          resolve(tabs[i].id);
+        }   
+      }
+    });
+  });
+}

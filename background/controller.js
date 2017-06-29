@@ -25,9 +25,7 @@ chrome.runtime.onMessage.addListener(
       console.log('received run message');
       runQaTool(); 
     }
-    else if (msg === 'bug') { //sent from Add Bug button on new slides
-      sendToTab("tfs_log", request);
-    }
+
     else if (msg === 'openToWindow') {
       chrome.tabs.create({ url : request.url });
     }
@@ -37,6 +35,18 @@ chrome.runtime.onMessage.addListener(
     else if (msg === 'storeThis') {
       gData.push(request.data);
       console.log(gData);
+    }
+
+    ///////////////////////////////
+    //// Route request handler ////
+    ///////////////////////////////
+
+    // TODO: add this ^^^^
+
+    // From: new-slide
+    // To:   tfs_log
+    if (msg === 'bug') { 
+      sendToTab("tfs_log", request);
     }
   }
 );
