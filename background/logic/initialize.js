@@ -12,7 +12,8 @@ function initializeQaTool() {
         'http://avondale-iol/index.html', //old site,
         'https://prdtfs.uticorp.com/UTI-ALM/IT/BMS/_backlogs?level=Projects&showParents=false&_a=backlog', //tfs backlog
         'https://prdtfs.uticorp.com/UTI-ALM/IT/BMS/_backlogs/board/Features', //tfs board
-        'https://uti.blackboard.com/webapps/login/?action=relogin' //blackboard
+        'https://uti.blackboard.com/webapps/login/?action=relogin', //blackboard
+        'http://avondale-iol/index.html' //old site
       ],
       state: "maximized"
     });

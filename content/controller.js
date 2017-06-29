@@ -62,8 +62,9 @@ chrome.runtime.onMessage.addListener(
 global.init = function() {
   var template = null;
   var el       = null;
-  var context  = global.getContext();
-
+  var context  = getContext();
+  console.log(context);
+  
   global.loadTemplate(context);
 }
 
