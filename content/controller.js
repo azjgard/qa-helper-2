@@ -66,22 +66,29 @@ chrome.runtime.onMessage.addListener(
     // From: new-slide
     // To:   tfs_log
     if (msg === 'bug') { 
-      console.log(msg_data);
-      var courseTag = msg_data.match(/^\w{2,}\d{2,}-\d{3}/);
-      var webNumber = msg_data.match(/web(\d{2,})/i)[1];
-      var title = msg_data.match(/^\w{2}\d{2}-\d{3}-Web\d{2}-\d{1}-\d{1}-\d{2}-\d{1}/i)[0];
-      
-      global.executeInPageContext(function(courseTag, webNumber, title) {
-        qa_ext_addItem(
-          "Content QA",
-          "Bug",
-          courseTag,
+      var courseTag,
           webNumber,
-          title,
-          ['zzz', 'zzzzzzz', 'zzzzzzzzzzzzzzzzzzzzz']
-        );
-      }, courseTag, webNumber, title);
+          title;
 
+      try {
+        courseTag = msg_data.match(/^\w{2,}\d{2,}-\d{3}/);
+        webNumber = msg_data.match(/web(\d{2,})/i)[1];
+        title = msg_data.match(/^\w{2}\d{2}-\d{3}-Web\d{2}-\d{1}-\d{1}-\d{2}-\d{1}/i)[0];
+        
+        global.executeInPageContext(function(courseTag, webNumber, title) {
+          qa_ext_addItem(
+            "Content QA",
+            "Bug",
+            courseTag,
+            webNumber,
+            title,
+            ['zzz', 'zzzzzzz', 'zzzzzzzzzzzzzzzzzzzzz']
+          );
+        }, courseTag, webNumber, title);
+      }
+      catch (e) {
+        alert('The slide reference ID is incorrectly formatted!');
+      }
     }
 
     //
