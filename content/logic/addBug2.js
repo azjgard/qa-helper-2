@@ -126,25 +126,19 @@
       // addItem
       //
       var addItem = (itemType, folder) => {
+
+        var inputBoxTag = '.tags-input.tag-box.ui-autocomplete-input';
         // click the + button
         $(folder).siblings().find('.icon.action').click();
 
         // click the item type button (Bug, Task, Issue, etc.)
         $('.sub-menu').find('li[title="'+ itemType + '"]').click(); 
 
-        // add the tags
-        setTimeout( () => {
-          // if arg is array
-          if (tagsToBeAdded.length && typeof tagsToBeAdded !== "string") {
-            for (var i = 0; i < tagsToBeAdded.length; i++) {
-              addTag(tagsToBeAdded[i]);
-            }
+        $('.sub-menu').arrive(inputBoxTag, () => {
+          for (var i = 0; i < tagsToBeAdded.length; i++) {
+            addTag(tagsToBeAdded[i]);
           }
-          // if arg is just a strings
-          else {
-            addTag(tagsToBeAdded);
-          }
-        }, 600);
+        });
       };
 
       //
@@ -161,6 +155,18 @@
 
           $input.val(tag);
           $input.trigger(pressEnterKey);
+      }
+
+      //
+      // addTitle
+      //
+      // @param title - a string representation of the title to be added
+      function addTitle(title) {
+        setTimeout(function(){
+          var $titleInput = $('.dialog input[aria-label="Title"]');
+          $titleInput.val(title + ' - ');
+          $titleInput.focus();
+        }, 1500);
       }
 
       // execute

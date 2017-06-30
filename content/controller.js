@@ -73,7 +73,7 @@ chrome.runtime.onMessage.addListener(
         courseTag     = msg_data.match(/^\w{2,}\d{2,}-\d{3}/)[0];
         var webNumber = msg_data.match(/web\d{2,}/i)[0].match(/\d{2,}/)[0];
 
-        executeInPageContext(function(courseTag, webNumber) {
+        global.executeInPageContext(function(courseTag, webNumber) {
           qa_ext_addItem(
             "Content QA",
             "Bug",
@@ -81,6 +81,10 @@ chrome.runtime.onMessage.addListener(
             webNumber,
             ['zzz', 'zzzzzzz', 'zzzzzzzzzzzzzzzzzzzzz']
           );
+
+          console.log('the course tag is: ' + courseTag);
+          console.log('the web number is: ' + webNumber);
+
         }, courseTag, webNumber);
       }
       catch (e) {
@@ -127,9 +131,9 @@ global.init = function() {
 
   // inject scripts that need to be in the page's world
   if (context === 'tfs_log') {
-    setTimeout( () => {
+    $(document).arrive('.grid-canvas.ui-draggable', () => {
       global.executeInPageContext(global.defineFunction_addItem);
-    }, 3000);
+    });
   }
 }
 
