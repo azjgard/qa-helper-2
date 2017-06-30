@@ -13,7 +13,7 @@
     // @param courseTag  - the tag of the course we're adding to (e.g. "AD12-105")
     // @param webNumber  - the number of the web we're adding to (e.g. "25")
     // @param tagsToAdd  - a string or array of strings that should be added as tags to the new item
-    qa_ext_addItem = function(folderType, itemType, courseTag, webNumber, tagsToAdd) {
+    qa_ext_addItem = function(folderType, itemType, courseTag, webNumber, title, tagsToAdd) {
       var mainContainer  = document.querySelector('.grid-canvas.ui-draggable');
       var maxScrollTop   = 60700;
       var recursionDelay = 10;
@@ -38,7 +38,7 @@
             // if the folder is out of view when it is found, then bring it into view
             if (folder.getBoundingClientRect().top > 900) { mainContainer.scrollTop += 300; }
             // add the correct item
-            addItem(itemType, folder)
+            addItem(itemType, folder, title)
           }
           else {
             alert(
@@ -125,15 +125,16 @@
       // 
       // addItem
       //
-      var addItem = (itemType, folder) => {
+      var addItem = (itemType, folder, title) => {
         // click the + button
         $(folder).siblings().find('.icon.action').click();
 
         // click the item type button (Bug, Task, Issue, etc.)
         $('.sub-menu').find('li[title="'+ itemType + '"]').click(); 
 
-        // add the tags
+        // add the tags and title
         setTimeout( () => {
+
           // if arg is array
           if (tagsToBeAdded.length && typeof tagsToBeAdded !== "string") {
             for (var i = 0; i < tagsToBeAdded.length; i++) {
@@ -144,6 +145,8 @@
           else {
             addTag(tagsToBeAdded);
           }
+
+          addTitle(title);
         }, 600);
       };
 
@@ -161,6 +164,16 @@
 
           $input.val(tag);
           $input.trigger(pressEnterKey);
+      }
+
+      //
+      // addTitle
+      //
+      // @param title - a string representation of the title to be added
+      function addTitle(title) {
+          var $titleInput = $('.dialog input[aria-label="Title"]');
+          $titleInput.val(title + ' - ');
+          $titleInput.focus();
       }
 
       // execute
