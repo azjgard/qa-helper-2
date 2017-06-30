@@ -178,10 +178,6 @@ global.saveCoursesToStorage = function(tab){
       values.push(obj);
       getUncleLink(descriptions[i]);
   }
-  var storage_info = {};
-  storage_info[course_name] = values;
-  // console.log(storage_info);
-  chrome.storage.sync.set(storage_info);
 
   function getUncleLink(el) {
       return el
@@ -190,6 +186,22 @@ global.saveCoursesToStorage = function(tab){
               .getElementsByTagName('a')[0]
               .href;    
   }
+
+  var storage_info = {};
+  storage_info[course_name] = values;
+  
+  chrome.storage.sync.set(storage_info);
+}
+
+global.getCourseNavData = function(){
+  chrome.storage.sync.get(function(storage){
+    global.courseNavData = storage;
+    console.log(global.courseNavData);
+  });
+}
+
+global.filterCourseNavData = function(e){
+  console.log("event: ", e);
 }
 
 })(QA_HELPER_JQUERY, QA_HELPER_GLOBAL);

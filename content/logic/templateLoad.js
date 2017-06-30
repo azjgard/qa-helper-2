@@ -1,10 +1,6 @@
 (function($, global) {
-  var courseNavData;
-  chrome.storage.sync.get(null, function(storage_info){
-    courseNavData = storage_info;
-  });
 
-  // var courseNavData =  
+  // var global.courseNavData =  
   //  [
      // {"title":"Web01 - Analog Circuits","webNumber":"01","link":"https://uti.blackboard.com/webapps/scor-scormengine-BBLEARN/delivery?action=launchPackage&course_id=_3607_1&content_id=_228336_1"},
   //    {"title":"Web02 - Digital Circuits","webNumber":"02","link":"https://uti.blackboard.com/webapps/scor-scormengine-BBLEARN/delivery?action=launchPackage&course_id=_3607_1&content_id=_228381_1"},
@@ -79,36 +75,37 @@ function toggleBtnCompression() {
 }
 
 function jumpToWeb() {
-
+    // console.log('global.courseNavData: ', global.courseNavData);
    var webSelectString = '';
    var webCourse = '';
 
    // grab first 33 characters if it's longer than that.
-  for(var key in courseNavData){
+  for (var key in global.courseNavData) {
     
     
-    $.each(courseNavData[key], function(index, web){
-      
+    $.each(global.courseNavData[key], function(index, web){
+      // console.log(web);
       var title = web.title.length > 34 ?
                     web.title.substring(0, 31) + '..' :
                     web.title;
-        webSelectString+='<option>' + title + '</option>';
+        webSelectString+='<option class="jump-to-web-webName" title="' + web.course + '">' + title + '</option>';
     });
+    // console.log(global.courseNavData[key][0]);
     
-    webCourse += '<option>' + web.course + '</option>'
+    webCourse += '<option>' + global.courseNavData[key][0].course + '</option>'
 
   }
-  console.log(webCourse);
-  console.log(webSelectString);
+  // console.log(webCourse);
+  // console.log(webSelectString);
 
 
   var htmlString = 
                   '<h3>Course #</h3>'+
-                  '<select class="course-select">'+
+                  '<select id="jump-to-web-courseName" class="course-select" onchange="qa_ext_filterCourseNavData()">'+
                     webCourse +
                   '</select>'+
                   '<h3>Web #</h3>'+
-                  '<select class="web-select">'+
+                  '<select id="jump-to-web-webName" class="web-select">'+
                     webSelectString+
                   '</select>';
 
@@ -117,6 +114,27 @@ function jumpToWeb() {
 }
 
 function configurePopup(popupHtml, triggerText) {
+  
+  global.executeInPageContext(function() {
+    setTimeout(function(){
+      qa_ext_filterCourseNavData = function(){
+        
+        var course_choose = document.querySelector('#jump-to-web-courseName');
+        var web_box = document.querySelector('#jump-to-web-webName');
+        var web_choose = document.querySelectorAll('.jump-to-web-webName');
+        // console.log(web_choose);
+        web_box.value = null;
+        for (var i = 0; i < web_choose.length; i++) {
+          web_choose[i].style.display = "block";
+          if(course_choose.value !== web_choose[i].getAttribute("title")){
+            web_choose[i].style.display = 'none';
+          }
+        }
+      }
+      qa_ext_filterCourseNavData();
+    }, 50);
+  });
+
    $('.qa-ext_popup').prepend(popupHtml);
    $('#qa-ext_popup-trigger').html(triggerText);
 }
@@ -275,16 +293,18 @@ var templateObjects = {
         popup: true,
         popupTrigger: function() {
           var number = $('.web-select').val().match(/\d{2,}/)[0];
-          // $.each(courseNavData, function(index, course) {
+          var course = document.querySelector('#jump-to-web-courseName');
+          for(var key in global.courseNavData) {
             
-            $.each(course, function(index, web) {
-              if (parseInt(web.webNumber) === parseInt(number)) {
+            $.each(global.courseNavData[key], function(index, web) {
+              if (parseInt(web.webNumber) === parseInt(number) && web.course === course.value) {
+                console.log('courses match: ', web.course, course.value);
                 window.location.href = web.link;
                 return;
               }
             });
           
-          // });
+          };
         }
       }
     ],

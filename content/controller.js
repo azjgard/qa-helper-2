@@ -1,4 +1,5 @@
 (function($, global) {
+
 // Message Listener
 //
 // descr - listen to messages from the background.
@@ -58,6 +59,7 @@ chrome.runtime.onMessage.addListener(
           global.saveCoursesToStorage(msg_data);
         }
       }
+      global.getCourseNavData();
     }
 
 
@@ -67,7 +69,7 @@ chrome.runtime.onMessage.addListener(
       var courseTag = msg_data.match(/^\w{2,}\d{2,}-\d{3}/)[0];
       var webNumber = msg_data.match(/web\d{2,}/i)[0].match(/\d{2,}/)[0];
 
-      executeInPageContext(function(courseTag, webNumber) {
+      global.executeInPageContext(function(courseTag, webNumber) {
         qa_ext_addItem(
           "Content QA",
           "Bug",
@@ -119,7 +121,7 @@ global.init = function() {
   // inject scripts that need to be in the page's world
   if (context === 'tfs_log') {
     setTimeout( () => {
-      executeInPageContext(global.defineFunction_addItem);
+      global.executeInPageContext(global.defineFunction_addItem);
     }, 3000);
   }
 }
@@ -130,7 +132,7 @@ global.init();
 //
 // NOTE: arguments should be passed as separate parameters from
 // the function itself
-function executeInPageContext(fn) {
+global.executeInPageContext = function(fn) {
     var args = '';
     if (arguments.length > 1) {
         for (var i = 1, end = arguments.length - 2; i <= end; i++) {
