@@ -18,6 +18,8 @@ chrome.runtime.onMessage.addListener(
       throw "Message received, but there was no message attribute!";
       return;
     }
+
+    //
     else if (msg === 'ocrData') { //this message will be sent from draggable qa bar
       console.log('received run message');
         //add divs to the screen to highlight text
@@ -50,12 +52,27 @@ chrome.runtime.onMessage.addListener(
           $('.qa2-word-found').remove();
         }, true);
     }
+
+    //
+    else if(msg === 'save-in-storage'){
+      // console.log("irrelevant tab");
+      if(msg_data.url.includes('uti.blackboard.com/webapps/blackboard/content/listContent.jsp')){
+        // console.log('irrelevant BB tab');
+        if(!msg_data.url.includes('mode=reset')){
+          global.saveCoursesToStorage(msg_data);
+        }
+      }
+    }
+
+    //
     else if (msg === 'bug') { //sent from Add Bug button on new slides
 
       console.log(msg_data);
       global.addBug(msg_data);
 
     }
+
+    //
     else if(msg === "blackout-box"){
       
       if(msg_data === "add-box-dr"){
@@ -67,14 +84,16 @@ chrome.runtime.onMessage.addListener(
         document.body.appendChild(div2);
         $('.footer-bar-box.slide.qa-ext_draggable.ui-draggable').hide();
       }
+
+      //
       else if(msg_data === 'add-box-bb') {
         var div = document.createElement('div');
         div.id = 'blackout-top-bb';
         document.body.appendChild(div);
         $('.footer-bar-box.slide.qa-ext_draggable.ui-draggable').hide();
-      }
+      }      
+    } //end black-out box
 
-    }
   } 
 );
 
