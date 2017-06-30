@@ -1,4 +1,5 @@
 (function($, global) {
+
 // Message Listener
 //
 // descr - listen to messages from the background.
@@ -14,6 +15,8 @@ chrome.runtime.onMessage.addListener(
       throw "Message received, but there was no message attribute!";
       return;
     }
+
+    //
     else if (msg === 'ocrData') { //this message will be sent from draggable qa bar
       console.log('received run message');
         //add divs to the screen to highlight text
@@ -47,13 +50,27 @@ chrome.runtime.onMessage.addListener(
         }, true);
     }
 
+    //
+    else if(msg === 'save-in-storage'){
+      // console.log("irrelevant tab");
+      if(msg_data.url.includes('uti.blackboard.com/webapps/blackboard/content/listContent.jsp')){
+        // console.log('irrelevant BB tab');
+        if(!msg_data.url.includes('mode=reset')){
+          global.saveCoursesToStorage(msg_data);
+        }
+      }
+      global.getCourseNavData();
+    }
+
+
     // From: new-slide
     // To:   tfs_log
     if (msg === 'bug') { 
+      var courseTag,
+          webNumber;
 
-      var courseTag, webNumber;
       try {
-        courseTag = msg_data.match(/^\w{2,}\d{2,}-\d{3}/)[0];
+        courseTag     = msg_data.match(/^\w{2,}\d{2,}-\d{3}/)[0];
         var webNumber = msg_data.match(/web\d{2,}/i)[0].match(/\d{2,}/)[0];
 
         executeInPageContext(function(courseTag, webNumber) {
@@ -69,9 +86,11 @@ chrome.runtime.onMessage.addListener(
       catch (e) {
         alert('The slide reference ID is incorrectly formatted!');
       }
-
     }
-    if(msg === "blackout-box") {
+
+    //
+    if(msg === "blackout-box"){
+
       if(msg_data === "add-box-dr"){
         var div = document.createElement('div');
         div.id = 'blackout-left-dr';
@@ -81,13 +100,16 @@ chrome.runtime.onMessage.addListener(
         document.body.appendChild(div2);
         $('.footer-bar-box.slide.qa-ext_draggable.ui-draggable').hide();
       }
+
+      //
       else if(msg_data === 'add-box-bb') {
         var div = document.createElement('div');
         div.id = 'blackout-top-bb';
         document.body.appendChild(div);
         $('.footer-bar-box.slide.qa-ext_draggable.ui-draggable').hide();
-      }
-    }
+
+      }      
+    } //end black-out box
   } 
 );
 
@@ -106,7 +128,7 @@ global.init = function() {
   // inject scripts that need to be in the page's world
   if (context === 'tfs_log') {
     setTimeout( () => {
-      executeInPageContext(global.defineFunction_addItem);
+      global.executeInPageContext(global.defineFunction_addItem);
     }, 3000);
   }
 }
@@ -117,7 +139,7 @@ global.init();
 //
 // NOTE: arguments should be passed as separate parameters from
 // the function itself
-function executeInPageContext(fn) {
+global.executeInPageContext = function(fn) {
     var args = '';
     if (arguments.length > 1) {
         for (var i = 1, end = arguments.length - 2; i <= end; i++) {

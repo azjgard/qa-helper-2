@@ -9,7 +9,7 @@
   switch (context) {
     case 'bb-login':
       // promptForAutoLogin();
-      chrome.storage.sync.clear();
+      // chrome.storage.sync.clear();
       break;
     case 'tfs_board':
       scrollTFS(queryString);

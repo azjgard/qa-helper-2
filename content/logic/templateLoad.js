@@ -1,34 +1,35 @@
 (function($, global) {
-  var courseNavData =  
-   [
-     {"title":"Web01 - Analog Circuits","webNumber":"01","link":"https://uti.blackboard.com/webapps/scor-scormengine-BBLEARN/delivery?action=launchPackage&course_id=_3607_1&content_id=_228336_1"},
-     {"title":"Web02 - Digital Circuits","webNumber":"02","link":"https://uti.blackboard.com/webapps/scor-scormengine-BBLEARN/delivery?action=launchPackage&course_id=_3607_1&content_id=_228381_1"},
-     {"title":"Web04 - Resistor","webNumber":"04","link":"https://uti.blackboard.com/webapps/scor-scormengine-BBLEARN/delivery?action=launchPackage&course_id=_3607_1&content_id=_228338_1"},
-     {"title":"Web07 - Distributors and Ignition Systems","webNumber":"07","link":"https://uti.blackboard.com/webapps/scor-scormengine-BBLEARN/delivery?action=launchPackage&course_id=_3607_1&content_id=_228348_1"},
-     {"title":"Web10 - Wire Harness, Switches, and Ignition Coils","webNumber":"10","link":"https://uti.blackboard.com/webapps/scor-scormengine-BBLEARN/delivery?action=launchPackage&course_id=_3607_1&content_id=_228350_1"},
-     {"title":"Web11 - Position Sensors","webNumber":"11","link":"https://uti.blackboard.com/webapps/scor-scormengine-BBLEARN/delivery?action=launchPackage&course_id=_3607_1&content_id=_228351_1"},
-     {"title":"Web12 - Pickup Coil Sensor","webNumber":"12","link":"https://uti.blackboard.com/webapps/scor-scormengine-BBLEARN/delivery?action=launchPackage&course_id=_3607_1&content_id=_228352_1"},
-     {"title":"Web13 - Theory, Types, and Applications of Semiconductors","webNumber":"13","link":"https://uti.blackboard.com/webapps/scor-scormengine-BBLEARN/delivery?action=launchPackage&course_id=_3607_1&content_id=_241370_1"},
-     {"title":"Web17 - Zener Diode Operation","webNumber":"17","link":"https://uti.blackboard.com/webapps/scor-scormengine-BBLEARN/delivery?action=launchPackage&course_id=_3607_1&content_id=_228356_1"},
-     {"title":"Web18 - Rectifier Modes of Operation","webNumber":"18","link":"https://uti.blackboard.com/webapps/scor-scormengine-BBLEARN/delivery?action=launchPackage&course_id=_3607_1&content_id=_228357_1"},
-     {"title":"Web19 - Types and Operation of Transistors","webNumber":"19","link":"https://uti.blackboard.com/webapps/scor-scormengine-BBLEARN/delivery?action=launchPackage&course_id=_3607_1&content_id=_228358_1"},
-     {"title":"Web21 - Sensor Applications","webNumber":"21","link":"https://uti.blackboard.com/webapps/scor-scormengine-BBLEARN/delivery?action=launchPackage&course_id=_3607_1&content_id=_228370_1"},
-     {"title":"Web22 - Types of Temperature Sensors","webNumber":"22","link":"https://uti.blackboard.com/webapps/scor-scormengine-BBLEARN/delivery?action=launchPackage&course_id=_3607_1&content_id=_228371_1"},
-     {"title":"Web23 - NTC Thermistors","webNumber":"23","link":"https://uti.blackboard.com/webapps/scor-scormengine-BBLEARN/delivery?action=launchPackage&course_id=_3607_1&content_id=_228372_1"},
-     {"title":"Web24 - PTC Thermistors","webNumber":"24","link":"https://uti.blackboard.com/webapps/scor-scormengine-BBLEARN/delivery?action=launchPackage&course_id=_3607_1&content_id=_228373_1"},
-     {"title":"Web26 - Pressure and Variable Resistance Sensors","webNumber":"26","link":"https://uti.blackboard.com/webapps/scor-scormengine-BBLEARN/delivery?action=launchPackage&course_id=_3607_1&content_id=_228375_1"},
-     {"title":"Web28 - Speed Sensors","webNumber":"28","link":"https://uti.blackboard.com/webapps/scor-scormengine-BBLEARN/delivery?action=launchPackage&course_id=_3607_1&content_id=_228377_1"},
-     {"title":"Web30 - O2 Sensors","webNumber":"30","link":"https://uti.blackboard.com/webapps/scor-scormengine-BBLEARN/delivery?action=launchPackage&course_id=_3607_1&content_id=_228379_1"},
-     {"title":"Web31 - Oil Pressure Warning System","webNumber":"31","link":"https://uti.blackboard.com/webapps/scor-scormengine-BBLEARN/delivery?action=launchPackage&course_id=_3607_1&content_id=_228380_1"},
-     {"title":"Web32 - Fuel Level Sender Circuit","webNumber":"32","link":"https://uti.blackboard.com/webapps/scor-scormengine-BBLEARN/delivery?action=launchPackage&course_id=_3607_1&content_id=_228382_1"},
-     {"title":"Web34 - Control Modules","webNumber":"34","link":"https://uti.blackboard.com/webapps/scor-scormengine-BBLEARN/delivery?action=launchPackage&course_id=_3607_1&content_id=_228384_1"},
-     {"title":"Web35 - Multiplex Circuits","webNumber":"35","link":"https://uti.blackboard.com/webapps/scor-scormengine-BBLEARN/delivery?action=launchPackage&course_id=_3607_1&content_id=_228385_1"},
-     {"title":"Web36 - Pull up Pull Down Circuits","webNumber":"36","link":"https://uti.blackboard.com/webapps/scor-scormengine-BBLEARN/delivery?action=launchPackage&course_id=_3607_1&content_id=_228386_1"},
-     {"title":"Web37 - Diagnostic Exercise Amperage","webNumber":"37","link":"https://uti.blackboard.com/webapps/scor-scormengine-BBLEARN/delivery?action=launchPackage&course_id=_3607_1&content_id=_228387_1"},
-     {"title":"Web38 - Diagnostic Exercise Resistance","webNumber":"38","link":"https://uti.blackboard.com/webapps/scor-scormengine-BBLEARN/delivery?action=launchPackage&course_id=_3607_1&content_id=_228388_1"},
-     {"title":"Web39 - Diagnostic Exercise Voltage","webNumber":"39","link":"https://uti.blackboard.com/webapps/scor-scormengine-BBLEARN/delivery?action=launchPackage&course_id=_3607_1&content_id=_228389_1"},
-     {"title":"Web40 - Diagnostic Exercise Voltage Drop","webNumber":"40","link":"https://uti.blackboard.com/webapps/scor-scormengine-BBLEARN/delivery?action=launchPackage&course_id=_3607_1&content_id=_228390_1"}
-   ];
+
+  // var global.courseNavData =  
+  //  [
+     // {"title":"Web01 - Analog Circuits","webNumber":"01","link":"https://uti.blackboard.com/webapps/scor-scormengine-BBLEARN/delivery?action=launchPackage&course_id=_3607_1&content_id=_228336_1"},
+  //    {"title":"Web02 - Digital Circuits","webNumber":"02","link":"https://uti.blackboard.com/webapps/scor-scormengine-BBLEARN/delivery?action=launchPackage&course_id=_3607_1&content_id=_228381_1"},
+  //    {"title":"Web04 - Resistor","webNumber":"04","link":"https://uti.blackboard.com/webapps/scor-scormengine-BBLEARN/delivery?action=launchPackage&course_id=_3607_1&content_id=_228338_1"},
+  //    {"title":"Web07 - Distributors and Ignition Systems","webNumber":"07","link":"https://uti.blackboard.com/webapps/scor-scormengine-BBLEARN/delivery?action=launchPackage&course_id=_3607_1&content_id=_228348_1"},
+  //    {"title":"Web10 - Wire Harness, Switches, and Ignition Coils","webNumber":"10","link":"https://uti.blackboard.com/webapps/scor-scormengine-BBLEARN/delivery?action=launchPackage&course_id=_3607_1&content_id=_228350_1"},
+  //    {"title":"Web11 - Position Sensors","webNumber":"11","link":"https://uti.blackboard.com/webapps/scor-scormengine-BBLEARN/delivery?action=launchPackage&course_id=_3607_1&content_id=_228351_1"},
+  //    {"title":"Web12 - Pickup Coil Sensor","webNumber":"12","link":"https://uti.blackboard.com/webapps/scor-scormengine-BBLEARN/delivery?action=launchPackage&course_id=_3607_1&content_id=_228352_1"},
+  //    {"title":"Web13 - Theory, Types, and Applications of Semiconductors","webNumber":"13","link":"https://uti.blackboard.com/webapps/scor-scormengine-BBLEARN/delivery?action=launchPackage&course_id=_3607_1&content_id=_241370_1"},
+  //    {"title":"Web17 - Zener Diode Operation","webNumber":"17","link":"https://uti.blackboard.com/webapps/scor-scormengine-BBLEARN/delivery?action=launchPackage&course_id=_3607_1&content_id=_228356_1"},
+  //    {"title":"Web18 - Rectifier Modes of Operation","webNumber":"18","link":"https://uti.blackboard.com/webapps/scor-scormengine-BBLEARN/delivery?action=launchPackage&course_id=_3607_1&content_id=_228357_1"},
+  //    {"title":"Web19 - Types and Operation of Transistors","webNumber":"19","link":"https://uti.blackboard.com/webapps/scor-scormengine-BBLEARN/delivery?action=launchPackage&course_id=_3607_1&content_id=_228358_1"},
+  //    {"title":"Web21 - Sensor Applications","webNumber":"21","link":"https://uti.blackboard.com/webapps/scor-scormengine-BBLEARN/delivery?action=launchPackage&course_id=_3607_1&content_id=_228370_1"},
+  //    {"title":"Web22 - Types of Temperature Sensors","webNumber":"22","link":"https://uti.blackboard.com/webapps/scor-scormengine-BBLEARN/delivery?action=launchPackage&course_id=_3607_1&content_id=_228371_1"},
+  //    {"title":"Web23 - NTC Thermistors","webNumber":"23","link":"https://uti.blackboard.com/webapps/scor-scormengine-BBLEARN/delivery?action=launchPackage&course_id=_3607_1&content_id=_228372_1"},
+  //    {"title":"Web24 - PTC Thermistors","webNumber":"24","link":"https://uti.blackboard.com/webapps/scor-scormengine-BBLEARN/delivery?action=launchPackage&course_id=_3607_1&content_id=_228373_1"},
+  //    {"title":"Web26 - Pressure and Variable Resistance Sensors","webNumber":"26","link":"https://uti.blackboard.com/webapps/scor-scormengine-BBLEARN/delivery?action=launchPackage&course_id=_3607_1&content_id=_228375_1"},
+  //    {"title":"Web28 - Speed Sensors","webNumber":"28","link":"https://uti.blackboard.com/webapps/scor-scormengine-BBLEARN/delivery?action=launchPackage&course_id=_3607_1&content_id=_228377_1"},
+  //    {"title":"Web30 - O2 Sensors","webNumber":"30","link":"https://uti.blackboard.com/webapps/scor-scormengine-BBLEARN/delivery?action=launchPackage&course_id=_3607_1&content_id=_228379_1"},
+  //    {"title":"Web31 - Oil Pressure Warning System","webNumber":"31","link":"https://uti.blackboard.com/webapps/scor-scormengine-BBLEARN/delivery?action=launchPackage&course_id=_3607_1&content_id=_228380_1"},
+  //    {"title":"Web32 - Fuel Level Sender Circuit","webNumber":"32","link":"https://uti.blackboard.com/webapps/scor-scormengine-BBLEARN/delivery?action=launchPackage&course_id=_3607_1&content_id=_228382_1"},
+  //    {"title":"Web34 - Control Modules","webNumber":"34","link":"https://uti.blackboard.com/webapps/scor-scormengine-BBLEARN/delivery?action=launchPackage&course_id=_3607_1&content_id=_228384_1"},
+  //    {"title":"Web35 - Multiplex Circuits","webNumber":"35","link":"https://uti.blackboard.com/webapps/scor-scormengine-BBLEARN/delivery?action=launchPackage&course_id=_3607_1&content_id=_228385_1"},
+  //    {"title":"Web36 - Pull up Pull Down Circuits","webNumber":"36","link":"https://uti.blackboard.com/webapps/scor-scormengine-BBLEARN/delivery?action=launchPackage&course_id=_3607_1&content_id=_228386_1"},
+  //    {"title":"Web37 - Diagnostic Exercise Amperage","webNumber":"37","link":"https://uti.blackboard.com/webapps/scor-scormengine-BBLEARN/delivery?action=launchPackage&course_id=_3607_1&content_id=_228387_1"},
+  //    {"title":"Web38 - Diagnostic Exercise Resistance","webNumber":"38","link":"https://uti.blackboard.com/webapps/scor-scormengine-BBLEARN/delivery?action=launchPackage&course_id=_3607_1&content_id=_228388_1"},
+  //    {"title":"Web39 - Diagnostic Exercise Voltage","webNumber":"39","link":"https://uti.blackboard.com/webapps/scor-scormengine-BBLEARN/delivery?action=launchPackage&course_id=_3607_1&content_id=_228389_1"},
+  //    {"title":"Web40 - Diagnostic Exercise Voltage Drop","webNumber":"40","link":"https://uti.blackboard.com/webapps/scor-scormengine-BBLEARN/delivery?action=launchPackage&course_id=_3607_1&content_id=_228390_1"}
+  //  ];
 
 function thisIsARandomFunction() {
   alert('HELLO THERE WORLD!');
@@ -74,31 +75,66 @@ function toggleBtnCompression() {
 }
 
 function jumpToWeb() {
-
+    // console.log('global.courseNavData: ', global.courseNavData);
    var webSelectString = '';
+   var webCourse = '';
 
    // grab first 33 characters if it's longer than that.
-    $.each(courseNavData, function(index, web) {
+  for (var key in global.courseNavData) {
+    
+    
+    $.each(global.courseNavData[key], function(index, web){
+      // console.log(web);
       var title = web.title.length > 34 ?
-                  web.title.substring(0, 31) + '..' :
-                  web.title;
-      webSelectString+='<option>' + title + '</option>';
+                    web.title.substring(0, 31) + '..' :
+                    web.title;
+        webSelectString+='<option class="jump-to-web-webName" title="' + web.course + '">' + title + '</option>';
     });
+    // console.log(global.courseNavData[key][0]);
+    
+    webCourse += '<option>' + global.courseNavData[key][0].course + '</option>'
 
-    var htmlString = 
-                    '<h3>Course #</h3>'+
-                    '<select class="course-select">'+
-                      '<option selected>Course 105</option>'+
-                    '</select>'+
-                    '<h3>Web #</h3>'+
-                    '<select class="web-select">'+
-                      webSelectString+
-                    '</select>';
+  }
+  // console.log(webCourse);
+  // console.log(webSelectString);
 
-   configurePopup(htmlString, 'Jump');
+
+  var htmlString = 
+                  '<h3>Course #</h3>'+
+                  '<select id="jump-to-web-courseName" class="course-select" onchange="qa_ext_filterCourseNavData()">'+
+                    webCourse +
+                  '</select>'+
+                  '<h3>Web #</h3>'+
+                  '<select id="jump-to-web-webName" class="web-select">'+
+                    webSelectString+
+                  '</select>';
+
+  configurePopup(htmlString, 'Jump');
+
 }
 
 function configurePopup(popupHtml, triggerText) {
+  
+  global.executeInPageContext(function() {
+    setTimeout(function(){
+      qa_ext_filterCourseNavData = function(){
+        
+        var course_choose = document.querySelector('#jump-to-web-courseName');
+        var web_box = document.querySelector('#jump-to-web-webName');
+        var web_choose = document.querySelectorAll('.jump-to-web-webName');
+        // console.log(web_choose);
+        web_box.value = null;
+        for (var i = 0; i < web_choose.length; i++) {
+          web_choose[i].style.display = "block";
+          if(course_choose.value !== web_choose[i].getAttribute("title")){
+            web_choose[i].style.display = 'none';
+          }
+        }
+      }
+      qa_ext_filterCourseNavData();
+    }, 50);
+  });
+
    $('.qa-ext_popup').prepend(popupHtml);
    $('#qa-ext_popup-trigger').html(triggerText);
 }
@@ -257,13 +293,18 @@ var templateObjects = {
         popup: true,
         popupTrigger: function() {
           var number = $('.web-select').val().match(/\d{2,}/)[0];
-
-          $.each(courseNavData, function(index, web) {
-            if (parseInt(web.webNumber) === parseInt(number)) {
-              window.location.href = web.link;
-              return;
-            }
-          });
+          var course = document.querySelector('#jump-to-web-courseName');
+          for(var key in global.courseNavData) {
+            
+            $.each(global.courseNavData[key], function(index, web) {
+              if (parseInt(web.webNumber) === parseInt(number) && web.course === course.value) {
+                console.log('courses match: ', web.course, course.value);
+                window.location.href = web.link;
+                return;
+              }
+            });
+          
+          };
         }
       }
     ],
@@ -274,6 +315,7 @@ var templateObjects = {
     alias: "bb"
   }
 }
+
 
 global.loadTemplate = function(context) {
   return new Promise(function(resolve, reject) {

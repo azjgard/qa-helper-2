@@ -4,7 +4,16 @@ console.log('background script loaded');
 var qaToolIsActive = false;
 
 chrome.browserAction.onClicked.addListener(function(){
-  initializeQaTool();
+  initializeQaTool()
+    .then(function(data){
+
+      //update storage with course info when correct page is loaded
+      chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
+        var request = { message:"save-in-storage", data: tab };
+        sendToTab('bb', request);
+      });
+
+    });
 });
 
 var gData = [];

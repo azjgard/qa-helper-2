@@ -29,8 +29,6 @@ function getScreenshot() {
   return new Promise(function(resolve, reject) {
     setTimeout(function() {
       chrome.tabs.captureVisibleTab(function(dataURI) {
-        sendToTab('old-slide', {message: "blackout-box", data: "remove-box-dr"});
-        sendToTab('new-slide', {message: "blackout-box", data: "remove-box-bb"});
         resolve(dataURI);
       });
     }, 1000);
