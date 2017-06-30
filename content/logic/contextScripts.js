@@ -55,7 +55,7 @@
 
           $('.qa-ext_progressBar').progressbar({ value: (mainContainer.scrollTop / 60000) * 100 });
 
-          mainContainer.scrollTop += 1100;
+          mainContainer.scrollTop += 500;
           setTimeout( () => recurse(), 200);
         }
 
