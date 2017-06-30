@@ -1,3 +1,28 @@
+.qa-ext_progressBar {
+  position: absolute;
+  left: 10%;
+  width: 80%;
+  bottom: 30px;
+  top: auto;
+}
+.qa-ext_progressBar .ui-progressbar-value  {
+ background-color: #008BD3;
+}
+
+.disabled-screen-cover {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  background-color: rgba(0,0,0,.3);
+}
+
+
+/* default popup is inside the UI template */
 .qa-ext_popup {
   position: absolute;
   background-color: #fff;
@@ -24,6 +49,15 @@
 .qa-ext_popup button {
   margin-top: 10px;
   cursor: pointer;
+}
+
+/* external popups appear in the top right corner of the screen*/
+.qa-ext_popup.external {
+  left: auto;
+  bottom: auto;
+  top: 100px;
+  right: 100px;
+  display: unset;
 }
 
 #blackout-left-dr {

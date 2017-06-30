@@ -49,6 +49,7 @@ function addBugButton() {
     "message": "bug",
     "data"   : slideInfo
   };
+  console.log(slideInfo);
   chrome.runtime.sendMessage(data);
 }
 

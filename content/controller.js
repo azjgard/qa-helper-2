@@ -1,7 +1,4 @@
 (function($, global) {
-
-
-//
 // Message Listener
 //
 // descr - listen to messages from the background.
@@ -9,9 +6,8 @@
 // member of the global QA variable.
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
-    // console.log(request);
-    var msg    = request.message;
-    var msg_data    = request.data;
+    var msg = request.message;
+    var msg_data = request.data;
     
     // don't listen if there was no message attribute
     if (!msg) {
@@ -64,17 +60,28 @@ chrome.runtime.onMessage.addListener(
       }
     }
 
-    //
-    else if (msg === 'bug') { //sent from Add Bug button on new slides
 
-      console.log(msg_data);
-      global.addBug(msg_data);
+    // From: new-slide
+    // To:   tfs_log
+    if (msg === 'bug') { 
+      var courseTag = msg_data.match(/^\w{2,}\d{2,}-\d{3}/)[0];
+      var webNumber = msg_data.match(/web\d{2,}/i)[0].match(/\d{2,}/)[0];
+
+      executeInPageContext(function(courseTag, webNumber) {
+        qa_ext_addItem(
+          "Content QA",
+          "Bug",
+          courseTag,
+          webNumber,
+          ['zzz', 'zzzzzzz', 'zzzzzzzzzzzzzzzzzzzzz']
+        );
+      }, courseTag, webNumber);
 
     }
 
     //
-    else if(msg === "blackout-box"){
-      
+    if(msg === "blackout-box"){
+
       if(msg_data === "add-box-dr"){
         var div = document.createElement('div');
         div.id = 'blackout-left-dr';
@@ -91,9 +98,9 @@ chrome.runtime.onMessage.addListener(
         div.id = 'blackout-top-bb';
         document.body.appendChild(div);
         $('.footer-bar-box.slide.qa-ext_draggable.ui-draggable').hide();
+
       }      
     } //end black-out box
-
   } 
 );
 
@@ -108,35 +115,35 @@ global.init = function() {
   console.log(context);
   
   global.loadTemplate(context);
+
+  // inject scripts that need to be in the page's world
+  if (context === 'tfs_log') {
+    setTimeout( () => {
+      executeInPageContext(global.defineFunction_addItem);
+    }, 3000);
+  }
 }
 
 global.init();
 
+// Executing a script in the context of the page
+//
+// NOTE: arguments should be passed as separate parameters from
+// the function itself
+function executeInPageContext(fn) {
+    var args = '';
+    if (arguments.length > 1) {
+        for (var i = 1, end = arguments.length - 2; i <= end; i++) {
+            args += typeof arguments[i]=='function' ? arguments[i] : JSON.stringify(arguments[i]) + ', ';
+        }
+        args += typeof arguments[i]=='function' ? arguments[arguments.length - 1] : JSON.stringify(arguments[arguments.length - 1]);
+    }
+
+    var script = document.createElement('script');
+    script.setAttribute("type", "application/javascript");
+    script.textContent = '(' + fn + ')(' + args + ');';
+    document.documentElement.appendChild(script); // run the script
+    document.documentElement.removeChild(script); // clean up
+}
 
 })(QA_HELPER_JQUERY, QA_HELPER_GLOBAL);
-
-
-
-
-// //
-// //  The Next, Previous, and Select Slide functions don't work if they are scoped
-// //  because they need to access the native functions on the slide page.
-// //
-// chrome.runtime.onMessage.addListener(
-//   function(request, sender, sendResponse) {
-//      // console.log(request);
-//     var msg    = request.message;
-//     var msg_data    = request.data;
-    
-//     // don't listen if there was no message attribute
-//     if (!msg) {
-//       throw "Message received, but there was no message attribute!";
-//       return;
-//     }
-//     else if(msg === 'prev'){
-//       prev_slide();
-//     }
-//     else if(msg === 'next'){
-//       next_slide();
-//     } 
-//   });
