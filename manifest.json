@@ -20,6 +20,7 @@
       "js" : [
         "lib/jquery.js",
         "lib/jquery-ui.min.js",
+        "lib/arrive.js",
         "lib/utilities.js"
       ]
     },

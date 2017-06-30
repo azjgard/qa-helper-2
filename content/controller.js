@@ -50,18 +50,25 @@ chrome.runtime.onMessage.addListener(
     // From: new-slide
     // To:   tfs_log
     if (msg === 'bug') { 
-      var courseTag = msg_data.match(/^\w{2,}\d{2,}-\d{3}/)[0];
-      var webNumber = msg_data.match(/web\d{2,}/i)[0].match(/\d{2,}/)[0];
 
-      executeInPageContext(function(courseTag, webNumber) {
-        qa_ext_addItem(
-          "Content QA",
-          "Bug",
-          courseTag,
-          webNumber,
-          ['zzz', 'zzzzzzz', 'zzzzzzzzzzzzzzzzzzzzz']
-        );
-      }, courseTag, webNumber);
+      var courseTag, webNumber;
+      try {
+        courseTag = msg_data.match(/^\w{2,}\d{2,}-\d{3}/)[0];
+        var webNumber = msg_data.match(/web\d{2,}/i)[0].match(/\d{2,}/)[0];
+
+        executeInPageContext(function(courseTag, webNumber) {
+          qa_ext_addItem(
+            "Content QA",
+            "Bug",
+            courseTag,
+            webNumber,
+            ['zzz', 'zzzzzzz', 'zzzzzzzzzzzzzzzzzzzzz']
+          );
+        }, courseTag, webNumber);
+      }
+      catch (e) {
+        alert('The slide reference ID is incorrectly formatted!');
+      }
 
     }
     if(msg === "blackout-box") {
