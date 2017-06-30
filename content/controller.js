@@ -71,20 +71,19 @@ chrome.runtime.onMessage.addListener(
           title;
 
       try {
-        courseTag = msg_data.match(/^\w{2,}\d{2,}-\d{3}/);
+        courseTag = msg_data.match(/^\w{2,}\d{2,}-\d{3}/)[0];
         webNumber = msg_data.match(/web(\d{2,})/i)[1];
-        title = msg_data.match(/^\w{2}\d{2}-\d{3}-Web\d{2}-\d{1}-\d{1}-\d{2}-\d{1}/i)[0];
-        
-        global.executeInPageContext(function(courseTag, webNumber, title) {
+        title     = msg_data.match(/^\w{2}\d{2}-\d{3}-Web\d{2}-\d{1}-\d{1}-\d{2}-\d{1}/i)[0];
+
+        global.executeInPageContext(function(courseTag, webNumber) {
           qa_ext_addItem(
             "Content QA",
             "Bug",
             courseTag,
             webNumber,
-            title,
             ['zzz', 'zzzzzzz', 'zzzzzzzzzzzzzzzzzzzzz']
           );
-        }, courseTag, webNumber, title);
+        }, courseTag, webNumber);
       }
       catch (e) {
         alert('The slide reference ID is incorrectly formatted!');
@@ -130,9 +129,9 @@ global.init = function() {
 
   // inject scripts that need to be in the page's world
   if (context === 'tfs_log') {
-    setTimeout( () => {
+    $(document).arrive('.grid-canvas.ui-draggable', () => {
       global.executeInPageContext(global.defineFunction_addItem);
-    }, 3000);
+    });
   }
 }
 
