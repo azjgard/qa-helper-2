@@ -67,11 +67,13 @@ chrome.runtime.onMessage.addListener(
     // To:   tfs_log
     if (msg === 'bug') { 
       var courseTag,
-          webNumber;
+          webNumber,
+          title;
 
       try {
-        courseTag     = msg_data.match(/^\w{2,}\d{2,}-\d{3}/)[0];
-        var webNumber = msg_data.match(/web\d{2,}/i)[0].match(/\d{2,}/)[0];
+        courseTag = msg_data.match(/^\w{2,}\d{2,}-\d{3}/)[0];
+        webNumber = msg_data.match(/web(\d{2,})/i)[1];
+        title     = msg_data.match(/^\w{2}\d{2}-\d{3}-Web\d{2}-\d{1}-\d{1}-\d{2}-\d{1}/i)[0];
 
         global.executeInPageContext(function(courseTag, webNumber) {
           qa_ext_addItem(
@@ -81,10 +83,6 @@ chrome.runtime.onMessage.addListener(
             webNumber,
             ['zzz', 'zzzzzzz', 'zzzzzzzzzzzzzzzzzzzzz']
           );
-
-          console.log('the course tag is: ' + courseTag);
-          console.log('the web number is: ' + webNumber);
-
         }, courseTag, webNumber);
       }
       catch (e) {
