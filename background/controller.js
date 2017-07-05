@@ -24,7 +24,7 @@ chrome.runtime.onMessage.addListener(
 
     console.log('who sent this?');
     console.log(sender);
-
+    
     // don't listen if there was no message attribute
     if (!msg) {
       throw "Message received, but there was no message attribute!";
@@ -45,6 +45,11 @@ chrome.runtime.onMessage.addListener(
       gData.push(request.data);
       console.log(gData);
     }
+    else if(msg === 'to-old-slide'){
+      console.log("in");
+      sendToTab("dr", request);
+    }
+
 
     ///////////////////////////////
     //// Route request handler ////

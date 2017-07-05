@@ -1,4 +1,6 @@
 (function($, global) {
+global.temp = [];
+global.avon = [];
 
 // Message Listener
 //
@@ -113,6 +115,12 @@ chrome.runtime.onMessage.addListener(
 
       }      
     } //end black-out box
+
+
+    //
+    if(msg === 'to-old-slide'){
+      window.open(msg_data.match(/avondal-iol\/(.+)/)[1], '_blank');
+    }
   } 
 );
 

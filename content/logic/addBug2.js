@@ -135,11 +135,14 @@
         $('.sub-menu').find('li[title="'+ itemType + '"]').click(); 
 
         addTitle(title);
-        $('.sub-menu').arrive(inputBoxTag, () => {
-          for (var i = 0; i < tagsToBeAdded.length; i++) {
-            addTag(tagsToBeAdded[i]);
-          }
-        });
+        // $('.sub-menu').arrive(inputBoxTag, () => {
+          setTimeout(function(){
+            for (var i = 0; i < tagsToBeAdded.length; i++) {
+              addTag(tagsToBeAdded[i]);
+            }
+          }, 700);
+            
+        // });
 
       };
 
