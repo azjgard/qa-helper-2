@@ -60,6 +60,7 @@
     "tabs",
     "<all_urls>",
     "notifications",
-    "storage"
+    "storage",
+    "system.display"
   ]
 }
