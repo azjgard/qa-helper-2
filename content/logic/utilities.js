@@ -164,38 +164,37 @@ global.saveCoursesToStorage = function(tab){
   // var course_name = course_name.split(" ")[1].replace("-", '');
   var values = [];
 
-  for (var i = 0; i < descriptions.length; i++) {
-      var txt = descriptions[i].textContent; 
-       
-      var obj = {
-          course: course_name.trim(),
-          title: txt.split(/\s-\s\d{4,}/)[0].trim().length > 34 ?
-                   txt.split(/\s-\s\d{4,}/)[0].trim().substring(0, 31) + '..' :
-                    txt.split(/\s-\s\d{4,}/)[0].trim(),
-          webNumber: txt.match(/\d{2}/)[0],
-          link: getUncleLink(descriptions[i])
-      };
-      values.push(obj);
-      getUncleLink(descriptions[i]);
-  }
+  chrome.storage.local.get(function(storage){
+    for (var i = 0; i < descriptions.length; i++) {
+        var txt = descriptions[i].textContent; 
+         
+        var obj = {
+            course: course_name.trim(),
+            title: txt.split(/\s-\s\d{4,}/)[0].trim(),
+            webNumber: txt.match(/\d{2}/)[0],
+            link: getUncleLink(descriptions[i])
+        };
+        values.push(obj);
+        getUncleLink(descriptions[i]);
+    }
 
-  function getUncleLink(el) {
-      return el
-              .parentNode
-              .parentNode
-              .getElementsByTagName('a')[0]
-              .href;    
-  }
+    function getUncleLink(el) {
+        return el
+                .parentNode
+                .parentNode
+                .getElementsByTagName('a')[0]
+                .href;    
+    }
 
-  var storage_info = {};
-  storage_info[course_name] = values;
-  
-  chrome.storage.sync.set(storage_info);
+    storage.bb_courses[course_name] = values;
+    
+    chrome.storage.local.set(storage);
+  });
 }
 
 global.getCourseNavData = function(){
-  chrome.storage.sync.get(function(storage){
-    global.courseNavData = storage;
+  chrome.storage.local.get(function(storage){
+    global.courseNavData = storage.bb_courses;
     console.log(global.courseNavData);
   });
 }

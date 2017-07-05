@@ -3,13 +3,7 @@
 var dr_storage;
 function initializeDr() {
   dr_storage = global.initializeDrData();
-  for (var key in dr_storage.dr_courses) {
-    for(var key2 in dr_storage.dr_courses[key]){
-      if(dr_storage.dr_courses[key][key2].name.length > 25){
-        dr_storage.dr_courses[key][key2].name = dr_storage.dr_courses[key][key2].name.substr(0, 23) + "..";
-      }
-    }
-  }
+  // dr_storage[bb_courses] = global.initializeBbData();
 }
 initializeDr();
 console.log(dr_storage);
@@ -68,10 +62,12 @@ function jumpToWeb() {
     
     $.each(global.courseNavData[key], function(index, web){
       // console.log(web);
-      var title = web.title.length > 34 ?
-                    web.title.substring(0, 31) + '..' :
-                    web.title;
-        webSelectString+='<option class="jump-to-web-webName" title="' + web.course + '">' + title + '</option>';
+
+      var title = web.title;
+                          // .length > 34 ?
+                          //   web.title.substring(0, 31) + '..' :
+                          //   web.title;
+        webSelectString+='<option class="jump-to-web-webName" title="' + web.course + " --- " + web.title + '">' + title + '</option>';
     });
     // console.log(global.courseNavData[key][0]);
     
@@ -110,7 +106,7 @@ function configurePopup(popupHtml, triggerText) {
         web_box.value = null;
         for (var i = 0; i < web_choose.length; i++) {
           web_choose[i].style.display = "block";
-          if(course_choose.value !== web_choose[i].getAttribute("title")){
+          if(course_choose.value !== web_choose[i].getAttribute("title").match(/(.+)\s---\s/)[1]){
             web_choose[i].style.display = 'none';
           }
         }
@@ -290,35 +286,22 @@ var templateObjects = {
             
             $.each(global.courseNavData[key], function(index, web) {
               if (parseInt(web.webNumber) === parseInt(number) && web.course === course.value) {
-                console.log('courses match: ', web.course, course.value);
+                // console.log('courses match: ', web.course, course.value);
                 
                   var html_course = course.value.match(/\w{2}-\d{3}/);
-                  var html_title = document.querySelector('#jump-to-web-webName').value.match(/Web\d{2}\s{1}-\s{1}(.+)/)[1];
+                  var web_select = document.querySelector('#jump-to-web-webName');
+                  var web_title = web_select.options[web_select.selectedIndex].getAttribute('title').match(/---\sWeb\d{2}\s-\s(.+)/)[1];
 
-                  console.log(html_title);
-                  for(var key in dr_storage.dr_courses[html_course]){
-                    if(html_title === dr_storage.dr_courses[html_course][key].name){
-                      alert("sending message");
-                      chrome.runtime.sendMessage({message: 'to-old-slide', data: dr_storage.dr_courses[html_course][key].full_url});
-                      alert('/' + dr_storage.dr_courses[html_course][key].full_url);
+                  if(dr_storage.dr_courses.hasOwnProperty(html_course)){
+                    if(dr_storage.dr_courses[html_course].hasOwnProperty(web_title)){
+                      // alert("sending");
+                      chrome.runtime.sendMessage({message: 'to-old-slide', data: "http://" + dr_storage.dr_courses[html_course][web_title].full_url});
+
                     }
                   }
-                ;
 
                 window.location.href = web.link;
 
-
-
-
-      // for (var i = 0; i < web_choose.length; i++) {
-        //   document.querySelector('#jump-to-web-webName').addEventListener('change', function(){
-        //         console.log(storage);
-        //         console.log(storage.dr_courses[document.querySelector('#jump-to-web-webName').value.match(/\w{2}-\d{3}/)[0]]);
-        //         console.log(storage.dr_courses[document.querySelector('#jump-to-web-courseName').value.match(/\w{2}-\d{3}/)[0]][document.querySelector('#jump-to-web-webName').value.match(/Web\d{2}\s{1}-\s{1}(.+)/)[1]]);
-        //   });
-        // }
-      
-                
                 return;
               }
             });

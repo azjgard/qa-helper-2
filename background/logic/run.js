@@ -16,13 +16,19 @@ function runQaTool() {
   var drTab = null;
   var bbTab = null;
 
-  chrome.tabs.query({windowType: 'popup'}, function(tabs){
-    for (var i = 0; i < tabs.length; i++) {
-      if(tabs[i].url.includes('avondale-iol')){
-        drTab = tabs[i];
-      }
-      else if(tabs[i].url.includes('uti.blackboard.com')){
-        bbTab = tabs[i];
+  chrome.windows.getAll({populate: true}, function(winds){
+    var old_site = /http\:\/\/avondale-iol\/\w{2}-\d{3}\/\w{2}-\d{3}-\d{1}-Web\d{2,}\/sco\d{1,}\/lmsinit/;
+    var new_site = /https\:\/\/uti\.blackboard.com\/courses\/\d{1}\/UTI_BMS_QA_UAT\/content/;    
+    for (var i = 0; i < winds.length; i++) {
+      for (var j = 0; j < winds[i].tabs.length; j++) {
+        
+        if(winds[i].tabs[j].url.match(old_site)){
+          drTab = winds[i].tabs[j];
+        }
+        if(winds[i].tabs[j].url.match(new_site)){
+          bbTab = winds[i].tabs[j];
+        }
+        
       }
     }
 
