@@ -291,28 +291,17 @@ var templateObjects = {
                   var html_course = course.value.match(/\w{2}-\d{3}/);
                   var web_select = document.querySelector('#jump-to-web-webName');
                   var web_title = web_select.options[web_select.selectedIndex].getAttribute('title').match(/---\sWeb\d{2}\s-\s(.+)/)[1];
-                  
+
                   if(dr_storage.dr_courses.hasOwnProperty(html_course)){
                     if(dr_storage.dr_courses[html_course].hasOwnProperty(web_title)){
                       // alert("sending");
-                      chrome.runtime.sendMessage({message: 'to-old-slide', data: dr_storage.dr_courses[html_course][web_title].full_url});
+                      chrome.runtime.sendMessage({message: 'to-old-slide', data: "http://" + dr_storage.dr_courses[html_course][web_title].full_url});
+
                     }
                   }
 
                 window.location.href = web.link;
 
-
-
-
-      // for (var i = 0; i < web_choose.length; i++) {
-        //   document.querySelector('#jump-to-web-webName').addEventListener('change', function(){
-        //         console.log(storage);
-        //         console.log(storage.dr_courses[document.querySelector('#jump-to-web-webName').value.match(/\w{2}-\d{3}/)[0]]);
-        //         console.log(storage.dr_courses[document.querySelector('#jump-to-web-courseName').value.match(/\w{2}-\d{3}/)[0]][document.querySelector('#jump-to-web-webName').value.match(/Web\d{2}\s{1}-\s{1}(.+)/)[1]]);
-        //   });
-        // }
-      
-                
                 return;
               }
             });
