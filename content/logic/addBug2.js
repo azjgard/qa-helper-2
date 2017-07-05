@@ -13,7 +13,7 @@
     // @param courseTag  - the tag of the course we're adding to (e.g. "AD12-105")
     // @param webNumber  - the number of the web we're adding to (e.g. "25")
     // @param tagsToAdd  - a string or array of strings that should be added as tags to the new item
-    qa_ext_addItem = function(folderType, itemType, courseTag, webNumber, tagsToAdd) {
+    qa_ext_addItem = function(folderType, itemType, courseTag, webNumber, title, tagsToAdd) {
       var mainContainer  = document.querySelector('.grid-canvas.ui-draggable');
       var maxScrollTop   = 60700;
       var recursionDelay = 10;
@@ -134,11 +134,16 @@
         // click the item type button (Bug, Task, Issue, etc.)
         $('.sub-menu').find('li[title="'+ itemType + '"]').click(); 
 
-        $('.sub-menu').arrive(inputBoxTag, () => {
-          for (var i = 0; i < tagsToBeAdded.length; i++) {
-            addTag(tagsToBeAdded[i]);
-          }
-        });
+        addTitle(title);
+        // $('.sub-menu').arrive(inputBoxTag, () => {
+          setTimeout(function(){
+            for (var i = 0; i < tagsToBeAdded.length; i++) {
+              addTag(tagsToBeAdded[i]);
+            }
+          }, 700);
+            
+        // });
+
       };
 
       //

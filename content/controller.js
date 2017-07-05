@@ -1,4 +1,6 @@
 (function($, global) {
+global.temp = [];
+global.avon = [];
 
 // Executing a script in the context of the page
 //
@@ -95,15 +97,16 @@ chrome.runtime.onMessage.addListener(
         webNumber = msg_data.match(/web(\d{2,})/i)[1];
         title     = msg_data.match(/^\w{2}\d{2}-\d{3}-Web\d{2}-\d{1}-\d{1}-\d{2}-\d{1}/i)[0];
 
-        global.executeInPageContext(function(courseTag, webNumber) {
+        global.executeInPageContext(function(courseTag, webNumber, title) {
           qa_ext_addItem(
             "Content QA",
             "Bug",
             courseTag,
             webNumber,
+            title,
             ['zzz', 'zzzzzzz', 'zzzzzzzzzzzzzzzzzzzzz']
           );
-        }, courseTag, webNumber);
+        }, courseTag, webNumber, title);
       }
       catch (e) {
         alert('The slide reference ID is incorrectly formatted!');
@@ -132,6 +135,12 @@ chrome.runtime.onMessage.addListener(
 
       }      
     } //end black-out box
+
+
+    //
+    if(msg === 'to-old-slide'){
+      window.open(msg_data.match(/avondal-iol\/(.+)/)[1], '_blank');
+    }
   } 
 );
 
