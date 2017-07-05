@@ -139,7 +139,7 @@ chrome.runtime.onMessage.addListener(
 
     //
     if(msg === 'to-old-slide'){
-      window.open(msg_data.match(/avondal-iol\/(.+)/)[1], '_blank');
+      window.open(msg_data.match(/avondal-iol\/(.+)/)[1]);
     }
   } 
 );

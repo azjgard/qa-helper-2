@@ -291,11 +291,7 @@ var templateObjects = {
                   var html_course = course.value.match(/\w{2}-\d{3}/);
                   var web_select = document.querySelector('#jump-to-web-webName');
                   var web_title = web_select.options[web_select.selectedIndex].getAttribute('title').match(/---\sWeb\d{2}\s-\s(.+)/)[1];
-
-                  // value.match(/Web\d{2}\s{1}-\s{1}(.+)/)[1];
-                  alert(web_title);
-                  alert(dr_storage.dr_courses.hasOwnProperty(html_course));
-                  alert(dr_storage.dr_courses[html_course].hasOwnProperty(web_title));
+                  
                   if(dr_storage.dr_courses.hasOwnProperty(html_course)){
                     if(dr_storage.dr_courses[html_course].hasOwnProperty(web_title)){
                       alert("sending");
@@ -303,7 +299,7 @@ var templateObjects = {
                     }
                   }
 
-                // window.location.href = web.link;
+                window.location.href = web.link;
 
 
 
