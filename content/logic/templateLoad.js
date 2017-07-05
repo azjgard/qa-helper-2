@@ -328,7 +328,7 @@ var templateObjects = {
       }
     ],
     listeners : [],
-    showCloseButton: true
+    // showCloseButton: true
   },
   "bb-login": {
     alias: "bb"
