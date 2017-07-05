@@ -258,19 +258,19 @@ var templateObjects = {
     showCloseButton: false
   },
 
-  "dr": {
-    title   : 'DR Site',
-    buttons : [
-      {
-        text : 'Run Comparison',
-        id : 'qa-ext_test-run-comparison',
-        hotkey: 'none',
-        listener: run
-      }
-    ],
-    listeners : [],
-    showCloseButton: true
-  },
+  // "dr": {
+  //   title   : 'DR Site',
+  //   buttons : [
+  //     {
+  //       text : 'Run Comparison',
+  //       id : 'qa-ext_test-run-comparison',
+  //       hotkey: 'none',
+  //       listener: run
+  //     }
+  //   ],
+  //   listeners : [],
+  //   showCloseButton: true
+  // },
 
   "bb": {
     title   : 'Blackboard LMS',
