@@ -1,5 +1,25 @@
 (function($, global) {
 
+// Executing a script in the context of the page
+//
+// NOTE: arguments should be passed as separate parameters from
+// the function itself
+global.executeInPageContext = function(fn) {
+    var args = '';
+    if (arguments.length > 1) {
+        for (var i = 1, end = arguments.length - 2; i <= end; i++) {
+            args += typeof arguments[i]=='function' ? arguments[i] : JSON.stringify(arguments[i]) + ', ';
+        }
+        args += typeof arguments[i]=='function' ? arguments[arguments.length - 1] : JSON.stringify(arguments[arguments.length - 1]);
+    }
+
+    var script = document.createElement('script');
+    script.setAttribute("type", "application/javascript");
+    script.textContent = '(' + fn + ')(' + args + ');';
+    document.documentElement.appendChild(script); // run the script
+    document.documentElement.removeChild(script); // clean up
+}
+
 // Message Listener
 //
 // descr - listen to messages from the background.
@@ -123,7 +143,9 @@ global.init = function() {
   var template = null;
   var el       = null;
   var context  = getContext();
-  console.log(context);
+
+  // inject all libraries that need to run in the page's world
+  global.executeInPageContext(global.addClientsideLibs);
   
   global.loadTemplate(context);
 
@@ -137,24 +159,5 @@ global.init = function() {
 
 global.init();
 
-// Executing a script in the context of the page
-//
-// NOTE: arguments should be passed as separate parameters from
-// the function itself
-global.executeInPageContext = function(fn) {
-    var args = '';
-    if (arguments.length > 1) {
-        for (var i = 1, end = arguments.length - 2; i <= end; i++) {
-            args += typeof arguments[i]=='function' ? arguments[i] : JSON.stringify(arguments[i]) + ', ';
-        }
-        args += typeof arguments[i]=='function' ? arguments[arguments.length - 1] : JSON.stringify(arguments[arguments.length - 1]);
-    }
-
-    var script = document.createElement('script');
-    script.setAttribute("type", "application/javascript");
-    script.textContent = '(' + fn + ')(' + args + ');';
-    document.documentElement.appendChild(script); // run the script
-    document.documentElement.removeChild(script); // clean up
-}
 
 })(QA_HELPER_JQUERY, QA_HELPER_GLOBAL);
