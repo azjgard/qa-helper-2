@@ -1,22 +1,18 @@
 (function($, global) {
 
 var dr_storage;
-function initializeDrData(){
-  chrome.storage.local.get(function(storage){
-    dr_storage = storage;
-
-    for (var key in dr_storage.dr_courses) {
-      for(var key2 in dr_storage.dr_courses[key]){
-        if(dr_storage.dr_courses[key][key2].name.length > 25){
-          dr_storage.dr_courses[key][key2].name = dr_storage.dr_courses[key][key2].name.substr(0, 23) + "..";
-        }
+function initializeDr() {
+  dr_storage = global.initializeDrData();
+  for (var key in dr_storage.dr_courses) {
+    for(var key2 in dr_storage.dr_courses[key]){
+      if(dr_storage.dr_courses[key][key2].name.length > 25){
+        dr_storage.dr_courses[key][key2].name = dr_storage.dr_courses[key][key2].name.substr(0, 23) + "..";
       }
     }
-
-    console.log(dr_storage);
-  });
+  }
 }
-initializeDrData();
+initializeDr();
+console.log(dr_storage);
 
 function thisIsARandomFunction() {
   alert('HELLO THERE WORLD!');
