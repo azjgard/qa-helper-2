@@ -294,7 +294,7 @@ var templateObjects = {
                   
                   if(dr_storage.dr_courses.hasOwnProperty(html_course)){
                     if(dr_storage.dr_courses[html_course].hasOwnProperty(web_title)){
-                      alert("sending");
+                      // alert("sending");
                       chrome.runtime.sendMessage({message: 'to-old-slide', data: dr_storage.dr_courses[html_course][web_title].full_url});
                     }
                   }
