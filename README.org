@@ -27,6 +27,7 @@ Helper has learned about and can open for you.
 3. The Jump button
 - Click this button after you've selected the appropriate course and web, and it will open the correct web for you in Blackboard and in the DR site!
 If QA Helper has not yet learned about a course, you cannot navigate to it in the dropdown menus.
+
 *NOTE*: To teach QA Helper about a new course, navigate to the
 course page in Blackboard that lists all the webs you'd like to teach
 QA Helper about. As soon as any given course page has finished
