@@ -1,6 +1,11 @@
 (function($, global) {
-
+//GLOBAL VARIABLS
 var dr_storage;
+
+//
+// initializeDr
+//
+// descr - adds all dr courses to a global variable
 function initializeDr() {
   dr_storage = global.initializeDrData();
   // dr_storage[bb_courses] = global.initializeBbData();
@@ -8,14 +13,27 @@ function initializeDr() {
 initializeDr();
 // console.log(dr_storage);
 
+
+//
+// thisIsARandomFunction
+//
+// descr - thisIsARandomFunction
 function thisIsARandomFunction() {
   alert('HELLO THERE WORLD!');
 }
+
+//
+// jumpToKanban
+//
+// descr - changes page to tfs-board focused on QA
 function jumpToKanban() {
   window.location.href = 'https://prdtfs.uticorp.com/UTI-ALM/IT/BMS/_backlogs/board/Features?' + 'scrollToQA=true'
 }
 
-
+//
+// addBugButton
+//
+// descr - get's slide information and sends it to TFS to add a bug
 function addBugButton() {
   var slideInfo = global.getCurrentSlide();
   data = {
@@ -26,18 +44,34 @@ function addBugButton() {
   chrome.runtime.sendMessage(data);
 }
 
+//
+// prevSlide
+//
+// descr - loads previous slide in blackboard courses
 function prevSlide() {
   $('input#btn-prev').removeAttr('disabled').click()
 }
 
+//
+// nextSlide
+//
+// descr - loads next slide in blackboard courses
 function nextSlide() {
   $('input#btn-next').removeAttr('disabled').click()
 }
 
+//
+// settingsMenu
+//
+// descr - settings menu for future use
 // function settingsMenu() {
 //   alert("This button does not have any functionality yet");
 // }
 
+//
+// toggleBtnCompression
+//
+// descr - opens and closes the popup window on blackboard "jump to web" button
 function toggleBtnCompression() {
   if ($(this).hasClass('compressed')) {
     $(this).removeClass('compressed');
@@ -51,61 +85,60 @@ function toggleBtnCompression() {
   }
 }
 
+//
+// jumpToWeb
+//
+// descr - fills dropdowns under "jump to web" button with course and web choices
+// that allow users to quickly navigate to their courses
 function jumpToWeb() {
-    // console.log('global.courseNavData: ', global.courseNavData);
    var webSelectString = '';
    var webCourse = '';
 
-   // grab first 33 characters if it's longer than that.
   for (var key in global.courseNavData) {
     
-    
     $.each(global.courseNavData[key], function(index, web){
-      // console.log(web);
 
-      var title = web.title;
-                          // .length > 34 ?
-                          //   web.title.substring(0, 31) + '..' :
-                          //   web.title;
-        webSelectString+='<option class="jump-to-web-webName" title="' + web.course + " --- " + web.title + '">' + title + '</option>';
+      var title = web.title; // .length > 34 ?
+                             //  web.title.substring(0, 31) + '..' :
+                             //  web.title;
+      webSelectString+='<option class="jump-to-web-webName" title="' + web.course + " --- " + web.title + '">' + title + '</option>';
     });
-    // console.log(global.courseNavData[key][0]);
     
     webCourse += '<option>' + global.courseNavData[key][0].course + '</option>'
-
   }
-  // console.log(webCourse);
-  // console.log(webSelectString);
-
 
   var htmlString = 
                   '<div>'+
-                  '<h3>Course #</h3>'+
-                  '<select id="jump-to-web-courseName" class="course-select" onchange="qa_ext_filterCourseNavData()">'+
-                    webCourse +
-                  '</select>'+
-                  '<h3>Web #</h3>'+
-                  '<select id="jump-to-web-webName" class="web-select">'+
-                    webSelectString+
-                  '</select>'+
+                    '<h3>Course #</h3>'+
+                    '<select id="jump-to-web-courseName" class="course-select" onchange="qa_ext_filterCourseNavData()">'+
+                      webCourse +
+                    '</select>'+
+                    '<h3>Web #</h3>'+
+                    '<select id="jump-to-web-webName" class="web-select">'+
+                      webSelectString+
+                    '</select>'+
                   '</div>';
 
-
   configurePopup(htmlString, 'Jump');
-
 }
 
+//
+// configurePopup
+//
+// descr - injects function into webpage that filters "jump to web" dropdowns 
+// with webs that are relevant to the chosen course
 function configurePopup(popupHtml, triggerText) {
   
   global.executeInPageContext(function() {
     setTimeout(function(){
       qa_ext_filterCourseNavData = function(){
         
+        //grab select boxes and option tags
         var course_choose = document.querySelector('#jump-to-web-courseName');
         var web_box = document.querySelector('#jump-to-web-webName');
         var web_choose = document.querySelectorAll('.jump-to-web-webName');
 
-        // console.log(web_choose);
+        //if the box is open
         if(web_box){
           web_box.value = null;
           for (var i = 0; i < web_choose.length; i++) {
@@ -121,20 +154,32 @@ function configurePopup(popupHtml, triggerText) {
     }, 50);
   });
 
-   $('.qa-ext_popup').prepend(popupHtml);
-   $('#qa-ext_popup-trigger').html(triggerText);
+  //add popup to page
+  $('.qa-ext_popup').prepend(popupHtml);
+  $('#qa-ext_popup-trigger').html(triggerText);
 }
 
+//
+// copyBug
+//
+// descr - 
 function copyBug(){
   alert("This feature is not yet functional");
 }
 
-
+//
+// initializeDr
+//
+// descr - 
 function run() {
   console.log('sending the run message!!');
   chrome.runtime.sendMessage({message:'run'});
 }
 
+//
+// initializeDr
+//
+// descr - 
 function jumpToQA(){
   $('.agile-content-container.scrollable').scrollLeft(3100);
 }
