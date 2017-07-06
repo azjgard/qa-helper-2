@@ -21,6 +21,10 @@
   background-color: rgba(0,0,0,.3);
 }
 
+.unclickable-button {
+  
+}
+
 
 /* default popup is inside the UI template */
 .qa-ext_popup {
@@ -127,7 +131,7 @@
   -moz-transition: all 1s;
   transition: all 1s;
 }
-#hide-qa-helper:hover {
+#hide-qa-helper:not(.unclickable-button):hover {
   background-color: #FFF;
   color: #008BD3;
 }
@@ -151,7 +155,6 @@
   border: 1px solid #008BD3;
   padding: 10px !important; /* important to override TFS styling */
   text-align: center;
-  cursor: pointer;
   padding: 10px;
   background-color: #FFF;
   flex-grow: 1;
@@ -173,8 +176,19 @@
   transition: all .4s;
 }
 
-.footer-button:hover p {
+.footer-button:not(.unclickable-button) {
+  cursor: pointer;
+}
+
+
+.footer-button:not(.unclickable-button):hover p {
   border-bottom: 1px solid #008BD3;
+}
+
+.unclickable-button {
+  -webkit-user-select: none; /* Chrome/Safari */        
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+ */
 }
 
 #footer-bar {

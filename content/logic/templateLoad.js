@@ -153,62 +153,52 @@ function jumpToQA(){
 // var hotkey_getCurrentSlide = 83;  // s
 
 var templateObjects = {
-  "tfs_log": {
-    title   : 'Team Foundation Server',
-    buttons : [
-      {
-        text    : 'Copy Bug',
-        hotkey  : 'ctrl+shift+s',
-        id: 'qa-ext_jump-to-kanban',
-        listener: copyBug
-      }
-      // ,
-      // {
-      //   text    : 'Settings',
-      //   classes : ['fee', 'fie', 'fo', 'fum'],
-      //   id      : 'qa-ext_settings',
-      //   hotkey  : 'Ctrl+Shift+S',
-      //   listener: thisIsARandomFunction
-      // }
-    ],
-    showCloseButton: true
-  },
+  // "tfs_log": {
+  //   title   : 'TFS',
+  //   buttons : [
+  //     {
+  //       text    : 'Copy Bug',
+  //       B
+  //       hotkey  : 'ctrl+shift+s',
+  //       id: 'qa-ext_jump-to-kanban',
+  //       listener: copyBug
+  //     }
+  //     // ,
+  //     // {
+  //     //   text    : 'Settings',
+  //     //   classes : ['fee', 'fie', 'fo', 'fum'],
+  //     //   id      : 'qa-ext_settings',
+  //     //   hotkey  : 'Ctrl+Shift+S',
+  //     //   listener: thisIsARandomFunction
+  //     // }
+  //   ],
+  //   showCloseButton: true
+  // },
   "tfs_board": {
-    title   : 'Team Foundation Server',
+    title   : 'TFS Board',
     buttons : [
       {
-        text    : 'To QA',
-        hotkey  : 'None',
+        text    : 'Jump to QA',
+        // hotkey  : 'None',
         id: 'qa-ext_to-qa',
         listener: jumpToQA
       }
-      // ,
-      // {
-      //   text    : 'Settings',
-      //   classes : ['fee', 'fie', 'fo', 'fum'],
-      //   id      : 'qa-ext_settings',
-      //   hotkey  : 'Ctrl+Shift+S',
-      //   listener: thisIsARandomFunction
-      // }
     ],
-    showCloseButton: true
+    // showCloseButton: true
   },
   "old-slide": {
     title : 'Old Slide',
     buttons : [
       {
-        text   : 'Run Comparison',
+        text   : 'Compare',
         id     : 'qa-ext_run',
-        hotkey : 'none',
+        // hotkey : 'none',
         listener: run
+      },
+      {
+        text   : 'Hide Highlights',
+        id     : 'qa-ext_hide-highlights',
       }
-      // ,
-      // {
-      //   text   : 'Settings',
-      //   id     : 'qa-ext_settings',
-      //   hotkey : 'none',
-      //   listener: run
-      // }
     ],
     showCloseButton: false
   },
@@ -219,31 +209,25 @@ var templateObjects = {
       {
         text   : '<',
         id     : 'qa-ext_prev',
-        hotkey : 'none',
+        // hotkey : 'none',
         listener: prevSlide
       },
       {
-        text   : 'Run Comparison',
+        text   : 'Compare',
         id     : 'qa-ext_run',
-        hotkey : 'none',
+        // hotkey : 'none',
         listener: run
       },
       {
         text    : 'Add Bug',
         id      : 'qa-ext_bug',
-        hotkey  : 'none',
+        // hotkey  : 'none',
         listener: addBugButton
       },
-      // {
-      //   text   : 'Settings',
-      //   id     : 'qa-ext_settings',
-      //   hotkey : 'none',
-      //   listener: settingsMenu
-      // },
       {
         text   : '>',
         id     : 'qa-ext_next',
-        hotkey : 'none',
+        // hotkey : 'none',
         listener: nextSlide
       }
     ],
@@ -265,7 +249,7 @@ var templateObjects = {
   // },
 
   "bb": {
-    title   : 'Blackboard LMS',
+    title   : 'Blackboard',
     buttons : [
       // {
       //   text : 'Run Comparison',
@@ -276,7 +260,7 @@ var templateObjects = {
       {
         text: 'Jump to Web',
         id : 'qa-ext_jump-to-web',
-        hotkey: 'none',
+        // hotkey: 'none',
         listener: jumpToWeb,
         popup: true,
         popupTrigger: function() {
@@ -314,7 +298,16 @@ var templateObjects = {
     // showCloseButton: true
   },
   "bb-login": {
-    alias: "bb"
+    title   : 'Blackboard',
+    buttons : [
+      {
+        text    : 'Login to use the tool!',
+        // hotkey  : 'None',
+        id: 'qa-ext_login',
+        classes: ['unclickable-button']
+      }
+    ],
+    // showCloseButton: true
   }
 }
 
