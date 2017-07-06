@@ -200,7 +200,7 @@ global.saveCoursesToStorage = function(tab){
 global.getCourseNavData = function(){
   chrome.storage.local.get(function(storage){
     global.courseNavData = storage.bb_courses;
-    console.log(global.courseNavData);
+    // console.log(global.courseNavData);
   });
 }
 

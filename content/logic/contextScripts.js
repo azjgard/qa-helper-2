@@ -60,7 +60,7 @@
         }
 
         recurse();
-      }, 1000);
+      }, 1500);
     });
   }
 })(QA_HELPER_JQUERY, QA_HELPER_GLOBAL);
