@@ -191,6 +191,7 @@ global.saveCoursesToStorage = function(tab){
     }
 
     storage.bb_courses[course_name] = values;
+    
     chrome.storage.local.set(storage);
     global.getCourseNavData();
   });
@@ -199,7 +200,7 @@ global.saveCoursesToStorage = function(tab){
 global.getCourseNavData = function(){
   chrome.storage.local.get(function(storage){
     global.courseNavData = storage.bb_courses;
-    console.log(storage);
+    console.log(global.courseNavData);
   });
 }
 
