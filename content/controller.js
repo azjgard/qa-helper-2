@@ -1,11 +1,24 @@
 (function($, global) {
+//GLOBAL VARIABLES
+global.dr_storage;
 global.temp = [];
 global.avon = [];
 
+//
+// initializeDr
+//
+// descr - adds all dr courses to a global variable
+function initializeDr() {
+  global.dr_storage = global.initializeDrData();
+  // global.dr_storage[bb_courses] = global.initializeBbData();
+}
+initializeDr();
+
+//
 // Executing a script in the context of the page
 //
 // NOTE: arguments should be passed as separate parameters from
-// the function itself
+// the function itself (e.g. executeInPageContext(function(param1){}, param1))
 global.executeInPageContext = function(fn) {
     var args = '';
     if (arguments.length > 1) {
@@ -22,6 +35,7 @@ global.executeInPageContext = function(fn) {
     document.documentElement.removeChild(script); // clean up
 }
 
+//
 // Message Listener
 //
 // descr - listen to messages from the background.
@@ -38,11 +52,9 @@ chrome.runtime.onMessage.addListener(
       return;
     }
 
-    //
+    // adds colored divs over text on the slides to highlight the text
     else if (msg === 'ocrData') { //this message will be sent from draggable qa bar
       console.log('received run message');
-        //add divs to the screen to highlight text
-        console.log(msg_data);
 
         //remove all the blackout boxes
         $("#blackout-top-dr").remove();
@@ -51,6 +63,7 @@ chrome.runtime.onMessage.addListener(
         $("#blackout-top-bb").remove();
         $('.footer-bar-box.slide.qa-ext_draggable.ui-draggable').show();
 
+        //create and add div to page
         for (var i = 0; i < msg_data.length; i++) {
             var div = document.createElement('div');
             if(msg_data[i].matched){
@@ -65,14 +78,14 @@ chrome.runtime.onMessage.addListener(
             document.body.appendChild(div); 
         }
 
-        //watch to remove all OCR divs when next is clicked on new slide
+        //watch to remove all OCR divs when body is clicked on either slide
         $('body').get(0).addEventListener('click', function(){
           $('.qa2-word-not-found').remove();
           $('.qa2-word-found').remove();
         }, true);
     }
 
-    //
+    //saves webs from blackboard in extension local storage
     else if(msg === 'save-in-storage'){
       // console.log("irrelevant tab");
       if(msg_data.url.includes('uti.blackboard.com/webapps/blackboard/content/listContent.jsp')){
@@ -81,12 +94,15 @@ chrome.runtime.onMessage.addListener(
           global.saveCoursesToStorage(msg_data);
         }
       }
+      //updates global CourseNavData object with new courses added to extension local storage
       global.getCourseNavData();
     }
 
 
     // From: new-slide
     // To:   tfs_log
+    //
+    // adds bug to TFS
     if (msg === 'bug') { 
       var courseTag,
           webNumber,

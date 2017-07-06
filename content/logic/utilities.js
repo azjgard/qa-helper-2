@@ -2,130 +2,6 @@
 (function($, global) {
 
 //
-// getContext
-//
-// descr - returns a string describing the context of the page
-// that the script is currently running inside of
-global.getContext = function() {
-  var loc = window.location.href;
-
-  var pattern_tfs      = /prdtfs\.uticorp\.com/i;
-  var pattern_newSlide = /courses\/\w{1,}\/uti_bms_qa_uat\/content/i;
-  var pattern_oldSlide = /lmsinit\.htm/i;
-  var pattern_login = /webapps\/login/;
-
-  function isPage(pattern) {
-    return loc.match(pattern);
-  }
-
-  // DR site
-  if (loc.includes('avondale-iol')) {
-    if (isPage(pattern_oldSlide)) {
-      return 'old-slide'; 
-    }
-    else {
-      return 'dr';
-    }
-  }
-
-  // TFS
-  else if (isPage(pattern_tfs)) {
-    if(loc.includes('board')){
-      return 'tfs_board';
-    }
-    else {
-      return 'tfs_log';
-    }
-  }
-
-  // Blackboard site
-  else if (loc.includes('uti.blackboard.com')) {
-    if (isPage(pattern_newSlide)) {
-      return 'new-slide';
-    }
-    else if (isPage(pattern_login)) {
-      return 'bb-login';
-    }
-    else {
-      return 'bb';
-    }
-  }
-
-  // Site irrelevant to the plugin
-  else {
-    return 'misc';
-  }
-}
-
-// 
-// generateTemplate
-//
-// @param templateObject - an object with the following structure:
-//
-//      title : string,
-//      buttons : [
-//        {
-//          text    : string,
-//          id      : string,
-//          hotkey  : string,
-//          classes : [string, string]
-//        },
-//      ],
-//      showCloseButton: boolean
-//    }
-//
-// descr - using the templateObject provided, will return
-// a string of HTML that can be used on the DOM to create
-// the user interface for the page
-global.generateTemplate = function(templateObject) {
-  var str = '<div class="footer-bar-box slide qa-ext_draggable">';
-      str +=  '<div class="grabbable group">';
-      str +=    '<h2>' + templateObject.title + '</h2>';
-
-  if (templateObject.showCloseButton) {
-    str += '<button id="hide-qa-helper">X</button>';
-  }
-
-  str +=  '</div>';
-  str += ' <div id="footer-bar">';
-
-  for (var i = 0; i < templateObject.buttons.length; i++) {
-    var btn = templateObject.buttons[i];
-
-    str += '<div class="footer-button';
-
-    if (btn.classes) {
-      str += ' ';
-      for (var c = 0; c < btn.classes.length; c++) {
-        str += btn.classes[c];
-        str += c === btn.classes.length - 1 ? '' : ' ';
-      }
-      str += '"';
-    }
-    else {
-      str += '"';
-    }
-
-    if (btn.id) { str += ' id="' + btn.id + '"'; }
-
-    str += '>';
-    str += '<p>' + btn.text + '</p>';
-
-    if (btn.hotkey) {
-      str += '<small>hotkey: ' + btn.hotkey + '</small>';
-    }
-
-    str += '</div>';
-  }
-
-  str += '</div>';
-  str += '<div class="qa-ext_popup"><button id="qa-ext_popup-trigger"></button></div>';
-  str += '</div>';
-
-  return str;
-}
-
-//
 // getCurrentSlide
 //
 // @return - a function that,
@@ -157,13 +33,20 @@ global.getCurrentSlide = function() {
   return getID();
 }
 
+//
+// saveCoursesToStorage
+//
+// descr - saves new slide course and web information to chrome local storage 
+// @params
+//    tab - blackboard course page tab information from Chrome (currently unused)
 global.saveCoursesToStorage = function(tab){
   console.log('save-in-storage');
+  //get course name and webs within it
   var descriptions = document.getElementsByClassName('vtbegenerated');
-  var course_name = document.querySelector('span#pageTitleText>span').textContent;
-  // var course_name = course_name.split(" ")[1].replace("-", '');
+  var course_name = document.querySelector('span#pageTitleText>span').textContent; //e.g. Course AD-102
   var values = [];
 
+  //get new slides from local storage, add more, and upload new copy of local storage 
   chrome.storage.local.get(function(storage){
     for (var i = 0; i < descriptions.length; i++) {
         var txt = descriptions[i].textContent; 
@@ -175,7 +58,7 @@ global.saveCoursesToStorage = function(tab){
             link: getUncleLink(descriptions[i])
         };
         values.push(obj);
-        getUncleLink(descriptions[i]);
+        getUncleLink(descriptions[i]); //do we need this?
     }
 
     function getUncleLink(el) {
@@ -186,26 +69,83 @@ global.saveCoursesToStorage = function(tab){
                 .href;    
     }
 
+    //if no courses have been uploaded yet, create object for them and set them in the object
     if(!storage.hasOwnProperty('bb_courses')){
       storage['bb_courses'] = {};    
     }
-
     storage.bb_courses[course_name] = values;
     
+    //set new storage
     chrome.storage.local.set(storage);
+    //reset the global variable courseNavData to newly uploaded slides
     global.getCourseNavData();
   });
 }
 
+//
+// getCourseNavData
+//
+// descr - get's course and web information for new slides 
 global.getCourseNavData = function(){
   chrome.storage.local.get(function(storage){
     global.courseNavData = storage.bb_courses;
-    // console.log(global.courseNavData);
   });
 }
 
-global.filterCourseNavData = function(e){
-  console.log("event: ", e);
-}
+// //
+// // getContext
+// //
+// // descr - returns a string describing the context of the page
+// // that the script is currently running inside of
+// global.getContext = function() {
+//   var loc = window.location.href;
+
+//   var pattern_tfs      = /prdtfs\.uticorp\.com/i;
+//   var pattern_newSlide = /courses\/\w{1,}\/uti_bms_qa_uat\/content/i;
+//   var pattern_oldSlide = /lmsinit\.htm/i;
+//   var pattern_login = /webapps\/login/;
+
+//   function isPage(pattern) {
+//     return loc.match(pattern);
+//   }
+
+//   // DR site
+//   if (loc.includes('avondale-iol')) {
+//     if (isPage(pattern_oldSlide)) {
+//       return 'old-slide'; 
+//     }
+//     else {
+//       return 'dr';
+//     }
+//   }
+
+//   // TFS
+//   else if (isPage(pattern_tfs)) {
+//     if(loc.includes('board')){
+//       return 'tfs_board';
+//     }
+//     else {
+//       return 'tfs_log';
+//     }
+//   }
+
+//   // Blackboard site
+//   else if (loc.includes('uti.blackboard.com')) {
+//     if (isPage(pattern_newSlide)) {
+//       return 'new-slide';
+//     }
+//     else if (isPage(pattern_login)) {
+//       return 'bb-login';
+//     }
+//     else {
+//       return 'bb';
+//     }
+//   }
+
+//   // Site irrelevant to the plugin
+//   else {
+//     return 'misc';
+//   }
+// }
 
 })(QA_HELPER_JQUERY, QA_HELPER_GLOBAL);

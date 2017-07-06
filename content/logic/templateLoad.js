@@ -1,16 +1,181 @@
 (function($, global) {
-//GLOBAL VARIABLS
-var dr_storage;
+
+  var templateObjects = {
+  // "tfs_log": {
+  //   title   : 'TFS',
+  //   buttons : [
+  //     {
+  //       text    : 'Copy Bug',
+  //       B
+  //       hotkey  : 'ctrl+shift+s',
+  //       id: 'qa-ext_jump-to-kanban',
+  //       listener: copyBug
+  //     }
+  //     // ,
+  //     // {
+  //     //   text    : 'Settings',
+  //     //   classes : ['fee', 'fie', 'fo', 'fum'],
+  //     //   id      : 'qa-ext_settings',
+  //     //   hotkey  : 'Ctrl+Shift+S',
+  //     //   listener: thisIsARandomFunction
+  //     // }
+  //   ],
+  //   showCloseButton: true
+  // },
+  "tfs_board": {
+    title   : 'TFS Board',
+    buttons : [
+      {
+        text    : '<i class="fa fa-chevron-circle-right fa-lg"></i> Jump to QA ',
+        // hotkey  : 'None',
+        id: 'qa-ext_to-qa',
+        listener: jumpToQA
+      }
+    ],
+    // showCloseButton: true
+  },
+  "old-slide": {
+    title : 'Old Slide',
+    buttons : [
+      {
+        text   : '<i class="fa fa-check-circle-o"></i>',
+        id     : 'qa-ext_run',
+        // hotkey : 'none',
+        classes: ['button-icon'],
+        listener: run
+      },
+      {
+        text   : 'Hide Highlights',
+        id     : 'qa-ext_hide-highlights',
+        classes: ['button-icon-sibling']
+      }
+    ],
+    showCloseButton: false
+  },
+
+  "new-slide": {
+    title : 'New Slide',
+    buttons : [
+      {
+        text   : '<i class="fa fa-arrow-left"></i>',
+        id     : 'qa-ext_prev',
+        // hotkey : 'none',
+        classes: ['button-icon'],
+        listener: prevSlide
+      },
+      {
+        text   : '<i class="fa fa-check-circle-o"></i>',
+        id     : 'qa-ext_run',
+        // hotkey : 'none',
+        classes: ['button-icon'],
+        listener: run
+      },
+      {
+        text    : '<i class="fa fa-bug"></i>',
+        id      : 'qa-ext_bug',
+        // hotkey  : 'none',
+        classes: ['button-icon'],
+        listener: addBugButton
+      },
+      {
+        text   : '<i class="fa fa-arrow-right"></i>',
+        id     : 'qa-ext_next',
+        // hotkey : 'none',
+        classes: ['button-icon'],
+        listener: nextSlide
+      }
+    ],
+    showCloseButton: false
+  },
+
+  // "dr": {
+  //   title   : 'DR Site',
+  //   buttons : [
+  //     {
+  //       text : 'Run Comparison',
+  //       id : 'qa-ext_test-run-comparison',
+  //       hotkey: 'none',
+  //       listener: run
+  //     }
+  //   ],
+  //   listeners : [],
+  //   showCloseButton: true
+  // },
+
+  "bb": {
+    title   : 'Blackboard',
+    buttons : [
+      // {
+      //   text : 'Run Comparison',
+      //   id : 'qa-ext_test-run-comparison',
+      //   hotkey: 'none',
+      //   listener: run
+      // },
+      {
+        text: 'Jump to Web <i class="fa fa-fast-forward"></i>',
+        id : 'qa-ext_jump-to-web',
+        // hotkey: 'none',
+        listener: jumpToWeb,
+        popup: true,
+        popupTrigger: jumpPopup
+      }
+    ],
+    listeners : [],
+    // showCloseButton: true
+  },
+  "bb-login": {
+    title   : 'Blackboard',
+    buttons : [
+      {
+        text    : 'Login to use the tool',
+        // hotkey  : 'None',
+        id: 'qa-ext_login',
+        classes: ['unclickable-button']
+      }
+    ],
+    // showCloseButton: true
+  }
+}
+
+
+//************************************************************
+//***************** BUTTON LISTENERS *************************
+//************************************************************
 
 //
-// initializeDr
+// jumpPopup
 //
-// descr - adds all dr courses to a global variable
-function initializeDr() {
-  dr_storage = global.initializeDrData();
-  // dr_storage[bb_courses] = global.initializeBbData();
+// descr - navigates user to selected webs in old and new sites
+function jumpPopup() {
+  //grab web number and course
+  var number = $('.web-select').val().match(/\d{2,}/)[0];
+  var course = document.querySelector('#jump-to-web-courseName');
+
+
+  for(var key in global.courseNavData) {
+    $.each(global.courseNavData[key], function(index, web) {
+
+      //find the link that matches the selected course and web
+      if (parseInt(web.webNumber) === parseInt(number) && web.course === course.value) {
+          var html_course = course.value.match(/\w{2}-\d{3}/);
+          var web_select = document.querySelector('#jump-to-web-webName');
+          var web_title = web_select.options[web_select.selectedIndex].getAttribute('title').match(/---\sWeb\d{2}\s-\s(.+)/)[1];
+
+          //send message to dr site to open matching old slide
+          if(global.dr_storage.dr_courses.hasOwnProperty(html_course)){
+            if(global.dr_storage.dr_courses[html_course].hasOwnProperty(web_title)){
+              chrome.runtime.sendMessage({message: 'to-old-slide', data: "http://" + global.dr_storage.dr_courses[html_course][web_title].full_url});
+            }
+          }
+
+        //open new slide
+        window.location.href = web.link;
+        return;
+      }
+    });
+  
+  };
 }
-initializeDr();
 
 //
 // thisIsARandomFunction
@@ -179,6 +344,13 @@ function jumpToQA(){
   $('.agile-content-container.scrollable').scrollLeft(3100);
 }
 
+//************************************************************
+//***************** END BUTTON LISTENERS *********************
+//************************************************************
+
+
+
+
 
 
 
@@ -207,171 +379,7 @@ function jumpToQA(){
 
 
 
-var templateObjects = {
-  // "tfs_log": {
-  //   title   : 'TFS',
-  //   buttons : [
-  //     {
-  //       text    : 'Copy Bug',
-  //       B
-  //       hotkey  : 'ctrl+shift+s',
-  //       id: 'qa-ext_jump-to-kanban',
-  //       listener: copyBug
-  //     }
-  //     // ,
-  //     // {
-  //     //   text    : 'Settings',
-  //     //   classes : ['fee', 'fie', 'fo', 'fum'],
-  //     //   id      : 'qa-ext_settings',
-  //     //   hotkey  : 'Ctrl+Shift+S',
-  //     //   listener: thisIsARandomFunction
-  //     // }
-  //   ],
-  //   showCloseButton: true
-  // },
-  "tfs_board": {
-    title   : 'TFS Board',
-    buttons : [
-      {
-        text    : '<i class="fa fa-chevron-circle-right fa-lg"></i> Jump to QA ',
-        // hotkey  : 'None',
-        id: 'qa-ext_to-qa',
-        listener: jumpToQA
-      }
-    ],
-    // showCloseButton: true
-  },
-  "old-slide": {
-    title : 'Old Slide',
-    buttons : [
-      {
-        text   : '<i class="fa fa-check-circle-o"></i>',
-        id     : 'qa-ext_run',
-        // hotkey : 'none',
-        classes: ['button-icon'],
-        listener: run
-      },
-      {
-        text   : 'Hide Highlights',
-        id     : 'qa-ext_hide-highlights',
-        classes: ['button-icon-sibling']
-      }
-    ],
-    showCloseButton: false
-  },
 
-  "new-slide": {
-    title : 'New Slide',
-    buttons : [
-      {
-        text   : '<i class="fa fa-arrow-left"></i>',
-        id     : 'qa-ext_prev',
-        // hotkey : 'none',
-        classes: ['button-icon'],
-        listener: prevSlide
-      },
-      {
-        text   : '<i class="fa fa-check-circle-o"></i>',
-        id     : 'qa-ext_run',
-        // hotkey : 'none',
-        classes: ['button-icon'],
-        listener: run
-      },
-      {
-        text    : '<i class="fa fa-bug"></i>',
-        id      : 'qa-ext_bug',
-        // hotkey  : 'none',
-        classes: ['button-icon'],
-        listener: addBugButton
-      },
-      {
-        text   : '<i class="fa fa-arrow-right"></i>',
-        id     : 'qa-ext_next',
-        // hotkey : 'none',
-        classes: ['button-icon'],
-        listener: nextSlide
-      }
-    ],
-    showCloseButton: false
-  },
-
-  // "dr": {
-  //   title   : 'DR Site',
-  //   buttons : [
-  //     {
-  //       text : 'Run Comparison',
-  //       id : 'qa-ext_test-run-comparison',
-  //       hotkey: 'none',
-  //       listener: run
-  //     }
-  //   ],
-  //   listeners : [],
-  //   showCloseButton: true
-  // },
-
-  "bb": {
-    title   : 'Blackboard',
-    buttons : [
-      // {
-      //   text : 'Run Comparison',
-      //   id : 'qa-ext_test-run-comparison',
-      //   hotkey: 'none',
-      //   listener: run
-      // },
-      {
-        text: 'Jump to Web <i class="fa fa-fast-forward"></i>',
-        id : 'qa-ext_jump-to-web',
-        // hotkey: 'none',
-        listener: jumpToWeb,
-        popup: true,
-        popupTrigger: function() {
-          //grab web number and course
-          var number = $('.web-select').val().match(/\d{2,}/)[0];
-          var course = document.querySelector('#jump-to-web-courseName');
-
-
-          for(var key in global.courseNavData) {
-            $.each(global.courseNavData[key], function(index, web) {
-
-              //find the link that matches the selected course and web
-              if (parseInt(web.webNumber) === parseInt(number) && web.course === course.value) {
-                  var html_course = course.value.match(/\w{2}-\d{3}/);
-                  var web_select = document.querySelector('#jump-to-web-webName');
-                  var web_title = web_select.options[web_select.selectedIndex].getAttribute('title').match(/---\sWeb\d{2}\s-\s(.+)/)[1];
-
-                  //send message to dr site to open matching old slide
-                  if(dr_storage.dr_courses.hasOwnProperty(html_course)){
-                    if(dr_storage.dr_courses[html_course].hasOwnProperty(web_title)){
-                      chrome.runtime.sendMessage({message: 'to-old-slide', data: "http://" + dr_storage.dr_courses[html_course][web_title].full_url});
-                    }
-                  }
-
-                //open new slide
-                window.location.href = web.link;
-                return;
-              }
-            });
-          
-          };
-        }
-      }
-    ],
-    listeners : [],
-    // showCloseButton: true
-  },
-  "bb-login": {
-    title   : 'Blackboard',
-    buttons : [
-      {
-        text    : 'Login to use the tool',
-        // hotkey  : 'None',
-        id: 'qa-ext_login',
-        classes: ['unclickable-button']
-      }
-    ],
-    // showCloseButton: true
-  }
-}
 
 //
 // loadTemplate
@@ -389,7 +397,7 @@ global.loadTemplate = function(context) {
       template = templateObjects[context];
 
       // load the alias instead if it is present
-      if (template.alias) {
+      if (template.alias) { //throws error for pages that aren't misc but don't have a button defined
         template = templateObjects[template.alias];
       }
 
@@ -431,6 +439,79 @@ global.loadTemplate = function(context) {
     resolve(context);
   });
 }
+
+// 
+// generateTemplate
+//
+// @param templateObject - an object with the following structure:
+//
+//      title : string,
+//      buttons : [
+//        {
+//          text    : string,
+//          id      : string,
+//          hotkey  : string,
+//          classes : [string, string],
+//          listener: function reference,
+//          popup: boolean,
+//          popupTrigger: function reference
+//        },
+//      ],
+//      showCloseButton: boolean
+//    }
+//
+// descr - using the templateObject provided, will return
+// a string of HTML that can be used on the DOM to create
+// the user interface for the page
+global.generateTemplate = function(templateObject) {
+  var str = '<div class="footer-bar-box slide qa-ext_draggable">';
+      str +=  '<div class="grabbable group">';
+      str +=    '<h2>' + templateObject.title + '</h2>';
+
+  if (templateObject.showCloseButton) {
+    str += '<button id="hide-qa-helper">X</button>';
+  }
+
+  str +=  '</div>';
+  str += ' <div id="footer-bar">';
+
+  for (var i = 0; i < templateObject.buttons.length; i++) {
+    var btn = templateObject.buttons[i];
+
+    str += '<div class="footer-button';
+
+    if (btn.classes) {
+      str += ' ';
+      for (var c = 0; c < btn.classes.length; c++) {
+        str += btn.classes[c];
+        str += c === btn.classes.length - 1 ? '' : ' ';
+      }
+      str += '"';
+    }
+    else {
+      str += '"';
+    }
+
+    if (btn.id) { str += ' id="' + btn.id + '"'; }
+
+    str += '>';
+    str += '<p>' + btn.text + '</p>';
+
+    if (btn.hotkey) {
+      str += '<small>hotkey: ' + btn.hotkey + '</small>';
+    }
+
+    str += '</div>';
+  }
+
+  str += '</div>';
+  str += '<div class="qa-ext_popup"><button id="qa-ext_popup-trigger"></button></div>';
+  str += '</div>';
+
+  return str;
+}
+
+
 
 })(QA_HELPER_JQUERY, QA_HELPER_GLOBAL);
 
