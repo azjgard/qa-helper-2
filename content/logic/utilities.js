@@ -170,7 +170,7 @@ global.saveCoursesToStorage = function(tab){
          
         var obj = {
             course: course_name.trim(),
-            title: txt.split(/\s-\s\d{4,}/)[0].trim(),
+            title: txt.split(/-\s\d{4,}/)[0].trim(),
             webNumber: txt.match(/\d{2}/)[0],
             link: getUncleLink(descriptions[i])
         };
@@ -195,7 +195,7 @@ global.saveCoursesToStorage = function(tab){
 global.getCourseNavData = function(){
   chrome.storage.local.get(function(storage){
     global.courseNavData = storage.bb_courses;
-    console.log(global.courseNavData);
+    console.log(storage);
   });
 }
 

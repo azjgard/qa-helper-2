@@ -73,18 +73,31 @@ function runQaTool() {
               
               var oldStuff = data[0];
               var newStuff = data[1];
+
               console.log(oldStuff, newStuff);
               // compare the text
+
+              var newWords = {};
+              var oldWords = {};
               for (var n in newStuff) {
-                var newWord = cleanWord(newStuff[n].word_text);
+                newWords[n] = cleanWord(newStuff[n].word_text);
+              }
 
-                for (var o in oldStuff) {
-                  var oldWord = cleanWord(oldStuff[o].word_text);
+              for (var o in oldStuff) {
+                oldWords[o] = cleanWord(oldStuff[o].word_text);
+              }
 
-                  if (newWord === oldWord && !oldStuff[o].matched) {
+              for (var n in newWords) {
+                for (var o in oldWords) {
+                  console.log(newWords[n], oldWords[o]);
+                  if (newWords[n] === oldWords[o]) { 
+                    console.warn(newWords[n], oldWords[o]);
+                    //find these in object
                     newStuff[n].matched = true;
                     oldStuff[o].matched = true;
-                    // console.log('match');
+                    delete newWords[n];
+                    delete oldWords[o];
+                    break;
                   }
                 }
               }

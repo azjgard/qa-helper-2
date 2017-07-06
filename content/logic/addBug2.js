@@ -140,7 +140,7 @@
             for (var i = 0; i < tagsToBeAdded.length; i++) {
               addTag(tagsToBeAdded[i]);
             }
-          }, 700);
+          }, 1500);
             
         // });
 
