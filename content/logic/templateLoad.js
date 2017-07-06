@@ -301,7 +301,7 @@ var templateObjects = {
     title   : 'Blackboard',
     buttons : [
       {
-        text    : 'Login to use the tool!',
+        text    : 'Login to use the tool',
         // hotkey  : 'None',
         id: 'qa-ext_login',
         classes: ['unclickable-button']
