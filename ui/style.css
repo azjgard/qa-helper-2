@@ -98,7 +98,6 @@
   z-index: 99999;
 }
 
-
 /*IDS*/
 #footer-bar{
   display: flex;
@@ -112,6 +111,7 @@
   cursor     : move;
   padding    : 0;
   background-color: #008BD3;
+  font-family: Helvetica;
 }
 .grabbable h2 {
   display: inline;
