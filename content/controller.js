@@ -110,6 +110,8 @@ chrome.runtime.onMessage.addListener(
       }
       catch (e) {
         alert('The slide reference ID is incorrectly formatted!');
+	console.log('There was an error:')
+	console.log(e)
       }
     }
 
