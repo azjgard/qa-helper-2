@@ -16,8 +16,8 @@ page that it is running on:
 [[file:documentation/blackboard-ui.JPG]]
 **** Jump to Web
 NOTE: You must login to Blackboard in order for this button to work properly!
-Clicking this button will present you with a dialog box 
-containing two dropdown boxes and a button labeled 'Jump'.
+Clicking this button will present you with a dialog box containing two dropdown boxes and a button labeled 'Jump'.
+
 [[file:documentation/blackboard-ui1.JPG]]
 1. The Course Dropdown
 - This dropdown box will contain a list of all the courses QA Helper has learned about (see NOTE below).
@@ -31,7 +31,8 @@ If QA Helper has not yet learned about a course, you cannot navigate to it in th
 course page in Blackboard that lists all the webs you'd like to teach
 QA Helper about. As soon as any given course page has finished
 loading, you should notice that the Course dropdown will then be populated
-with an additional field representing that course.//
+with an additional field representing that course.
+
 [[file:documentation/course-page.JPG]]
 *** TFS - Board View
 [[file:documentation/tfs-ui.JPG]]
@@ -84,10 +85,12 @@ The tool sometimes causes the following problems:
 See Troubleshooting below for solutions to these problems.
 ** Troubleshooting
 To overcome the limitations of the QA-Helper tool listed above, do the following (numbers are comparable):
-1-3. Close out of and reopen the web you are currently doing QA for.
-4. Navigate to the courses individually by clicking the proper links on the the Blackboard & Avondale sites.
-5. Restart your QA-Helper tool by closing out of all pages that the QA-Helper tool set up for you and clicking on the Chrome extension again. Then retry the run comparison with only one new slide and one old slide open.
+
+1. (1-3) Close out of and reopen the web you are currently doing QA for.
+2. (4) Navigate to the courses individually by clicking the proper links on the the Blackboard & Avondale sites.
+3. (5) Restart your QA-Helper tool by closing out of all pages that the QA-Helper tool set up for you and clicking on the Chrome extension again. Then retry the run comparison with only one new slide and one old slide open.
 If problems persist, please contact any developers working on this tool.
-** TODO
+
+** TODOs
 - See if there is any value in upgrading our OCR API access to an increased number of requests per month.
 
