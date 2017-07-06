@@ -158,6 +158,16 @@ global.init = function() {
 
   // inject all libraries that need to run in the page's world
   global.executeInPageContext(global.addClientsideLibs);
+
+  // inject font awesome CDN
+  global.executeInPageContext(function() {
+    var style  = document.createElement('link');
+    var head = document.getElementsByTagName('head')[0];
+    style.rel  = 'stylesheet';
+    style.href = 'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'
+
+    head.insertBefore(style, head.childNodes[0]);
+  });
   
   global.loadTemplate(context);
 
