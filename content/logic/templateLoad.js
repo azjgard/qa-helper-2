@@ -183,7 +183,7 @@ var templateObjects = {
     title   : 'TFS Board',
     buttons : [
       {
-        text    : 'Jump to QA',
+        text    : '<i class="fa fa-chevron-circle-right fa-lg"></i> Jump to QA ',
         // hotkey  : 'None',
         id: 'qa-ext_to-qa',
         listener: jumpToQA
@@ -195,14 +195,16 @@ var templateObjects = {
     title : 'Old Slide',
     buttons : [
       {
-        text   : 'Compare',
+        text   : '<i class="fa fa-check-circle-o"></i>',
         id     : 'qa-ext_run',
         // hotkey : 'none',
+        classes: ['button-icon'],
         listener: run
       },
       {
         text   : 'Hide Highlights',
         id     : 'qa-ext_hide-highlights',
+        classes: ['button-icon-sibling']
       }
     ],
     showCloseButton: false
@@ -212,27 +214,31 @@ var templateObjects = {
     title : 'New Slide',
     buttons : [
       {
-        text   : '<',
+        text   : '<i class="fa fa-arrow-left"></i>',
         id     : 'qa-ext_prev',
         // hotkey : 'none',
+        classes: ['button-icon'],
         listener: prevSlide
       },
       {
-        text   : 'Compare',
+        text   : '<i class="fa fa-check-circle-o"></i>',
         id     : 'qa-ext_run',
         // hotkey : 'none',
+        classes: ['button-icon'],
         listener: run
       },
       {
-        text    : 'Add Bug',
+        text    : '<i class="fa fa-bug"></i>',
         id      : 'qa-ext_bug',
         // hotkey  : 'none',
+        classes: ['button-icon'],
         listener: addBugButton
       },
       {
-        text   : '>',
+        text   : '<i class="fa fa-arrow-right"></i>',
         id     : 'qa-ext_next',
         // hotkey : 'none',
+        classes: ['button-icon'],
         listener: nextSlide
       }
     ],
@@ -263,7 +269,7 @@ var templateObjects = {
       //   listener: run
       // },
       {
-        text: 'Jump to Web',
+        text: 'Jump to Web <i class="fa fa-fast-forward"></i>',
         id : 'qa-ext_jump-to-web',
         // hotkey: 'none',
         listener: jumpToWeb,
