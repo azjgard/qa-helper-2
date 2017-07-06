@@ -42,8 +42,8 @@ function toggleBtnCompression() {
   if ($(this).hasClass('compressed')) {
     $(this).removeClass('compressed');
     $('.qa-ext_popup')
-    .css('display', 'none')
-    .html('<button id="qa-ext_popup-trigger"></button');
+    .css('display', 'none');
+    $('.qa-ext_popup>div').remove();
   }
   else {
     $(this).addClass('compressed');
@@ -79,6 +79,7 @@ function jumpToWeb() {
 
 
   var htmlString = 
+                  '<div>'+
                   '<h3>Course #</h3>'+
                   '<select id="jump-to-web-courseName" class="course-select" onchange="qa_ext_filterCourseNavData()">'+
                     webCourse +
@@ -86,7 +87,9 @@ function jumpToWeb() {
                   '<h3>Web #</h3>'+
                   '<select id="jump-to-web-webName" class="web-select">'+
                     webSelectString+
-                  '</select>';
+                  '</select>'+
+                  '</div>';
+
 
   configurePopup(htmlString, 'Jump');
 
@@ -103,11 +106,13 @@ function configurePopup(popupHtml, triggerText) {
         var web_choose = document.querySelectorAll('.jump-to-web-webName');
 
         // console.log(web_choose);
-        web_box.value = null;
-        for (var i = 0; i < web_choose.length; i++) {
-          web_choose[i].style.display = "block";
-          if(course_choose.value !== web_choose[i].getAttribute("title").match(/(.+)\s---\s/)[1]){
-            web_choose[i].style.display = 'none';
+        if(web_box){
+          web_box.value = null;
+          for (var i = 0; i < web_choose.length; i++) {
+            web_choose[i].style.display = "block";
+            if(course_choose.value !== web_choose[i].getAttribute("title").match(/(.+)\s---\s/)[1]){
+              web_choose[i].style.display = 'none';
+            }
           }
         }
       }
