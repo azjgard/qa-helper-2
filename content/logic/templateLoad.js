@@ -6,7 +6,7 @@ function initializeDr() {
   // dr_storage[bb_courses] = global.initializeBbData();
 }
 initializeDr();
-console.log(dr_storage);
+// console.log(dr_storage);
 
 function thisIsARandomFunction() {
   alert('HELLO THERE WORLD!');
