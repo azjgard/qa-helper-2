@@ -11,8 +11,6 @@ function initializeDr() {
   // dr_storage[bb_courses] = global.initializeBbData();
 }
 initializeDr();
-// console.log(dr_storage);
-
 
 //
 // thisIsARandomFunction
@@ -95,15 +93,12 @@ function jumpToWeb() {
    var webCourse = '';
 
   for (var key in global.courseNavData) {
-    
     $.each(global.courseNavData[key], function(index, web){
-
       var title = web.title; // .length > 34 ?
                              //  web.title.substring(0, 31) + '..' :
                              //  web.title;
       webSelectString+='<option class="jump-to-web-webName" title="' + web.course + " --- " + web.title + '">' + title + '</option>';
     });
-    
     webCourse += '<option>' + global.courseNavData[key][0].course + '</option>'
   }
 
@@ -128,7 +123,6 @@ function jumpToWeb() {
 // descr - injects function into webpage that filters "jump to web" dropdowns 
 // with webs that are relevant to the chosen course
 function configurePopup(popupHtml, triggerText) {
-  
   global.executeInPageContext(function() {
     setTimeout(function(){
       qa_ext_filterCourseNavData = function(){
@@ -148,9 +142,9 @@ function configurePopup(popupHtml, triggerText) {
             }
           }
         }
+
       }
       qa_ext_filterCourseNavData();
-      
     }, 50);
   });
 
@@ -162,27 +156,32 @@ function configurePopup(popupHtml, triggerText) {
 //
 // copyBug
 //
-// descr - 
+// descr - this will copy a bug to another bug in TFS
 function copyBug(){
   alert("This feature is not yet functional");
 }
 
 //
-// initializeDr
+// run
 //
-// descr - 
+// descr - sends message to the old slide and new slide and runs 
+// a comparison of the text on the slides via 3rd Party OCR
 function run() {
   console.log('sending the run message!!');
   chrome.runtime.sendMessage({message:'run'});
 }
 
 //
-// initializeDr
+// jumpToQA
 //
-// descr - 
+// descr - moves Kanban board in TFS to QA section
 function jumpToQA(){
   $('.agile-content-container.scrollable').scrollLeft(3100);
 }
+
+
+
+
 
 // TODO: add functionality to account for hotkeys
 // var ctrlPressed = false;
@@ -201,6 +200,12 @@ function jumpToQA(){
 // var hotkey_nextSlide       = 190; // .
 // var hotkey_prevSlide       = 188; // ,
 // var hotkey_getCurrentSlide = 83;  // s
+
+
+
+
+
+
 
 var templateObjects = {
   // "tfs_log": {
@@ -320,28 +325,29 @@ var templateObjects = {
         listener: jumpToWeb,
         popup: true,
         popupTrigger: function() {
+          //grab web number and course
           var number = $('.web-select').val().match(/\d{2,}/)[0];
           var course = document.querySelector('#jump-to-web-courseName');
+
+
           for(var key in global.courseNavData) {
-            
             $.each(global.courseNavData[key], function(index, web) {
+
+              //find the link that matches the selected course and web
               if (parseInt(web.webNumber) === parseInt(number) && web.course === course.value) {
-                // console.log('courses match: ', web.course, course.value);
-                
                   var html_course = course.value.match(/\w{2}-\d{3}/);
                   var web_select = document.querySelector('#jump-to-web-webName');
                   var web_title = web_select.options[web_select.selectedIndex].getAttribute('title').match(/---\sWeb\d{2}\s-\s(.+)/)[1];
 
+                  //send message to dr site to open matching old slide
                   if(dr_storage.dr_courses.hasOwnProperty(html_course)){
                     if(dr_storage.dr_courses[html_course].hasOwnProperty(web_title)){
-                      // alert("sending");
                       chrome.runtime.sendMessage({message: 'to-old-slide', data: "http://" + dr_storage.dr_courses[html_course][web_title].full_url});
-
                     }
                   }
 
+                //open new slide
                 window.location.href = web.link;
-
                 return;
               }
             });
@@ -367,6 +373,12 @@ var templateObjects = {
   }
 }
 
+//
+// loadTemplate
+//
+// descr - loads QA-Helper tool on the page
+// @param 
+//    context - name of the site to add button on (e.g. 'tfs_log')
 global.loadTemplate = function(context) {
   return new Promise(function(resolve, reject) {
     var template = null;
@@ -394,6 +406,7 @@ global.loadTemplate = function(context) {
       for (var i = 0; i < template.buttons.length; i++) {
         var btn = template.buttons[i];
 
+        //set listener
         if (btn.id && btn.listener) {
           $('#' + btn.id).on('click', btn.listener);
         }
@@ -406,6 +419,7 @@ global.loadTemplate = function(context) {
           }
         }
 
+        //set popup and listener for popup
         if (btn.popup) {
           $('#'+btn.id).on('click', toggleBtnCompression);
           if (btn.popupTrigger) {
@@ -414,7 +428,6 @@ global.loadTemplate = function(context) {
         }
       }
     }
-
     resolve(context);
   });
 }
