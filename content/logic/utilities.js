@@ -167,7 +167,7 @@ global.saveCoursesToStorage = function(tab){
   chrome.storage.local.get(function(storage){
     for (var i = 0; i < descriptions.length; i++) {
         var txt = descriptions[i].textContent; 
-         
+
         var obj = {
             course: course_name.trim(),
             title: txt.split(/-\s\d{4,}/)[0].trim(),
@@ -186,9 +186,13 @@ global.saveCoursesToStorage = function(tab){
                 .href;    
     }
 
+    if(!storage.hasOwnProperty('bb_courses')){
+      storage['bb_courses'] = {};    
+    }
+
     storage.bb_courses[course_name] = values;
-    
     chrome.storage.local.set(storage);
+    global.getCourseNavData();
   });
 }
 
