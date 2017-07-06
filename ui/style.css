@@ -21,10 +21,12 @@
   background-color: rgba(0,0,0,.3);
 }
 
-.unclickable-button {
-  
+.button-icon {
+  font-size: 25px; 
 }
-
+.button-icon-sibling {
+  line-height: 25px;
+}
 
 /* default popup is inside the UI template */
 .qa-ext_popup {
