@@ -1,5 +1,5 @@
 (function($, global) {
-  var context = global.getContext();
+  var context = getContext();
   var queryString = window.location.search ?
                     window.location.search.replace('?','') :
                     '';
