@@ -26,7 +26,7 @@
     title   : 'TFS Board',
     buttons : [
       {
-        text    : '<i class="fa fa-chevron-circle-right fa-lg"></i> Jump to QA ',
+        text    : 'Jump to QA <i class="fa fa-external-link"></i>',
         // hotkey  : 'None',
         id: 'qa-ext_to-qa',
         listener: jumpToQA
@@ -112,7 +112,7 @@
       //   listener: run
       // },
       {
-        text: 'Jump to Web <i class="fa fa-fast-forward"></i>',
+        text: 'Jump to Web <i class="fa fa-external-link"></i>',
         id : 'qa-ext_jump-to-web',
         // hotkey: 'none',
         listener: jumpToWeb,

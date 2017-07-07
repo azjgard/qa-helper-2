@@ -1,182 +1,220 @@
 (function($, global) {
 
-  // this is something that gets injected into the page's context
-  // upon initialization of the plugin
-  global.defineFunction_addItem = function() {
+    // this is something that gets injected into the page's context
+    // upon initialization of the plugin
+    global.defineFunction_addItem = function() {
 
-    // addItem
-    //
-    // descr - walk the TFS DOM and adds the item according to the params specified
-    //
-    // @param folderType - name of the folder we're adding to (e.g. "Content QA", "Functional QA")
-    // @param itemType   - name of the item we're adding (e.g. "Bug", "Task", "Issue")
-    // @param courseTag  - the tag of the course we're adding to (e.g. "AD12-105")
-    // @param webNumber  - the number of the web we're adding to (e.g. "25")
-    // @param tagsToAdd  - a string or array of strings that should be added as tags to the new item
-    qa_ext_addItem = function(folderType, itemType, courseTag, webNumber, title, tagsToAdd) {
-      var mainContainer  = document.querySelector('.grid-canvas.ui-draggable');
-      var maxScrollTop   = 60700;
-      var recursionDelay = 10;
+	qa_ext_autoAddItem = function(folderType,
+				      itemType,
+				      courseTag,
+				      webNumber,
+				      title,
+				      tagsToAdd,
+				      additionalTitleText,
+				      descriptionText) {
+	    qa_ext_addItem(folderType, itemType, courseTag, webNumber, title, tagsToAdd)
 
-      var tagsToBeAdded = [];
+	    .then( () => {
+		var $titleInput = $('.dialog input[aria-label="Title"]');
 
-      // scroll
-      //
-      // descr - recursive function that will scroll the DOM in TFS
-      // in search of the folder that matches what it is looking for
-      var scroll = (courseTag, webNumber, scrollTop) => {
-        var folderFound = false; // flag to show if we found what we were looking for
-        var folder = findFolder(courseTag, webNumber); // search the DOM for matching folder
+		console.log('title input:');
+		console.log($titleInput);
 
-        // if the correct folder is found, set the flag to true
-        if (folder !== false) {
-          folderFound = true;
-        }
+		var $descInput  = $('body[contenteditable="true"');
+		console.log($descInput);
 
-        if (scrollTop >= maxScrollTop || folderFound) {
-          if (folderFound) {
-            // if the folder is out of view when it is found, then bring it into view
-            if (folder.getBoundingClientRect().top > 900) { mainContainer.scrollTop += 300; }
-            // add the correct item
-            addItem(itemType, folder)
-          }
-          else {
-            alert(
-              'Nothing was found that matched those parameters!\n\n' + 
-              'Course Tag:\n' + courseTag + '\n\n' +
-              'Web Number:\n' + webNumber
-            );
-          }
-          return folderFound;
-        }
+		var currentTitle = $titleInput.val();
+		console.log(currentTitle);
 
-        // scroll the container
-        mainContainer.scrollTop = scrollTop;
+		setTimeout(()=>{
+		    console.log('timeout ran');
+		    $titleInput.val = currentTitle + additionalTitleText;
+		    $descInput.html(descriptionText);
+		}, 1000);
+	    });
+	};
 
-        // recurse with a timeout
-        setTimeout(() => scroll(courseTag, webNumber, scrollTop + 200), recursionDelay);   
-      };
+	// addItem
+	//
+	// descr - walk the TFS DOM and adds the item according to the params specified
+	//
+	// @param folderType - name of the folder we're adding to (e.g. "Content QA", "Functional QA")
+	// @param itemType   - name of the item we're adding (e.g. "Bug", "Task", "Issue")
+	// @param courseTag  - the tag of the course we're adding to (e.g. "AD12-105")
+	// @param webNumber  - the number of the web we're adding to (e.g. "25")
+	// @param tagsToAdd  - a string or array of strings that should be added as tags to the new item
+	qa_ext_addItem = function(folderType, itemType, courseTag, webNumber, title, tagsToAdd) {
+	    return new Promise(function(resolve, reject) {
+		var mainContainer  = document.querySelector('.grid-canvas.ui-draggable');
+		var maxScrollTop   = 60700;
+		var recursionDelay = 10;
 
-      //
-      // findFolder
-      //
-      // descr - walks the DOM in TFS to find the folder that matches
-      // the specified type, courseTag, and webNumber
-      //
-      // NOTE: the variables have the word QA in them because originally this function
-      // was called 'findQAFolder' and we just haven't changed them since
-      var findFolder = (courseTag, webNumber) => {
-        var contentQAFolders = $('.grid-cell:contains("' + folderType + '")');
-        var correctContentQAFolder = false;
+		var tagsToBeAdded = [];
 
-        if (contentQAFolders.length > 0) {
-          $.each(contentQAFolders, (index, folder) => {
-            var tags = $(folder).siblings().find('.tag-item');
+		// scroll
+		//
+		// descr - recursive function that will scroll the DOM in TFS
+		// in search of the folder that matches what it is looking for
+		var scroll = (courseTag, webNumber, scrollTop) => {
+		    var folderFound = false; // flag to show if we found what we were looking for
+		    var folder = findFolder(courseTag, webNumber); // search the DOM for matching folder
 
-            var courseMatch = false;
-            var webMatch = false;
+		    // if the correct folder is found, set the flag to true
+		    if (folder !== false) {
+			folderFound = true;
+		    }
 
-            if (tags.length > 0) {
-              // reset
-              tagsToBeAdded = [];
+		    if (scrollTop >= maxScrollTop || folderFound) {
+			if (folderFound) {
+			    // if the folder is out of view when it is found, then bring it into view
+			    if (folder.getBoundingClientRect().top > 900) { mainContainer.scrollTop += 300; }
+			    // add the correct item
+			    addItem(itemType, folder);
+			}
+			else {
+			    alert(
+				'Nothing was found that matched those parameters!\n\n' + 
+				    'Course Tag:\n' + courseTag + '\n\n' +
+				    'Web Number:\n' + webNumber
+			    );
 
-              $.each(tags, (index, tag) => {
-               var tagName = $(tag).attr('title');
+			    // rbeject the promise with failure
+			    reject();
+			}
+			return folderFound;
+		    }
 
-               var isWebTag = /^web/i;
-               var isCourseTag = /^[A-Z]{2}\d{2,}-/;
+		    // scroll the container
+		    mainContainer.scrollTop = scrollTop;
 
-               // web tags
-               if (isWebTag.test(tagName)) {
-                 var localWebNumber = tagName.match(/^web\d{2,}/i)[0].match(/\d{2,}/)[0];
-                 if (parseInt(localWebNumber) === parseInt(webNumber)) {
-                   tagsToBeAdded.push(tagName);
-                   webMatch = true;
-                 }
-               }
+		    // recurse with a timeout
+		    setTimeout(() => scroll(courseTag, webNumber, scrollTop + 200), recursionDelay);   
+		};
 
-               // course tags
-               else if (isCourseTag.test(tagName)) {
-                 if (courseTag === tagName) {
-                   tagsToBeAdded.push(tagName);
-                   courseMatch = true;
-                 }
-               }
+		//
+		// findFolder
+		//
+		// descr - walks the DOM in TFS to find the folder that matches
+		// the specified type, courseTag, and webNumber
+		//
+		// NOTE: the variables have the word QA in them because originally this function
+		// was called 'findQAFolder' and we just haven't changed them since
+		var findFolder = (courseTag, webNumber) => {
+		    var contentQAFolders = $('.grid-cell:contains("' + folderType + '")');
+		    var correctContentQAFolder = false;
 
-               // found a match
-               if (courseMatch && webMatch) {
-                 correctContentQAFolder = folder;
-                 return false;
-               }
-             });
-            }
+		    if (contentQAFolders.length > 0) {
+			$.each(contentQAFolders, (index, folder) => {
+			    var tags = $(folder).siblings().find('.tag-item');
 
-            // break outer loop if we found it
-            if (correctContentQAFolder !== false) {
-              return false;
-            }
-          });
-        }
+			    var courseMatch = false;
+			    var webMatch = false;
 
-        // will return the folder OR false if not found
-        return correctContentQAFolder;
-      };
+			    if (tags.length > 0) {
+				// reset
+				tagsToBeAdded = [];
 
-      // 
-      // addItem
-      //
-      var addItem = (itemType, folder) => {
+				$.each(tags, (index, tag) => {
+				    var tagName = $(tag).attr('title');
 
-        var inputBoxTag = '.tags-input.tag-box.ui-autocomplete-input';
-        // click the + button
-        $(folder).siblings().find('.icon.action').click();
+				    var isWebTag = /^web/i;
+				    var isCourseTag = /^[A-Z]{2}\d{2,}-/;
 
-        // click the item type button (Bug, Task, Issue, etc.)
-        $('.sub-menu').find('li[title="'+ itemType + '"]').click(); 
+				    // web tags
+				    if (isWebTag.test(tagName)) {
+					var localWebNumber = tagName.match(/^web\d{2,}/i)[0].match(/\d{2,}/)[0];
+					if (parseInt(localWebNumber) === parseInt(webNumber)) {
+					    tagsToBeAdded.push(tagName);
+					    webMatch = true;
+					}
+				    }
 
-        addTitle(title);
-        // $('.sub-menu').arrive(inputBoxTag, () => {
-          setTimeout(function(){
-            for (var i = 0; i < tagsToBeAdded.length; i++) {
-              addTag(tagsToBeAdded[i]);
-            }
-          }, 1500);
-            
-        // });
+				    // course tags
+				    else if (isCourseTag.test(tagName)) {
+					if (courseTag === tagName) {
+					    tagsToBeAdded.push(tagName);
+					    courseMatch = true;
+					}
+				    }
 
-      };
+				    // found a match
+				    if (courseMatch && webMatch) {
+					correctContentQAFolder = folder;
+					return false;
+				    }
+				});
+			    }
 
-      //
-      // addTag
-      //
-      // @param tag - a string representation of the tag to be added
-      function addTag(tag) {
-          var $input        = '';
-          var $addButton    = $('.tag-box.tag-box-selectable');
-          var pressEnterKey = $.Event('keydown', { keyCode : 13 });
+			    // break outer loop if we found it
+			    if (correctContentQAFolder !== false) {
+				return false;
+			    }
+			});
+		    }
 
-          $addButton.click();
-          $input = $('.tags-input.tag-box.ui-autocomplete-input');
+		    // will return the folder OR false if not found
+		    return correctContentQAFolder;
+		};
 
-          $input.val(tag);
-          $input.trigger(pressEnterKey);
-      }
+		// 
+		// addItem
+		//
+		var addItem = (itemType, folder) => {
 
-      //
-      // addTitle
-      //
-      // @param title - a string representation of the title to be added
-      function addTitle(title) {
-        setTimeout(function(){
-          var $titleInput = $('.dialog input[aria-label="Title"]');
-          $titleInput.val(title + ' - ');
-          $titleInput.focus();
-        }, 1500);
-      }
+		    var inputBoxTag = '.tags-input.tag-box.ui-autocomplete-input';
+		    // click the + button
+		    $(folder).siblings().find('.icon.action').click();
 
-      // execute
-      scroll(courseTag, webNumber, 0);
-    }
-  }
+		    // click the item type button (Bug, Task, Issue, etc.)
+		    $('.sub-menu').find('li[title="'+ itemType + '"]').click(); 
+
+		    addTitle(title);
+		    // $('.sub-menu').arrive(inputBoxTag, () => {
+		    setTimeout(function(){
+			for (var i = 0; i < tagsToBeAdded.length; i++) {
+			    addTag(tagsToBeAdded[i]);
+			}
+
+			// Resolve the promise with success
+			resolve();
+		    }, 1500);
+
+		    // });
+
+		};
+
+		//
+		// addTag
+		//
+		// @param tag - a string representation of the tag to be added
+		function addTag(tag) {
+		    var $input        = '';
+		    var $addButton    = $('.tag-box.tag-box-selectable');
+		    var pressEnterKey = $.Event('keydown', { keyCode : 13 });
+
+		    $addButton.click();
+		    $input = $('.tags-input.tag-box.ui-autocomplete-input');
+
+		    $input.val(tag);
+		    $input.trigger(pressEnterKey);
+		}
+
+		//
+		// addTitle
+		//
+		// @param title - a string representation of the title to be added
+		function addTitle(title) {
+		    setTimeout(function(){
+			var $titleInput = $('.dialog input[aria-label="Title"]');
+			$titleInput.val(title + ' - ');
+			$titleInput.focus();
+		    }, 1500);
+		}
+
+		// execute
+		scroll(courseTag, webNumber, 0);
+	    });
+	};
+    };
 
 })(QA_HELPER_JQUERY, QA_HELPER_GLOBAL);

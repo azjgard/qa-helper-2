@@ -114,18 +114,23 @@ chrome.runtime.onMessage.addListener(
         title     = msg_data.match(/^\w{2}\d{2}-\d{3}-Web\d{2}-\d{1}-\d{1}-\d{2}-\d{1}/i)[0];
 
         global.executeInPageContext(function(courseTag, webNumber, title) {
-          qa_ext_addItem(
+    	  console.log('this is working sooooo yeah');
+          qa_ext_autoAddItem(
             "Content QA",
             "Bug",
             courseTag,
             webNumber,
             title,
-            ['zzz', 'zzzzzzz', 'zzzzzzzzzzzzzzzzzzzzz']
-          );
+              ['zzz', 'zzzzzzz', 'zzzzzzzzzzzzzzzzzzzzz'],
+	      "This is a title for you",
+	      "This is a description."
+          )
         }, courseTag, webNumber, title);
       }
       catch (e) {
         alert('The slide reference ID is incorrectly formatted!');
+	console.log('There was an error:')
+	console.log(e)
       }
     }
 
