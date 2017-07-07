@@ -4,9 +4,34 @@
     // upon initialization of the plugin
     global.defineFunction_addItem = function() {
 
+	qa_ext_autoAddItem = function(folderType,
+				      itemType,
+				      courseTag,
+				      webNumber,
+				      title,
+				      tagsToAdd,
+				      additionalTitleText,
+				      descriptionText) {
+	    qa_ext_addItem(folderType, itemType, courseTag, webNumber, title, tagsToAdd)
 
-	qa_ext_autoAddItem = function(folderType, itemType, courseTag, webNumber, title, tagsToAdd) {
-	    qa_ext_addItem(folderType, itemType, courseTag, webNumber, title, tagsToAdd);
+	    .then( () => {
+		var $titleInput = $('.dialog input[aria-label="Title"]');
+
+		console.log('title input:');
+		console.log($titleInput);
+
+		var $descInput  = $('body[contenteditable="true"');
+		console.log($descInput);
+
+		var currentTitle = $titleInput.val();
+		console.log(currentTitle);
+
+		setTimeout(()=>{
+		    console.log('timeout ran');
+		    $titleInput.val = currentTitle + additionalTitleText;
+		    $descInput.html(descriptionText);
+		}, 1000);
+	    });
 	};
 
 	// addItem
@@ -53,7 +78,7 @@
 				    'Web Number:\n' + webNumber
 			    );
 
-			    // reject the promise with failure
+			    // rbeject the promise with failure
 			    reject();
 			}
 			return folderFound;
