@@ -410,7 +410,7 @@
 	    var templateUT = null;
 
 	    // don't load a template if it's a miscellaneous page
-	    if (context !== 'misc') {
+	    if (context !== 'misc' && templateObjects[context] !== undefined) {
 		template = templateObjects[context];
 
 		// load the alias instead if it is present
