@@ -10,7 +10,6 @@ global.avon = [];
 // descr - adds all dr courses to a global variable
 function initializeDr() {
   global.dr_storage = global.initializeDrData();
-  // global.dr_storage[bb_courses] = global.initializeBbData();
 }
 initializeDr();
 
@@ -33,7 +32,8 @@ global.executeInPageContext = function(fn) {
     script.textContent = '(' + fn + ')(' + args + ');';
     document.documentElement.appendChild(script); // run the script
     document.documentElement.removeChild(script); // clean up
-}
+};
+   
 
 //
 // Message Listener
@@ -85,7 +85,7 @@ chrome.runtime.onMessage.addListener(
         }, true);
     }
 
-    //saves webs from blackboard in extension local storage
+    // saves webs from blackboard in extension local storage
     else if(msg === 'save-in-storage'){
       // console.log("irrelevant tab");
       if(msg_data.url.includes('uti.blackboard.com/webapps/blackboard/content/listContent.jsp')){
