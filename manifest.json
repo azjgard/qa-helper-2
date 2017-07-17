@@ -34,7 +34,6 @@
         "content/data/dr_courses.js",
         "content/logic/templateLoad.js",
         "content/logic/addBug2.js",
-        "content/logic/navigate.js",
         "content/logic/contextScripts.js",
         "content/controller.js"
         ],

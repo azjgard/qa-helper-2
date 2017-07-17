@@ -138,9 +138,15 @@
 }
 
 
+
+
+
 //************************************************************
 //***************** BUTTON LISTENERS *************************
 //************************************************************
+
+
+
 
 //
 // jumpPopup
@@ -256,7 +262,7 @@ function toggleBtnCompression() {
 function jumpToWeb() {
    var webSelectString = '';
    var webCourse = '';
-
+   console.log(global.courseNavData);
   for (var key in global.courseNavData) {
     $.each(global.courseNavData[key], function(index, web){
       var title = web.title; // .length > 34 ?
@@ -343,6 +349,9 @@ function run() {
 function jumpToQA(){
   $('.agile-content-container.scrollable').scrollLeft(3100);
 }
+
+
+
 
 //************************************************************
 //***************** END BUTTON LISTENERS *********************
