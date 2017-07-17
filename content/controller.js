@@ -114,23 +114,20 @@
 		    title     = msg_data.match(/^\w{2}\d{2}-\d{3}-Web\d{2}-\d{1}-\d{1}-\d{2}-\d{1}/i)[0];
 
 		    global.executeInPageContext(function(courseTag, webNumber, title) {
-			console.log('this is working sooooo yeah');
-			qa_ext_autoAddItem(
+			qa_ext_addItem(
 			    "Content QA",
 			    "Bug",
 			    courseTag,
 			    webNumber,
 			    title,
-			    ['zzz', 'zzzzzzz', 'zzzzzzzzzzzzzzzzzzzzz'],
-			    "Test Bug",
-			    "This description doesn't actually mean anything, nor does this bug. It can be safely ignored :)"
-			)
+			    ['zzz', 'zzzzzzz', 'zzzzzzzzzzzzzzzzzzzzz']
+			);
 		    }, courseTag, webNumber, title);
 		}
 		catch (e) {
 		    alert('The slide reference ID is incorrectly formatted!');
-		    console.log('There was an error:')
-		    console.log(e)
+		    console.log('There was an error:');
+		    console.log(e);
 		}
 	    }
 
