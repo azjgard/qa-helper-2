@@ -1,0 +1,65 @@
+Eric,
+
+Here is an example of what information our tool requires to automatically add items
+to TFS. Since our version of TFS is changing soon, it's understandable that we might
+need to change things around a little bit, but for now, this is almost copying
+and pasting from the parameters of the function that does the actual bug-adding:
+
+#+BEGIN_SRC javascript
+
+{
+    /* name of the folder we're adding an item to - REQUIRED
+	possible options:
+	- "Content QA"
+	- "Functional QA"
+	- "Mobile QA"
+	- "Peer Review"
+	- "User Acceptance Testing" */
+    folderType: "Content QA",
+
+    /* type of item we're adding to the folder - REQUIRED
+	possible options:
+	- "Bug"
+	- "Task"
+	- "Issue"
+	- "Risk" */
+    itemType: "Bug",
+
+    /* tag of the course we're referring to - REQUIRED 
+	Format: /\w{2}\d{2}-\d{3}/        */
+    courseTag: "AD12-105",
+
+    /* the number of the web we're referring to - REQUIRED */
+    webNumber: "25",
+
+    /* the tags to add to the new item - REQUIRED */
+    tagsToAdd: ["AD12-105", "Web25-Example Tag"],
+
+    /* the title to add to the item - REQUIRED */
+    title: "AD12-105-06-01-03 - Mismatching images",
+
+    /* the description to add to the item - REQUIRED */
+    description: "The images don't match; see attachments.",
+
+    /* attachments to add to the item - OPTIONAL */
+    images: [
+	{
+	    comment: "old slide screenshot",
+	    base64: "q0245jhskjnf902ihruhsiudfhsdf"
+	},
+	{
+	    comment: "new slide screenshot",
+	    base64: "092jnfdgjnp2lsldkmnjkn2iui24u"
+	}
+    ]
+}
+
+#+END_SRC
+
+#+END_SRC
+
+folderType - name of the folder we're adding to (e.g. "Content QA", "Functional QA")
+itemType   - name of the item we're adding (e.g. "Bug", "Task", "Issue")
+courseTag  - the tag of the course we're adding to (e.g. "AD12-105")
+webNumber  - the number of the web we're adding to (e.g. "25")
+tagsToAdd  - a string or array of strings that should be added as tags to the new item
