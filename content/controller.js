@@ -10,7 +10,6 @@
     // descr - adds all dr courses to a global variable
     function initializeDr() {
 	global.dr_storage = global.initializeDrData();
-	// global.dr_storage[bb_courses] = global.initializeBbData();
     }
     initializeDr();
 

@@ -50,7 +50,6 @@ chrome.runtime.onMessage.addListener(
       sendToTab("dr", request);
     }
 
-
     ///////////////////////////////
     //// Route request handler ////
     ///////////////////////////////
