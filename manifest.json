@@ -2,7 +2,7 @@
   "manifest_version": 2,
 
   "name"        : "Courseware Helper",
-  "description" : "Tool to aid with Courseware Quality Assurance",
+  "description" : "Tool to aid with UTI Courseware Rebuild",
   "version"     : "2.0",
 
   "browser_action" : {
