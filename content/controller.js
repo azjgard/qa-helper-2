@@ -124,9 +124,13 @@
 		    }, courseTag, webNumber, title);
 		}
 		catch (e) {
-		    alert('The slide reference ID is incorrectly formatted!');
-		    console.log('There was an error:');
-		    console.log(e);
+		  alert(
+		    'The slide reference ID is incorrectly formatted! Unfortunately,'+
+		      ' this means you cannot use the tool for this web until the slide'+
+		      ' references are fixed.\n\n' +
+		      'Slide Reference: ' + msg_data
+		  );
+		  console.log(e);
 		}
 	    }
 
