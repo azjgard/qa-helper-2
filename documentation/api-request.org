@@ -1,65 +1,96 @@
-Eric,
-
-Here is an example of what information our tool requires to automatically add items
-to TFS. Since our version of TFS is changing soon, it's understandable that we might
-need to change things around a little bit, but for now, this is almost copying
-and pasting from the parameters of the function that does the actual bug-adding:
-
+* Model for API Request
 #+BEGIN_SRC javascript
+  {
+      itemType: "Bug",
+      title: "AD12-105-06-01-03 - Mismatching images",
+      description: "The images don't match; see attachments.",
+      images: [
+          {
+              comment: "old slide screenshot",
+              base64: "q0245jhskjnf902ihruhsiudfhsdf"
+          },
+          {
+              comment: "new slide screenshot",
+              base64: "092jnfdgjnp2lsldkmnjkn2iui24u"
+          }
+      ],
+      action: "logdetail",
+      referenceId: "AD12-105-01-03-02"
+      metadata: {
+          "meta1" : "hello world",
+          "meta2" : "hello world"
+      }
+  }
+#+END_SRC
 
-{
-    /* name of the folder we're adding an item to - REQUIRED
-	possible options:
-	- "Content QA"
-	- "Functional QA"
-	- "Mobile QA"
-	- "Peer Review"
-	- "User Acceptance Testing" */
-    folderType: "Content QA",
+* Uploading a Bug via TFS API
+** Get WIT ID
+*** URL variables: false
+*** Endpoint URL: 
+    Get the Work Item ID of the User Story we want to add the bug to.
+   #+BEGIN_SRC javascript
 
-    /* type of item we're adding to the folder - REQUIRED
-	possible options:
-	- "Bug"
-	- "Task"
-	- "Issue"
-	- "Risk" */
-    itemType: "Bug",
+     // TODO: FIGURE ME OUT
 
-    /* tag of the course we're referring to - REQUIRED 
-	Format: /\w{2}\d{2}-\d{3}/        */
-    courseTag: "AD12-105",
+   #+END_SRC
 
-    /* the number of the web we're referring to - REQUIRED */
-    webNumber: "25",
-
-    /* the tags to add to the new item - REQUIRED */
-    tagsToAdd: ["AD12-105", "Web25-Example Tag"],
-
-    /* the title to add to the item - REQUIRED */
-    title: "AD12-105-06-01-03 - Mismatching images",
-
-    /* the description to add to the item - REQUIRED */
-    description: "The images don't match; see attachments.",
-
-    /* attachments to add to the item - OPTIONAL */
-    images: [
+** PATCH to create the bug
+*** URL variables: false
+*** Endpoint URL:https://utitfs.visualstudio.com/DefaultCollection/UTI-ALM/_apis/wit/workitems/$Bug?api-version=2.2
+    Ensure that the request contains the information below, which is necessary to create the bug.
+   #+BEGIN_SRC javascript
+    [
+	// Title
 	{
-	    comment: "old slide screenshot",
-	    base64: "q0245jhskjnf902ihruhsiudfhsdf"
+	    "op" : "add",
+	    "path": "/fields/System.Title",
+	    "value": "Bug Title"
 	},
+	// Repro Steps
 	{
-	    comment: "new slide screenshot",
-	    base64: "092jnfdgjnp2lsldkmnjkn2iui24u"
+	    "op" : "add",
+	    "path": "/fields/Microsoft.VSTS.TCM.ReproSteps",
+	    "value": "Bug Repro Steps"
+	},
+	// Parent Relationship
+	{
+	    "op": "add",
+	    "path": "/relations/-",
+
+	    "value": {
+		"rel": "System.LinkTypes.Hierarchy-Reverse",
+		// The URL below needs to end with the Work Item ID of
+		// the User Story that the bug goes underneath
+		"url": "https://utitfs.visualstudio.com/DefaultCollection/_apis/wit/workItems/790",
+		"attributes": {
+		    "comment": ""
+		}
+	    }
+	},
+	// -------------------------
+	// DONT CHANGE ANY OF THESE
+	// -------------------------
+	// Area Path
+	{
+	    "op" : "add",
+	    "path": "/fields/System.AreaPath",
+	    "value": "UTI-ALM\\Courseware"
+	},
+	// NodeName
+	{
+	    "op" : "add",
+	    "path": "/fields/System.NodeName",
+	    "value": "Courseware"
 	}
     ]
-}
+   #+END_SRC
 
-#+END_SRC
+** POST to upload attachments
+*** URL variables: true
+*** Endpoint URL: https://utitfs.visualstudio.com/DefaultCollection/UTI-ALM/_apis/wit/attachments/?api-version=2.2&filename=string
+    #+BEGIN_SRC 
 
-#+END_SRC
+    #+END_SRC
+** 4. Attach the uploaded attachment to the Work Item
 
-folderType - name of the folder we're adding to (e.g. "Content QA", "Functional QA")
-itemType   - name of the item we're adding (e.g. "Bug", "Task", "Issue")
-courseTag  - the tag of the course we're adding to (e.g. "AD12-105")
-webNumber  - the number of the web we're adding to (e.g. "25")
-tagsToAdd  - a string or array of strings that should be added as tags to the new item
+ 
