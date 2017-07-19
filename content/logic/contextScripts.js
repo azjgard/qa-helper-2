@@ -11,42 +11,77 @@
 	scrollTFS(queryString);
 	break;
 
-    case 'tfs_log':
+    case 'tfs_log-load_page':
 	scrollLogItems();
 	break;
 	
     case 'new-slide':
-	// Send a message to the API saying that a slide has loaded
-	// Add listeners to send the same message each time a new slide is loaded
-	requestAPI()
+	logToAPI()
 	    .then((response) => {
-		console.log('response received');
-		console.log(response);
+		// console.log('response received');
+		// console.log(response);
 	    });
+	
+	setTimeout(() => {
+	    $('#btn-next').on('click', logToAPI);
+	}, 1500);
+
 	break;
     }
     
+    function waitTillSelector(selector, maxTimeout) {
+	let el = $(selector);
 
-    function requestAPI() {
+	if (el.length >= 1) {
+	    resolve(el);
+	}
+    }
+
+    function logToAPI() {
 	return new Promise((resolve, reject) => {
-	    var dataString =  "{\n    \"folderType\": \"Content QA\",\n    \"itemType\": \"Bug\",\n    \"courseTag\": \"AD12-105\",\n    \"webNumber\": \"25\",\n    \"tagsToAdd\": [\n        \"AD12-105\",\n        \"Web25-Example Tag\"\n    ],\n    \"title\": \"AD12-105-06-01-03 - Mismatching images\",\n    \"description\": \"The images don't match; see attachments.\",\n    \"images\": [\n        {\n            \"comment\": \"old slide screenshot\",\n            \"base64\": \"q0245jhskjnf902ihruhsiudfhsdf\"\n        },\n        {\n            \"comment\": \"new slide screenshot\",\n            \"base64\": \"092jnfdgjnp2lsldkmnjkn2iui24u\"\n        }\n    ],\n    \"action\": \"logdetail\"\n}";
-	    var settings = {
+	    let apiURL = "https://u90-fender.uticorp.com/api/coursecontent/execute";
+	    let headers = {
+		"content-type": "application/json",
+		"cache-control": "no-cache"
+	    };
+
+	    let data = {
+		folderType: "Content QA",
+		itemType: "Bug",
+		courseTag: "AD12-105",
+		webNumber: "25",
+		tagsToAdd: ["AD12-105", "Web25-Example Tag"],
+		title: "AD12-105-06-01-03 - Mismatching images",
+		description: "The images don't match; see attachments.",
+		images: [
+		    {
+			comment: "old slide screenshot",
+			base64: "q0245jhskjnf902ihruhsiudfhsdf"
+		    },
+		    {
+			comment: "new slide screenshot",
+			base64: "092jnfdgjnp2lsldkmnjkn2iui24u"
+		    }
+		],
+		action: "logdetail"
+	    };
+
+	    let settings = {
 		"async": true,
 		"crossDomain": true,
-		"url": "http://u90-fender:43642/api/coursecontent/execute",
+		"url": apiURL,
 		"method": "POST",
-		"headers": {
-		    "content-type": "application/json",
-		    "cache-control": "no-cache",
-		    "postman-token": "dd4506c9-62d0-c2a6-af3a-6d28e95b211e"
-		},
+		"headers": headers,
 		"processData": false,
-		"data": dataString
+		"data": JSON.stringify(data)
 	    };
 
 	    $.ajax(settings).done(function (response) {
 		resolve(response);
 	    });
+	}, (err) => {
+	    console.log('There was an error');
+	    console.log(err);
 	});
     }
 

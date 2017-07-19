@@ -189,7 +189,7 @@
 	global.loadTemplate(context);
 
 	// inject scripts that need to be in the page's world
-	if (context === 'tfs_log') {
+	if (context === 'tfs_log-load_page') {
 	    $(document).arrive('.grid-canvas.ui-draggable', () => {
 		global.executeInPageContext(global.defineFunction_addItem);
 	    });
