@@ -5,7 +5,7 @@
     var pat3 = /\/index\.html/;
     
     chrome.storage.local.get(function(storage){
-	console.log(storage);
+	// console.log(storage);
     });
     
     var templateObjects = {
@@ -217,7 +217,7 @@
 	    "message": "bug",
 	    "data"   : slideInfo
 	};
-	console.log(slideInfo);
+	// console.log(slideInfo);
 	chrome.runtime.sendMessage(data);
     }
 
@@ -270,7 +270,7 @@
     function jumpToWeb() {
 	var webSelectString = '';
 	var webCourse = '';
-	console.log(global.courseNavData);
+	// console.log(global.courseNavData);
 	for (var key in global.courseNavData) {
 	    $.each(global.courseNavData[key], function(index, web){
 		var title = web.title; // .length > 34 ?
@@ -346,7 +346,7 @@
     // descr - sends message to the old slide and new slide and runs 
     // a comparison of the text on the slides via 3rd Party OCR
     function run() {
-	console.log('sending the run message!!');
+	// console.log('sending the run message!!');
 	chrome.runtime.sendMessage({message:'run'});
     }
 

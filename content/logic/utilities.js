@@ -10,7 +10,7 @@ global.getCurrentSlide = function() {
   
   var getID = function() {
     var $btn_support = $("#btn-support");
-    console.log($btn_support);
+    // console.log($btn_support);
 
     // click the question mark button on navigation menu to change the slideID
     // click again to close the popup modal
@@ -40,7 +40,7 @@ global.getCurrentSlide = function() {
 // @params
 //    tab - blackboard course page tab information from Chrome (currently unused)
 global.saveCoursesToStorage = function(tab){
-  console.log('save-in-storage');
+  // console.log('save-in-storage');
   //get course name and webs within it
   var descriptions = document.getElementsByClassName('vtbegenerated');
   var course_name = document.querySelector('span#pageTitleText>span').textContent; //e.g. Course AD-102

@@ -53,7 +53,7 @@
 
 	    // adds colored divs over text on the slides to highlight the text
 	    else if (msg === 'ocrData') { //this message will be sent from draggable qa bar
-		console.log('received run message');
+		// console.log('received run message');
 
 		//remove all the blackout boxes
 		$("#blackout-top-dr").remove();
