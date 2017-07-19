@@ -99,16 +99,16 @@
 	    $('body').append('<div class="disabled-screen-cover"/>');
 
 	    setTimeout( () => {
-		var mainContainer  = document.querySelector('.grid-canvas.ui-draggable');
+		var mainContainer = document.querySelector('.grid-canvas.ui-draggable');
 
 		$('body').append('<div class="qa-ext_popup external">'		+
-				    '<h3>Loading TFS information..'		+
-				    '<br>'					+
-				    '<small style="color:gray">'		+
-					'(If not loading, refresh page)'	+
-				    '</small>'					+
-				    '</h3>'					+
-				    '<div class="qa-ext_progressBar" />'	+
+				 '<h3>Loading TFS information..'		+
+				 '<br>'					+
+				 '<small style="color:gray">'		+
+				 '(If not loading, refresh page)'	+
+				 '</small>'					+
+				 '</h3>'					+
+				 '<div class="qa-ext_progressBar" />'	+
 				 '</div>');
 
 		$('.qa-ext_progressBar').progressbar({ value: 0 });
