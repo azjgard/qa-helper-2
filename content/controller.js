@@ -53,7 +53,7 @@
 
 	    // adds colored divs over text on the slides to highlight the text
 	    else if (msg === 'ocrData') { //this message will be sent from draggable qa bar
-		console.log('received run message');
+		// console.log('received run message');
 
 		//remove all the blackout boxes
 		$("#blackout-top-dr").remove();
@@ -110,7 +110,7 @@
 		try {
 		    courseTag = msg_data.match(/^\w{2,}\d{2,}-\d{3}/)[0];
 		    webNumber = msg_data.match(/web(\d{2,})/i)[1];
-		    title     = msg_data.match(/^\w{2}\d{2}-\d{3}-Web\d{2}-\d{1}-\d{1}-\d{2}-\d{1}/i)[0];
+		    title     = msg_data.match(/^\w{2}\d{2}-\d{3}-Web\d{2}-\d{1,3}-\d{1,3}-\d{1,3}-\d{1,3}/i)[0];
 
 		    global.executeInPageContext(function(courseTag, webNumber, title) {
 			qa_ext_addItem(
@@ -124,9 +124,13 @@
 		    }, courseTag, webNumber, title);
 		}
 		catch (e) {
-		    alert('The slide reference ID is incorrectly formatted!');
-		    console.log('There was an error:');
-		    console.log(e);
+		  alert(
+		    'The slide reference ID is incorrectly formatted! Unfortunately,'+
+		      ' this means you cannot use the tool for this web until the slide'+
+		      ' references are fixed.\n\n' +
+		      'Slide Reference: ' + msg_data
+		  );
+		  console.log(e);
 		}
 	    }
 
@@ -189,7 +193,7 @@
 	global.loadTemplate(context);
 
 	// inject scripts that need to be in the page's world
-	if (context === 'tfs_log') {
+	if (context === 'tfs_log-load_page') {
 	    $(document).arrive('.grid-canvas.ui-draggable', () => {
 		global.executeInPageContext(global.defineFunction_addItem);
 	    });

@@ -62,7 +62,7 @@ chrome.runtime.onMessage.addListener(
     // From: new-slide
     // To:   tfs_log
     if (msg === 'bug') { 
-      sendToTab("tfs_log", request);
+      sendToTab("tfs_log-load_page", request);
     }
   }
 );
