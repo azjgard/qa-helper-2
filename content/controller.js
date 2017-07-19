@@ -110,7 +110,7 @@
 		try {
 		    courseTag = msg_data.match(/^\w{2,}\d{2,}-\d{3}/)[0];
 		    webNumber = msg_data.match(/web(\d{2,})/i)[1];
-		    title     = msg_data.match(/^\w{2}\d{2}-\d{3}-Web\d{2}-\d{1}-\d{1}-\d{2}-\d{1}/i)[0];
+		    title     = msg_data.match(/^\w{2}\d{2}-\d{3}-Web\d{2}-\d{1,3}-\d{1,3}-\d{1,3}-\d{1,3}/i)[0];
 
 		    global.executeInPageContext(function(courseTag, webNumber, title) {
 			qa_ext_addItem(
