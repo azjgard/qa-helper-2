@@ -1,0 +1,461 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2017-07-18 Tue 15:07 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title></title>
+<meta name="generator" content="Org mode" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2017 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org3861918">1. Quality Assurance Helper - Chrome Extension</a>
+<ul>
+<li><a href="#org686fda3">1.1. Introduction</a></li>
+<li><a href="#orga49746e">1.2. Features by Page</a>
+<ul>
+<li><a href="#orgde70769">1.2.1. Blackboard</a></li>
+<li><a href="#org0579c7d">1.2.2. TFS - Board View</a></li>
+<li><a href="#org52e338e">1.2.3. New Slide</a></li>
+</ul>
+</li>
+<li><a href="#org35ac00e">1.3. Limitations</a></li>
+<li><a href="#orgf84f60d">1.4. Troubleshooting</a></li>
+<li><a href="#org0332125">1.5. <span class="todo TODO">TODO</span> s</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org3861918" class="outline-2">
+<h2 id="org3861918"><span class="section-number-2">1</span> Quality Assurance Helper - Chrome Extension</h2>
+<div class="outline-text-2" id="text-1">
+</div><div id="outline-container-org686fda3" class="outline-3">
+<h3 id="org686fda3"><span class="section-number-3">1.1</span> Introduction</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+The QA Helper is a tool designed to streamline the process of
+performing 1:1 Validations between the old and new UTI
+courseware by minimizing the ill effects of some of the process's biggest pain
+points. This tool was originally developed for 
+supporting Content QA, but could be expanded in the future
+to aid in other areas of need.
+The usage of its features are the same, independent of the
+page that it is running on:
+</p>
+<ol class="org-ol">
+<li>A box with buttons will appear in the top-left corner of the page</li>
+<li>This box can be dragged around to any location on the screen that is convenient for the task at hand</li>
+<li>Buttons within the box can be clicked to invoke the help of the tool</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orga49746e" class="outline-3">
+<h3 id="orga49746e"><span class="section-number-3">1.2</span> Features by Page</h3>
+<div class="outline-text-3" id="text-1-2">
+</div><div id="outline-container-orgde70769" class="outline-4">
+<h4 id="orgde70769"><span class="section-number-4">1.2.1</span> Blackboard</h4>
+<div class="outline-text-4" id="text-1-2-1">
+
+<div class="figure">
+<p><img src="documentation/blackboard-ui.JPG" alt="blackboard-ui.JPG" />
+</p>
+</div>
+</div>
+<ol class="org-ol"><li><a id="org7f4f9c6"></a>Jump to Web<br /><div class="outline-text-5" id="text-1-2-1-1">
+<p>
+Clicking this button will present you with a dialog box containing two dropdown boxes and a button labeled 'Jump'.
+Once all dropdowns are selected and the "Jump" button is pressed, a new slide and its corresponding old slide will pop up.
+</p>
+
+
+<div class="figure">
+<p><img src="documentation/blackboard-ui1.JPG" alt="blackboard-ui1.JPG" />
+</p>
+</div>
+<ol class="org-ol">
+<li>The Course Dropdown</li>
+<li>This dropdown box will contain a list of all the courses QA Helper has learned about (see NOTE below).</li>
+<li>The Web Dropdown</li>
+<li>When a course is selected in the Course dropdown, this dropdown box will contain a list of all the webs in the selected course that QA</li>
+</ol>
+<p>
+Helper has learned about and can open for you.
+</p>
+<ol class="org-ol">
+<li>The Jump button</li>
+<li>Click this button after you've selected the appropriate course and web, and it will open the correct web for you in Blackboard and in the DR site!</li>
+</ol>
+<p>
+If QA Helper has not yet learned about a course, you cannot navigate to it in the dropdown menus.
+</p>
+
+<p>
+<b>NOTE</b>: To teach QA Helper about a new course, navigate to the
+course page in Blackboard that lists all the webs you'd like to teach
+QA Helper about. As soon as any given course page has finished
+loading, you should notice that the Course dropdown will then be populated
+with an additional field representing that course.
+</p>
+
+
+<div class="figure">
+<p><img src="documentation/course-page.JPG" alt="course-page.JPG" />
+</p>
+</div>
+</div></li></ol>
+</div>
+<div id="outline-container-org0579c7d" class="outline-4">
+<h4 id="org0579c7d"><span class="section-number-4">1.2.2</span> TFS - Board View</h4>
+<div class="outline-text-4" id="text-1-2-2">
+
+<div class="figure">
+<p><img src="documentation/tfs-ui.JPG" alt="tfs-ui.JPG" />
+</p>
+</div>
+</div>
+<ol class="org-ol"><li><a id="org87504d0"></a>To QA<br /><div class="outline-text-5" id="text-1-2-2-1">
+<p>
+Clicking this button will automatically scroll the screen over to
+the QA section of the Kanban board.
+</p>
+</div></li></ol>
+</div>
+<div id="outline-container-org52e338e" class="outline-4">
+<h4 id="org52e338e"><span class="section-number-4">1.2.3</span> New Slide</h4>
+<div class="outline-text-4" id="text-1-2-3">
+
+<div class="figure">
+<p><img src="documentation/newslide-ui.JPG" alt="newslide-ui.JPG" />
+</p>
+</div>
+</div>
+<ol class="org-ol"><li><a id="org5926031"></a>Next Slide<br /><div class="outline-text-5" id="text-1-2-3-1">
+<p>
+NOTE: because QA is best done as close to the student experience as
+possible, it is not recommended that this button is used while doing
+actual QA work
+Clicking this button will force the Web to navigate you to the next
+slide, regardless of the normal constraints that are placed upon
+navigation for students.
+</p>
+</div></li>
+<li><a id="org2422487"></a>Run Comparison<br /><div class="outline-text-5" id="text-1-2-3-2">
+<p>
+NOTE: due to imperfections in the OCR technology that is used as the
+backbone of this feature, it is considered experimental, and QA results
+should not depend upon its output
+NOTE: Although rate limits are high, it is possible that this feature could
+be limited.
+Clicking this button when both a New Slide and an Old Slide are open at the 
+same time in Google Chrome will trigger a visual programmatic comparison
+using Optical Character Recognition technology. This means the
+computer will try and read the text on the screen and then compare the results.
+Text that the computer flags as "matching" will be marked in green, while text
+that the computer flags as "not matching" will be marked in red. Since this tool's
+accuracy entirely depends on the accuracy of the third-party OCR engine that it relies
+upon, its results are not completely accurate and should not be fully trusted.
+</p>
+</div></li>
+<li><a id="orgb7db8fa"></a>Add Bug<br /><div class="outline-text-5" id="text-1-2-3-3">
+<p>
+Clicking this button will automatically grab the reference information from the current slide
+and send it to TFS's backlog view (a TFS tab must be open in the browser for this to work). That backlog view will
+receive the information and use it to find the appropriate Content QA folder on the page and
+programmatically fill out the basic template for adding a bug, complete with the appropriate tags
+and initial title name.
+</p>
+</div></li>
+<li><a id="orga75e874"></a>Previous Slide<br /><div class="outline-text-5" id="text-1-2-3-4">
+<p>
+NOTE: since QA is best done as close to the student experience as
+possible, it is not recommended that this button is used while doing
+actual QA work
+Clicking this button will force the Web to navigate you to the previous
+slide, regardless of the normal constraints that are placed upon
+navigation for students.
+</p>
+</div></li></ol>
+</div>
+</div>
+<div id="outline-container-org35ac00e" class="outline-3">
+<h3 id="org35ac00e"><span class="section-number-3">1.3</span> Limitations</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+The tool sometimes causes the following problems:
+</p>
+<ol class="org-ol">
+<li>Next button on Blackboard slides remains grayed out even after the narration is finished.</li>
+<li>Answers won't scramble when user clicks "Redo" on a multiple choice question.</li>
+<li>Checkmarks will not be shown next to correct answers when "Check Answers" is clicked.</li>
+<li>On very rare occassions, the "Jump to Web" button on the blackboard website may navigate you to a new slide and an old slide that do not match.</li>
+<li>If two old slides or two new slides are open at the same time when the text comparison is run, one of the two new or old slides will have a black box remain on it.</li>
+</ol>
+<p>
+See Troubleshooting below for solutions to these problems.
+</p>
+</div>
+</div>
+<div id="outline-container-orgf84f60d" class="outline-3">
+<h3 id="orgf84f60d"><span class="section-number-3">1.4</span> Troubleshooting</h3>
+<div class="outline-text-3" id="text-1-4">
+<p>
+To overcome the limitations of the QA-Helper tool listed above, do the following (numbers are comparable):
+</p>
+
+<ol class="org-ol">
+<li>(1-3) Close out of and reopen the web you are currently doing QA for.</li>
+<li>(4) Navigate to the courses individually by clicking the proper links on the Blackboard &amp; Avondale sites.</li>
+<li>(5) Restart your QA-Helper tool by closing out of all pages that the QA-Helper tool set up for you and clicking on the Chrome extension again. Then retry the run comparison with only one new slide and one old slide open.</li>
+</ol>
+<p>
+If problems persist, please contact any developers working on this tool.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org0332125" class="outline-3">
+<h3 id="org0332125"><span class="section-number-3">1.5</span> <span class="todo TODO">TODO</span> s</h3>
+<div class="outline-text-3" id="text-1-5">
+<ul class="org-ul">
+<li>See if there is any value in upgrading our OCR API access to an increased number of requests per month.</li>
+</ul>
+
+
+<div class="org-src-container">
+<pre class="src src-javascript">var bob = 1;
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Created: 2017-07-18 Tue 15:07</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

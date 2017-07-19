@@ -49,6 +49,9 @@ chrome.runtime.onMessage.addListener(
       console.log("in");
       sendToTab("dr", request);
     }
+      else if(msg === 'help-page') {
+	  chrome.tabs.create({url:'/help.html'});
+      }
 
     ///////////////////////////////
     //// Route request handler ////

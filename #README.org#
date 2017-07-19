@@ -1,0 +1,102 @@
+* Quality Assurance Helper - Chrome Extension
+** Introduction
+The QA Helper is a tool designed to streamline the process of
+performing 1:1 Validations between the old and new UTI
+courseware by minimizing the ill effects of some of the process's biggest pain
+points. This tool was originally developed for 
+supporting Content QA, but could be expanded in the future
+to aid in other areas of need.
+The usage of its features are the same, independent of the
+page that it is running on:
+1. A box with buttons will appear in the top-left corner of the page
+2. This box can be dragged around to any location on the screen that is convenient for the task at hand
+3. Buttons within the box can be clicked to invoke the help of the tool
+** Features by Page
+*** Blackboard
+[[file:documentation/blackboard-ui.JPG]]
+**** Jump to Web
+Clicking this button will present you with a dialog box containing two dropdown boxes and a button labeled 'Jump'.
+Once all dropdowns are selected and the "Jump" button is pressed, a new slide and its corresponding old slide will pop up.
+
+[[file:documentation/blackboard-ui1.JPG]]
+1. The Course Dropdown
+- This dropdown box will contain a list of all the courses QA Helper has learned about (see NOTE below).
+2. The Web Dropdown
+- When a course is selected in the Course dropdown, this dropdown box will contain a list of all the webs in the selected course that QA
+Helper has learned about and can open for you.
+3. The Jump button
+- Click this button after you've selected the appropriate course and web, and it will open the correct web for you in Blackboard and in the DR site!
+If QA Helper has not yet learned about a course, you cannot navigate to it in the dropdown menus.
+
+*NOTE*: To teach QA Helper about a new course, navigate to the
+course page in Blackboard that lists all the webs you'd like to teach
+QA Helper about. As soon as any given course page has finished
+loading, you should notice that the Course dropdown will then be populated
+with an additional field representing that course.
+
+[[file:documentation/course-page.JPG]]
+*** TFS - Board View
+[[file:documentation/tfs-ui.JPG]]
+**** To QA
+Clicking this button will automatically scroll the screen over to
+the QA section of the Kanban board.
+*** New Slide
+[[file:documentation/newslide-ui.JPG]]
+**** Next Slide
+NOTE: because QA is best done as close to the student experience as
+possible, it is not recommended that this button is used while doing
+actual QA work
+Clicking this button will force the Web to navigate you to the next
+slide, regardless of the normal constraints that are placed upon
+navigation for students.
+**** Run Comparison
+NOTE: due to imperfections in the OCR technology that is used as the
+backbone of this feature, it is considered experimental, and QA results
+should not depend upon its output
+NOTE: Although rate limits are high, it is possible that this feature could
+be limited.
+Clicking this button when both a New Slide and an Old Slide are open at the 
+same time in Google Chrome will trigger a visual programmatic comparison
+using Optical Character Recognition technology. This means the
+computer will try and read the text on the screen and then compare the results.
+Text that the computer flags as "matching" will be marked in green, while text
+that the computer flags as "not matching" will be marked in red. Since this tool's
+accuracy entirely depends on the accuracy of the third-party OCR engine that it relies
+upon, its results are not completely accurate and should not be fully trusted.
+**** Add Bug
+Clicking this button will automatically grab the reference information from the current slide
+and send it to TFS's backlog view (a TFS tab must be open in the browser for this to work). That backlog view will
+receive the information and use it to find the appropriate Content QA folder on the page and
+programmatically fill out the basic template for adding a bug, complete with the appropriate tags
+and initial title name.
+**** Previous Slide
+NOTE: since QA is best done as close to the student experience as
+possible, it is not recommended that this button is used while doing
+actual QA work
+Clicking this button will force the Web to navigate you to the previous
+slide, regardless of the normal constraints that are placed upon
+navigation for students.
+** Limitations
+The tool sometimes causes the following problems:
+1. Next button on Blackboard slides remains grayed out even after the narration is finished.
+2. Answers won't scramble when user clicks "Redo" on a multiple choice question.
+3. Checkmarks will not be shown next to correct answers when "Check Answers" is clicked.
+4. On very rare occassions, the "Jump to Web" button on the blackboard website may navigate you to a new slide and an old slide that do not match.
+5. If two old slides or two new slides are open at the same time when the text comparison is run, one of the two new or old slides will have a black box remain on it.
+See Troubleshooting below for solutions to these problems.
+** Troubleshooting
+To overcome the limitations of the QA-Helper tool listed above, do the following (numbers are comparable):
+
+1. (1-3) Close out of and reopen the web you are currently doing QA for.
+2. (4) Navigate to the courses individually by clicking the proper links on the Blackboard & Avondale sites.
+3. (5) Restart your QA-Helper tool by closing out of all pages that the QA-Helper tool set up for you and clicking on the Chrome extension again. Then retry the run comparison with only one new slide and one old slide open.
+If problems persist, please contact any developers working on this tool.
+
+** TODOs
+- See if there is any value in upgrading our OCR API access to an increased number of requests per month.
+
+
+#+BEGIN_SRC javascript
+var bob = 1; n
+
+#+END_SRC
