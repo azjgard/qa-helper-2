@@ -28,10 +28,10 @@
 
       // return the information about the current slide
       return full_reference_id + " --- " + scoName;
-    }
+    };
 
     return getID();
-  }
+  };
 
   //
   // saveCoursesToStorage
@@ -80,7 +80,7 @@
       //reset the global variable courseNavData to newly uploaded slides
       global.getCourseNavData();
     });
-  }
+  };
 
   //
   // getCourseNavData
@@ -90,8 +90,13 @@
     chrome.storage.local.get(function(storage){
       global.courseNavData = storage.bb_courses;
     });
-  }
+  };
 
+  //
+  // compareCC
+  //
+  // descr - compares the CC text from the old slide to the
+  // CC text from the new slide and displays a percentage accuracy
   global.compareCC = function(old_text){
     var new_text = document.querySelector('#captionBody');
     if(new_text){
@@ -104,7 +109,6 @@
         .replace(/\r?\n|\r/, " ")
         .replace(/\s{3,}/g, " ")
         .trim();
-
       new_text = new_text.replace(/\s+\r?\n\s+|\s+\r\s+/, " ")
         .replace(/\s+\r?\n|\s+\r/, " ")
         .replace(/\r?\n\s+|\r\s+/, " ")
@@ -112,19 +116,17 @@
         .replace(/\s{3,}/g, " ")
         .trim();
 
-      //split words into array
+      //split words into arrays
       new_text = new_text.split(" ");
       old_text = old_text.split(" ");
 
       var match = [];
       var nLength = new_text.length;
       var oLength = old_text.length;
+
       for(var i = 0; i < new_text.length; i++){
-
         for(var j = 0; j < old_text.length; j++){
-
           if(new_text[i] === old_text[j]){
-
             match.push(new_text[i]);
             var new_index = new_text.indexOf(new_text[i]);
             var old_index = old_text.indexOf(old_text[j]);
@@ -136,17 +138,24 @@
               break;
             }
             else {
-              alert('error');
+              console.error('Could not find word in new or old array!');
             }
           }
         }
       }
-      console.log(new_text, old_text);
-      console.log(nLength, oLength, match.length);
-      console.log(nLength > oLength ? ((match.length / nLength) * 100).toFixed(2) : ((match.length / oLength) * 100).toFixed(2));
+      
+      console.log('Unmatched new words: ', new_text);
+      console.log('Unmatched old words: ', old_text);
+      console.log('new words count: ', nLength);
+      console.log('old words count: ', oLength);
+      console.log('matched words count: ', match.length);
+      console.log('percent accuracy: ',
+                  nLength > oLength ?
+                  ((match.length / nLength) * 100).toFixed(2) :
+                  ((match.length / oLength) * 100).toFixed(2));
     }
     else {
-      alert('there is no caption for this page');
+      console.log('There is no caption for this page');
     }
   };
 
