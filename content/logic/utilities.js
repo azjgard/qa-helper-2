@@ -144,11 +144,11 @@
         }
       }
       
-      console.log('Unmatched new words: ', new_text);
-      console.log('Unmatched old words: ', old_text);
-      console.log('new words count: ', nLength);
-      console.log('old words count: ', oLength);
-      console.log('matched words count: ', match.length);
+      console.log('Unmatched new words: ', new_text,
+                  'Unmatched old words: ', old_text);
+      console.log('new words count: ', nLength,
+                  'old words count: ', oLength,
+                  'matched words count: ', match.length);
       console.log('percent accuracy: ',
                   nLength > oLength ?
                   ((match.length / nLength) * 100).toFixed(2) :
