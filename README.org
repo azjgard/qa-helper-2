@@ -83,6 +83,7 @@ The tool sometimes causes the following problems:
 3. Checkmarks will not be shown next to correct answers when "Check Answers" is clicked.
 4. On very rare occassions, the "Jump to Web" button on the blackboard website may navigate you to a new slide and an old slide that do not match.
 5. If two old slides or two new slides are open at the same time when the text comparison is run, one of the two new or old slides will have a black box remain on it.
+6. Zooming in while running the OCR comparison will ruin the positioning of the highlights on the page.
 See Troubleshooting below for solutions to these problems.
 ** Troubleshooting
 To overcome the limitations of the QA-Helper tool listed above, do the following (numbers are comparable):
@@ -91,6 +92,7 @@ To overcome the limitations of the QA-Helper tool listed above, do the following
 2. (4) Navigate to the courses individually by clicking the proper links on the Blackboard & Avondale sites.
 3. (5) Restart your QA-Helper tool by closing out of all pages that the QA-Helper tool set up for you and clicking on the Chrome extension again. Then retry the run comparison with only one new slide and one old slide open.
 If problems persist, please contact any developers working on this tool.
+4. (6) Zoom out before running OCR comparisons.
 
 ** TODOs
 - See if there is any value in upgrading our OCR API access to an increased number of requests per month.
