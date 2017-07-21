@@ -119,6 +119,9 @@
       checkUnicodeQuotes(uni_left_double, normal_double);
       checkUnicodeQuotes(uni_right_double, normal_double);
 
+      //create copy of new text for later
+      var new_text_copy = new_text.split(" ");
+
       function checkUnicodeQuotes(old_quote, new_quote){
         var regex = new RegExp(old_quote, 'g');
         if(old_text.includes(old_quote)){
@@ -163,10 +166,62 @@
       console.log('new words count: ', nLength,
                   'old words count: ', oLength,
                   'matched words count: ', match.length);
-      console.log('percent accuracy: ',
-                  nLength > oLength ?
-                  ((match.length / nLength) * 100).toFixed(2) :
-                  ((match.length / oLength) * 100).toFixed(2));
+      var percent = nLength > oLength ?
+            ((match.length / nLength) * 100).toFixed(2) :
+            ((match.length / oLength) * 100).toFixed(2);
+
+      //append a popup box to the page with the percent match of words
+      var div = document.createElement('div');
+      div.id = "qa-ext_cc_matching_msg";
+      div.style.paddingRight = '5px';
+      div.style.float = "right";
+      if(percent >= 93){
+        div.innerHTML = '<h1 style="color: #4A9130 !important;">' + percent + "% CC Match</h1>";
+      }
+      else if(percent > 70.00 && percent < 93){
+        div.innerHTML = '<h1 style="color: #F6C100 !important;">' + percent + "% CC Match</h1>";
+      }
+      else {
+        div.innerHTML = '<h1 style="color: #DD2A26 !important;">' + percent + "% CC Match</h1>";
+      }
+      document.querySelector('#btn-next').parentElement.appendChild(div);
+
+      //remove element from page
+      setTimeout(() => { $('#qa-ext_cc_matching_msg').remove(); }, 10000);
+
+      
+
+
+      //TODO
+      // check to see if captions box is open. If not, open it.
+      // somehow display what words are in the old one that should be in the new one
+      // 
+      
+      //open CC box
+      $('#btn-captions').click();
+
+      //highlight words in CC box
+      for(var i = 0; i < new_text_copy.length; i++){
+        for(var j = 0; j < new_text.length; j++){
+          if(new_text_copy[i] === new_text[j]){
+            new_text_copy[i] = '<span style="background-color: rgba(221,42,38, .3) !important;">' + new_text_copy[i] + '</span>';
+          }
+        }
+      }
+
+      //add highlights to words that didn't match
+      var cap = document.querySelector('#captionBody');
+      cap.innerHTML = '';
+      var p_elem = document.createElement('p');
+      p_elem.innerHTML = new_text_copy.join(' ');
+      cap.appendChild(p_elem);
+
+      //if old text has more words, do something
+
+      //close CC box
+      // setTimeout(() => {$('#btn-captions').click();}, 10000);
+      
+      // DISPLAY IS BLOCK OR NONE DEPENDING ON IF THE CAPTION BOX IS EXPANDED
     }
     else {
       console.log('There is no caption for this page');
