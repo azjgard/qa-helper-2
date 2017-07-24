@@ -102,10 +102,12 @@
     if(new_text){
 
       new_text = new_text.innerText;
+      //remove error messages inserted previously
       if((/---/).test(new_text)){
         new_text = new_text.match(/(.+)[\r\n].+/)[1];
       }
 
+      //remove accuracy percentage in preparation to post a new one below
       var match_msg = $('.qa-ext_cc_matching_msg');
       if(match_msg){
         match_msg.remove();
@@ -170,11 +172,7 @@
         }
       }
 
-      console.log('Unmatched new words: ', new_text,
-                  'Unmatched old words: ', old_text);
-      console.log('new words count: ', nLength,
-                  'old words count: ', oLength,
-                  'matched words count: ', match.length);
+      //get percent accuracy based on which slide had the most words
       var percent = nLength > oLength ?
             ((match.length / nLength) * 100).toFixed(2) :
             ((match.length / oLength) * 100).toFixed(2);
@@ -197,7 +195,7 @@
 
       var match_msg = $('.qa-ext_cc_matching_msg');
       //remove element from page
-      setTimeout(() => { if(match_msg){ match_msg.remove(); }}, 10000);
+      // setTimeout(() => { if(match_msg){ match_msg.remove(); }}, 10000);
 
       //remove element upon pressing navigation buttons
       $('#btn-next').on('click', function(){
@@ -214,17 +212,9 @@
           }
         }
       });
-
       
-
-
-      //TODO
-      // words need to compare side by side
-      
-      //open CC box
+      //show captions if they are hidden
       var cc = $('#captions');
-      //only open cc box if there some mismatches
-      //show captions if they are closed
       if(cc.css('display') === 'none'){
         $('#btn-captions').click();
       }
@@ -238,7 +228,7 @@
         }
       }
 
-      //add highlights to words that didn't match
+      // only highlight if there were errors
       if(percent !== '100.00'){
         var cap = document.querySelector('#captionBody');
         cap.innerHTML = '';
@@ -246,9 +236,6 @@
         p_elem.innerHTML = new_text_copy.join(' ') + '<br><span style="color:red !important;">--- Unmatched Words from Old Slide Below ---<br>' + old_text.join('   |   ') + '</span>';
         cap.appendChild(p_elem);
       }
-
-      //close CC box
-      // setTimeout(() => {$('#btn-captions').click();}, 10000);
     }
     else {
       console.log('There are no captions for this page');
