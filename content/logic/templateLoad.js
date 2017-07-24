@@ -42,7 +42,7 @@
             type : 'click'
           }
         }
-      ],
+      ]
       // showCloseButton: true
     },
     "old-slide": {
@@ -157,7 +157,7 @@
           popupTrigger: jumpPopup
         }
       ],
-      listeners : [],
+      listeners : []
       // showCloseButton: true
     },
     "bb-login": {
@@ -169,7 +169,7 @@
           id: 'qa-ext_login',
           classes: ['unclickable-button']
         }
-      ],
+      ]
       // showCloseButton: true
     }
   };
@@ -476,12 +476,12 @@
 
         $('.qa-ext_draggable').draggable({ handle: '.grabbable' });
 
+        //add listener to open help page
+        $('#qa_ext-help-button').on('click', helpPage);
+
         // add the listeners and hotkeys to the buttons
         for (var i = 0; i < template.buttons.length; i++) {
           var btn = template.buttons[i];
-
-          //add listener to open help page
-          $('#qa_ext-help-button').on('click', helpPage);
 
           //set listener
           if (btn.id && btn.listener !== undefined) {
@@ -507,7 +507,7 @@
       }
       resolve(context);
     });
-  }
+  };
 
   // 
   // generateTemplate

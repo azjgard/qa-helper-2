@@ -117,12 +117,12 @@
       old_text = old_text.replace(/(?:\r\n|\r|\n)/g, " ").replace(/\s{2,}/g, " ").trim();
       new_text = new_text.replace(/(?:\r\n|\r|\n)/g, " ").replace(/\s{2,}/g, " ").trim();
 
-      var uni_left_double = "\u201C";
-      var uni_right_double = "\u201D";
-      var uni_left_single = "\u2018";
-      var uni_right_single = "\u2019";
-      var normal_double = '"';
-      var normal_single = "'";
+      var uni_left_double = "\u201C",
+      uni_right_double = "\u201D",
+      uni_left_single = "\u2018",
+      uni_right_single = "\u2019",
+      normal_double = '"',
+      normal_single = "'";
 
       //replace curly quotes with straight quotes
       checkUnicodeQuotes(uni_left_single, normal_single);

@@ -32,7 +32,7 @@
     script.textContent = '(' + fn + ')(' + args + ');';
     document.documentElement.appendChild(script); // run the script
     document.documentElement.removeChild(script); // clean up
-  }
+  };
 
   //
   // Message Listener
@@ -70,6 +70,7 @@
           } else {
             div.classList.add('qa2-word-not-found');
           }
+          console.log(msg_data[i].word_text, msg_data[i].top, msg_data[i].left);
           div.style.height = (msg_data[i].height + 5) + 'px';
           div.style.width = (msg_data[i].width + 5) + 'px';
           div.style.top = (msg_data[i].top - 2.5) + 'px';
