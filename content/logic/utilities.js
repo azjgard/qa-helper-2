@@ -100,8 +100,17 @@
   global.compareCC = function(old_text){
     var new_text = document.querySelector('#captionBody');
     if(new_text){
-      new_text = new_text.innerText;
 
+      new_text = new_text.innerText;
+      if((/---/).test(new_text)){
+        new_text = new_text.match(/(.+)[\r\n].+/)[1];
+      }
+
+      var match_msg = $('.qa-ext_cc_matching_msg');
+      if(match_msg){
+        match_msg.remove();
+      }
+      
       //remove all newline characters and multiple spaces from strings
       old_text = old_text.replace(/(?:\r\n|\r|\n)/g, " ").replace(/\s{2,}/g, " ").trim();
       new_text = new_text.replace(/(?:\r\n|\r|\n)/g, " ").replace(/\s{2,}/g, " ").trim();
@@ -172,59 +181,77 @@
 
       //append a popup box to the page with the percent match of words
       var div = document.createElement('div');
-      div.id = "qa-ext_cc_matching_msg";
+      div.classList.add("qa-ext_cc_matching_msg");
       div.style.paddingRight = '5px';
       div.style.float = "right";
       if(percent >= 93){
         div.innerHTML = '<h1 style="color: #4A9130 !important;">' + percent + "% CC Match</h1>";
       }
       else if(percent > 70.00 && percent < 93){
-        div.innerHTML = '<h1 style="color: #F6C100 !important;">' + percent + "% CC Match</h1>";
+        div.innerHTML = '<h1 style="color: #ff7800 !important;">' + percent + "% CC Match</h1>";
       }
       else {
         div.innerHTML = '<h1 style="color: #DD2A26 !important;">' + percent + "% CC Match</h1>";
       }
       document.querySelector('#btn-next').parentElement.appendChild(div);
 
+      var match_msg = $('.qa-ext_cc_matching_msg');
       //remove element from page
-      setTimeout(() => { $('#qa-ext_cc_matching_msg').remove(); }, 10000);
+      setTimeout(() => { if(match_msg){ match_msg.remove(); }}, 10000);
+
+      //remove element upon pressing navigation buttons
+      $('#btn-next').on('click', function(){
+        for(var i = 0; i < match_msg.length; i++){
+          if(match_msg){
+            match_msg[i].remove();
+          }
+        }
+      });
+      $('#btn-prev').on('click', function(){
+        for(var i = 0; i < match_msg.length; i++){
+          if(match_msg){
+            match_msg[i].remove();
+          }
+        }
+      });
 
       
 
 
       //TODO
-      // check to see if captions box is open. If not, open it.
-      // somehow display what words are in the old one that should be in the new one
-      // 
+      // words need to compare side by side
       
       //open CC box
-      $('#btn-captions').click();
+      var cc = $('#captions');
+      //only open cc box if there some mismatches
+      //show captions if they are closed
+      if(cc.css('display') === 'none'){
+        $('#btn-captions').click();
+      }
 
       //highlight words in CC box
       for(var i = 0; i < new_text_copy.length; i++){
         for(var j = 0; j < new_text.length; j++){
           if(new_text_copy[i] === new_text[j]){
-            new_text_copy[i] = '<span style="background-color: rgba(221,42,38, .3) !important;">' + new_text_copy[i] + '</span>';
+            new_text_copy[i] = '<span style="background-color: rgba(221,42,38, .5) !important;">' + new_text_copy[i] + '</span>';
           }
         }
       }
 
       //add highlights to words that didn't match
-      var cap = document.querySelector('#captionBody');
-      cap.innerHTML = '';
-      var p_elem = document.createElement('p');
-      p_elem.innerHTML = new_text_copy.join(' ');
-      cap.appendChild(p_elem);
-
-      //if old text has more words, do something
+      if(percent !== '100.00'){
+        var cap = document.querySelector('#captionBody');
+        cap.innerHTML = '';
+        var p_elem = document.createElement('p');
+        p_elem.innerHTML = new_text_copy.join(' ') + '<br><span style="color:red !important;">--- Unmatched Words from Old Slide Below ---<br>' + old_text.join('   |   ') + '</span>';
+        cap.appendChild(p_elem);
+      }
 
       //close CC box
       // setTimeout(() => {$('#btn-captions').click();}, 10000);
-      
-      // DISPLAY IS BLOCK OR NONE DEPENDING ON IF THE CAPTION BOX IS EXPANDED
     }
     else {
-      console.log('There is no caption for this page');
+      console.log('There are no captions for this page');
     }
   };
 
